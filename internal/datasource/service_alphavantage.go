@@ -1,6 +1,7 @@
 package datasource
 
 import (
+	"encoding/json"
 	"fmt"
 	"net/http"
 )
@@ -31,8 +32,22 @@ func (a *Alphavantage) req(function, symbol string) (*http.Response, error) {
 	return resp, nil
 }
 
+func (a *Alphavantage) unpack(data *http.Response, int interface{}) (*interface{}, error {
+	if err := json.Unmarshal([]byte(data), &int); err != nil {
+		return nil, err
+	}
+	return nil
+}
+
 func (a *Alphavantage) Overview(ticker string) (*AlphavantageOverview, error) {
 	var results AlphavantageOverview
+	resp, err := a.req("OVERVIEW", ticker)
+	if err != nil {
+		// TODO: send signal about error to "office" service via rabbitmq
+		return nil, err
+	}
+
+	if err != a.unpack(res.)
 	return &results, nil
 }
 
