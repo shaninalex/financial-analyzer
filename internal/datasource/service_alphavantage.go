@@ -32,7 +32,7 @@ func (a *Alphavantage) req(function, symbol string) (*http.Response, error) {
 	return resp, nil
 }
 
-func (a *Alphavantage) unpack(data *http.Response, int interface{}) (*interface{}, error {
+func (a *Alphavantage) unpack(data *http.Response, int interface{}) (*interface{}, error) {
 	if err := json.Unmarshal([]byte(data), &int); err != nil {
 		return nil, err
 	}
