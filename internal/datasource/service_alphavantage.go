@@ -91,17 +91,17 @@ func (a *Alphavantage) CashFlow(ticker string) (*AlphavantageCashFlow, error) {
 	return &results, nil
 }
 
-type AlphavantageSeries struct {
-}
-
-func (a *Alphavantage) Series(ticker string) (*AlphavantageSeries, error) {
-	resp, err := a.req("TIME_SERIES_MONTHLY", ticker)
-	if err != nil {
-		return nil, err
-	}
-	var results AlphavantageSeries
-	if err = a.unpack(resp, &results); err != nil {
-		return nil, err
-	}
-	return &results, nil
-}
+// type AlphavantageSeries struct {
+// }
+//
+// func (a *Alphavantage) Series(ticker string) (*AlphavantageSeries, error) {
+// 	resp, err := a.req("TIME_SERIES_MONTHLY", ticker)
+// 	if err != nil {
+// 		return nil, err
+// 	}
+// 	var results AlphavantageSeries
+// 	if err = a.unpack(resp, &results); err != nil {
+// 		return nil, err
+// 	}
+// 	return &results, nil
+// }
