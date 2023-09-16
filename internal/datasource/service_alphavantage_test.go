@@ -20,7 +20,7 @@ func TestAlphavantageServiceInitialization(t *testing.T) {
 	}
 
 	if alphavantage.API_KEY != "demo" {
-		t.Errorf("Expected alphavantage.API_KEY to be \"demo\", bot %v", alphavantage.API_KEY )
+		t.Errorf("Expected alphavantage.API_KEY to be \"demo\", bot %v", alphavantage.API_KEY)
 	}
 
 }

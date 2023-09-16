@@ -6,7 +6,7 @@ package datasource
 
 // Usage example: data, err: := app.Datasource.Gurufocus.summary("AAPL")
 type Datasource struct {
-	Gurufocus    *Gurufocus
+	Gurufocus    *GuruFocus
 	Alphavantage *Alphavantage
 }
 
