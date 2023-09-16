@@ -1,15 +1,16 @@
 package datasource
 
 import (
-	"os"
 	"testing"
 )
 
 // IMPORTANT:
+// alphavantage api uses API_KEY "demo" to work only with "IBM" ticker as an
+// example, and tests will use this api key. To get real one, visit this page:
 // https://www.alphavantage.co/support/#api-key
 
 func TestAlphavantageServiceInitialization(t *testing.T) {
-	alphavantage := InitAlphavantage(os.Getenv("ALPHAVANTAGE_API_KEY"))
+	alphavantage := InitAlphavantage("demo")
 	if alphavantage.API_URL != "https://www.alphavantage.co" {
 		t.Errorf("Expected alphavantage.API_URL to be 'https://alphavantage.co', but got %s", alphavantage.API_URL)
 	}
@@ -18,11 +19,14 @@ func TestAlphavantageServiceInitialization(t *testing.T) {
 		t.Errorf("Expected alphavantage.API_KEY to be not empty")
 	}
 
+	if alphavantage.API_KEY != "demo" {
+		t.Errorf("Expected alphavantage.API_KEY to be \"demo\", bot %v", alphavantage.API_KEY )
+	}
 
 }
 
 func TestAlphavantageOverview(t *testing.T) {
-	alphavantage := InitAlphavantage(os.Getenv("ALPHAVANTAGE_API_KEY"))
+	alphavantage := InitAlphavantage("demo")
 	result, err := alphavantage.Overview("IBM")
 	if err != nil {
 		t.Errorf("Expected no error, but got %v", err)
@@ -36,7 +40,7 @@ func TestAlphavantageOverview(t *testing.T) {
 }
 
 func TestAlphavantageEarnings(t *testing.T) {
-	alphavantage := InitAlphavantage(os.Getenv("ALPHAVANTAGE_API_KEY"))
+	alphavantage := InitAlphavantage("demo")
 	result, err := alphavantage.Earnings("IBM")
 	if err != nil {
 		t.Errorf("Expected no error, but got %v", err)
@@ -50,7 +54,7 @@ func TestAlphavantageEarnings(t *testing.T) {
 }
 
 func TestAlphavantageCashFlow(t *testing.T) {
-	alphavantage := InitAlphavantage(os.Getenv("ALPHAVANTAGE_API_KEY"))
+	alphavantage := InitAlphavantage("demo")
 	result, err := alphavantage.CashFlow("IBM")
 	if err != nil {
 		t.Errorf("Expected no error, but got %v", err)
