@@ -1,7 +1,6 @@
 package datasource
 
 import (
-	"fmt"
 	"os"
 	"testing"
 )

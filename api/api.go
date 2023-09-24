@@ -10,3 +10,18 @@ private:
 - receive and manage reports list
 */
 package api
+
+import "github.com/gin-gonic/gin"
+
+type Api struct {
+	router gin.Engine
+}
+
+func InitializeApi() (*Api, error) {
+
+	api := &Api{
+		router: *gin.Default(),
+	}
+
+	return api, nil
+}
