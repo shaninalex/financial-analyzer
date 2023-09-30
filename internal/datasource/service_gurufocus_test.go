@@ -7,7 +7,6 @@ import (
 
 // IMPORTANT!
 // GuruFocuse does not provide demo api key. It should be real one
-
 func TestGurufocusInitialization(t *testing.T) {
 	gurufocus := InitGurufocus(os.Getenv("GURUFOCUS_API_KEY"))
 	if gurufocus.api_url != "https://api.gurufocus.com/public/user/" {

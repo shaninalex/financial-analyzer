@@ -5,43 +5,72 @@ volumes:
   cache:
 
 services:
-  rabbitmq:
-    image: rabbitmq:3-management-alpine
-    container_name: finapp_rabbitmq
-    ports:
-      - 5672:5672
-      - 15672:15672
-
-  gotenberg:
-    image: gotenberg/gotenberg:7
-    container_name: finapp_gotenberg
-    command:
-      - "gotenberg"
-      - "--api-timeout=50s"
-    ports:
-      - "3000:3000"
-
   postgres:
     image: postgres
     container_name: finapp_postgres
     volumes:
       - postgres_data:/var/lib/postgresql/data/
-      - ./config/backups:/backups
+      - ./config/database:/docker-entrypoint-initdb.d/
     ports:
       - 5432:5432
     environment:
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_MULTIPLE_DATABASES=${POSTGRES_DB},kratos
 
-  redis:
-    image: redis:7.2.1  # bookworm
-    container_name: finapp_redis
-    ports:
-      - '6379:6379'
-    command: redis-server --save 20 1 --loglevel warning
-    stdin_open: true
-    tty: true
+  kratos-migrate:
+    image: oryd/kratos:v1.0.0
+    container_name: finapp_kratos_db_migrate
+    environment:
+      - DSN=postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:5432/kratos?sslmode=disable&max_conns=20&max_idle_conns=4
     volumes:
-      - cache:/data
+      - ./config/kratos:/etc/config/kratos
+    command: -c /etc/config/kratos/kratos.yml migrate sql -e --yes
 
+  # Kratos itself
+  kratos:
+    image: oryd/kratos:v1.0.0
+    container_name: finapp_kratos
+    environment:
+      - DSN=postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:5432/kratos?sslmode=disable&max_conns=20&max_idle_conns=4
+    ports:
+      - "4433:4433"
+      - "4434:4434"
+    volumes:
+      - ./config/kratos:/etc/config/kratos
+    command: serve -c /etc/config/kratos/kratos.yml --dev --watch-courier
+
+  # API Getway
+  oathkeeper:
+    image: oryd/oathkeeper:v0.40
+    container_name: finapp_api_gateway
+    depends_on:
+      - kratos
+    ports:
+      - 8080:4455
+      - 4456:4456
+    command: serve proxy -c "/etc/config/oathkeeper/oathkeeper.yml"
+    environment:
+      - LOG_LEVEL=debug
+    restart: on-failure
+    volumes:
+      - ./config/oathkeeper:/etc/config/oathkeeper
+
+  kratos-selfservice-ui-node:
+    image: oryd/kratos-selfservice-ui-node:latest
+    container_name: finapp_kratos_ui
+    environment:
+      - PORT=4455
+      - SECURITY_MODE=
+      - KRATOS_BROWSER_URL=http://127.0.0.1:4433/
+      - KRATOS_PUBLIC_URL=http://kratos:4433/
+    restart: on-failure
+    ports:
+      - "4455:4455"
+
+  mailslurper:
+    image: oryd/mailslurper:latest-smtps
+    container_name: finapp_mailslurper
+    ports:
+      - "4436:4436"
+      - "4437:4437"
