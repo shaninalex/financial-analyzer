@@ -10,17 +10,17 @@ services:
     container_name: finapp_postgres
     volumes:
       - postgres_data:/var/lib/postgresql/data/
-      - ./config/backups:/backups
+      - ./config/database:/docker-entrypoint-initdb.d/
     ports:
       - 5432:5432
     environment:
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      - POSTGRES_MULTIPLE_DATABASES=${POSTGRES_DB},kratos,
+      - POSTGRES_MULTIPLE_DATABASES=${POSTGRES_DB},kratos
 
   kratos-migrate:
     image: oryd/kratos:v1.0.0
-    container_name: memosynth_kratos_db_migrate
+    container_name: finapp_kratos_db_migrate
     environment:
       - DSN=postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:5432/kratos?sslmode=disable&max_conns=20&max_idle_conns=4
     volumes:
@@ -30,7 +30,7 @@ services:
   # Kratos itself
   kratos:
     image: oryd/kratos:v1.0.0
-    container_name: memosynth_kratos
+    container_name: finapp_kratos
     environment:
       - DSN=postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:5432/kratos?sslmode=disable&max_conns=20&max_idle_conns=4
     ports:
@@ -43,6 +43,7 @@ services:
   # API Getway
   oathkeeper:
     image: oryd/oathkeeper:v0.40
+    container_name: finapp_api_gateway
     depends_on:
       - kratos
     ports:
@@ -52,8 +53,24 @@ services:
     environment:
       - LOG_LEVEL=debug
     restart: on-failure
-    networks:
-      - intranet
     volumes:
       - ./config/oathkeeper:/etc/config/oathkeeper
 
+  kratos-selfservice-ui-node:
+    image: oryd/kratos-selfservice-ui-node:latest
+    container_name: finapp_kratos_ui
+    environment:
+      - PORT=4455
+      - SECURITY_MODE=
+      - KRATOS_BROWSER_URL=http://127.0.0.1:4433/
+      - KRATOS_PUBLIC_URL=http://kratos:4433/
+    restart: on-failure
+    ports:
+      - "4455:4455"
+
+  mailslurper:
+    image: oryd/mailslurper:latest-smtps
+    container_name: finapp_mailslurper
+    ports:
+      - "4436:4436"
+      - "4437:4437"

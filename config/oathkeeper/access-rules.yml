@@ -19,3 +19,10 @@
     - handler: redirect
       config:
         to: http://127.0.0.1:4455/login
+
+  mailslurper:
+    image: oryd/mailslurper:latest-smtps
+    container_name: memosynth_mailslurper
+    ports:
+      - "4436:4436"
+      - "4437:4437"
