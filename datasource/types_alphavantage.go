@@ -1,4 +1,4 @@
-package datasource
+package main
 
 type AlphavantageOverview struct {
 	Symbol                     string `json:"Symbol"`
