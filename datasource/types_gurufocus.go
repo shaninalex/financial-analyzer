@@ -1,4 +1,4 @@
-package datasource
+package main
 
 // This object includes increadible amount of details and for not I will not
 // define them all. More details can be found in the official documentation:
