@@ -23,6 +23,10 @@ func main() {
 func echo(w http.ResponseWriter, r *http.Request) {
 	connection, _ := upgrader.Upgrade(w, r, nil)
 	defer connection.Close()
+
+	// TODO: validate Ory cookie
+	// TODO: get user id
+	// TODO: send message about user presence ( online )
 	log.Println(r.Cookies())
 	for {
 		mt, message, err := connection.ReadMessage()
