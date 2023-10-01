@@ -13,5 +13,5 @@ down:
 restart: down start
 
 
-app_start:
-	go run ./cmd/analyzer/main.go
+# app_start:
+# 	go run ./cmd/analyzer/main.go

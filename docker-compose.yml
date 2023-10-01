@@ -1,22 +1,26 @@
-version: '3.8'
+version: '3.7'
 
 volumes:
   postgres_data:
-  cache:
 
 services:
   postgres:
-    image: postgres
-    container_name: finapp_postgres
-    volumes:
-      - postgres_data:/var/lib/postgresql/data/
-      - ./config/database:/docker-entrypoint-initdb.d/
-    ports:
-      - 5432:5432
+    image: postgres:15.3
+    container_name: memosynth_database
     environment:
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      - POSTGRES_MULTIPLE_DATABASES=${POSTGRES_DB},kratos
+      - POSTGRES_MULTIPLE_DATABASES=${POSTGRES_DATABASE_NAME},kratos
+    ports:
+      - 5432:5432
+    volumes:
+      - ./config/database/:/docker-entrypoint-initdb.d/
+      - postgres_data:/var/lib/postgresql/data/
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
   kratos-migrate:
     image: oryd/kratos:v1.0.0
@@ -26,6 +30,9 @@ services:
     volumes:
       - ./config/kratos:/etc/config/kratos
     command: -c /etc/config/kratos/kratos.yml migrate sql -e --yes
+    depends_on:
+      postgres:
+        condition: service_healthy
 
   # Kratos itself
   kratos:
@@ -57,14 +64,12 @@ services:
       - ./config/oathkeeper:/etc/config/oathkeeper
 
   kratos-selfservice-ui-node:
-    image: oryd/kratos-selfservice-ui-node:latest
+    image: oryd/kratos-selfservice-ui-node:v1.0.0
     container_name: finapp_kratos_ui
     environment:
       - PORT=4455
-      - SECURITY_MODE=
-      - KRATOS_BROWSER_URL=http://127.0.0.1:4433/
       - KRATOS_PUBLIC_URL=http://kratos:4433/
-    restart: on-failure
+      - KRATOS_BROWSER_URL=http://127.0.0.1:4433/
     ports:
       - 4455:4455
 
