@@ -4,6 +4,36 @@ volumes:
   postgres_data:
 
 services:
+
+  accounts:
+    build: ./accounts
+    container_name: finapp_accounts
+    restart: on-failure
+    ports:
+      - 8001:8001
+    environment:
+      - APP_PORT=8001
+
+  datasource:
+    build: ./datasource
+    container_name: finapp_datasource
+    restart: on-failure
+    ports:
+      - 8002:8002
+    environment:
+      - APP_PORT=8002
+      - GURU_API_KEY=
+      - ALPH_API_KEY=
+
+  manager:
+    build: ./manager
+    container_name: finapp_manager
+    restart: on-failure
+    ports:
+      - 8003:8003
+    environment:
+      - APP_PORT=8003
+
   postgres:
     image: postgres:15.3
     container_name: memosynth_database
@@ -79,10 +109,3 @@ services:
     ports:
       - 4436:4436
       - 4437:4437
-
-  accounts:
-    build: ./accounts
-    container_name: finapp_accounts
-    restart: on-failure
-    ports:
-      - 8001:8001
