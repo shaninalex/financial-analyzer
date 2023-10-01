@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 	"net/http"
+	"os"
 
 	"github.com/gorilla/websocket"
 )
@@ -14,32 +15,13 @@ var upgrader = websocket.Upgrader{
 	},
 }
 
+var (
+	KRATOS_URL = os.Getenv("KRATOS_URL")
+)
+
 func main() {
-	http.HandleFunc("/", echo)
+	app := InitializeApplication(KRATOS_URL)
+	http.HandleFunc("/", app.HandleConnection)
 	log.Println("Server is running on port 8003")
 	http.ListenAndServe(":8003", nil)
-}
-
-func echo(w http.ResponseWriter, r *http.Request) {
-	connection, _ := upgrader.Upgrade(w, r, nil)
-	defer connection.Close()
-
-	// TODO: validate Ory cookie
-	// TODO: get user id
-	// TODO: send message about user presence ( online )
-	log.Println(r.Cookies())
-	for {
-		mt, message, err := connection.ReadMessage()
-
-		if err != nil || mt == websocket.CloseMessage {
-			break
-		}
-
-		connection.WriteMessage(websocket.TextMessage, message)
-		go messageHandler(message)
-	}
-}
-
-func messageHandler(message []byte) {
-	log.Println(string(message))
 }

@@ -33,10 +33,11 @@ services:
       - 8003:8003
     environment:
       - APP_PORT=8003
+      - KRATOS_URL=http://kratos:4434
 
   postgres:
     image: postgres:15.3
-    container_name: memosynth_database
+    container_name: finapp_database
     environment:
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
