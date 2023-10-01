@@ -24,6 +24,7 @@ func NewMiddleware() *kratosMiddleware {
 		ory: ory.NewAPIClient(configuration),
 	}
 }
+
 func (k *kratosMiddleware) Session() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		session, err := k.validateSession(c.Request)
@@ -32,12 +33,22 @@ func (k *kratosMiddleware) Session() gin.HandlerFunc {
 			return
 		}
 		if !*session.Active {
-			c.Redirect(http.StatusMovedPermanently, "http://your_endpoint")
+			c.Redirect(http.StatusMovedPermanently, "http://127.0.0.1:4455/login")
 			return
 		}
+
+		user_id := c.Request.Header.Get("X-User")
+		if user_id == "" {
+			c.Redirect(http.StatusMovedPermanently, "http://127.0.0.1:4455/login")
+			return
+		}
+
+		c.Set("user_id", user_id)
+
 		c.Next()
 	}
 }
+
 func (k *kratosMiddleware) validateSession(r *http.Request) (*ory.Session, error) {
 	cookie, err := r.Cookie("ory_kratos_session")
 	if err != nil {
