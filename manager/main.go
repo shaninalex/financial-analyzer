@@ -20,6 +20,7 @@ var (
 )
 
 func main() {
+	log.Println(KRATOS_URL)
 	app := InitializeApplication(KRATOS_URL)
 	http.HandleFunc("/", app.HandleConnection)
 	log.Println("Server is running on port 8003")

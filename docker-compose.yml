@@ -65,7 +65,6 @@ services:
       postgres:
         condition: service_healthy
 
-  # Kratos itself
   kratos:
     image: oryd/kratos:v1.0.0
     container_name: finapp_kratos
@@ -78,7 +77,6 @@ services:
       - ./config/kratos:/etc/config/kratos
     command: serve -c /etc/config/kratos/kratos.yml --dev --watch-courier
 
-  # API Getway
   oathkeeper:
     image: oryd/oathkeeper:v0.40
     container_name: finapp_api_gateway

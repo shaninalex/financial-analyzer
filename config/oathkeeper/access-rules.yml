@@ -25,7 +25,7 @@
 - id: "ws:protected"
   upstream:
     preserve_host: true
-    url: "http://manager:8003?user_id={{ print .Subject }}"
+    url: "http://manager:8003"
     strip_path: /ws
   match:
     url: "http://127.0.0.1:8080/ws/<**>"
