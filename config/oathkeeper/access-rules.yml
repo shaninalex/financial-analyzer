@@ -1,14 +1,16 @@
-- id: "filemanager"
+- id: "accounts"
   upstream:
     preserve_host: true
-    url: "http://filemanager:9000"
-    strip_path: /api/v2
+    url: "http://accounts:8001"
+    strip_path: /api/v2/accounts
   match:
-    url: "http://127.0.0.1:8080/api/v2/<**>"
+    url: "http://127.0.0.1:8080/api/v2/accounts/<**>"
     methods:
-      - GET
-      - PATCH
       - POST
+      - GET
+      - PUT
+      - PATCH
+      - DELETE
   authenticators:
     - handler: cookie_session
   mutators:
@@ -20,9 +22,3 @@
       config:
         to: http://127.0.0.1:4455/login
 
-  mailslurper:
-    image: oryd/mailslurper:latest-smtps
-    container_name: memosynth_mailslurper
-    ports:
-      - "4436:4436"
-      - "4437:4437"

@@ -34,8 +34,8 @@ services:
     environment:
       - DSN=postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:5432/kratos?sslmode=disable&max_conns=20&max_idle_conns=4
     ports:
-      - "4433:4433"
-      - "4434:4434"
+      - 4433:4433
+      - 4434:4434
     volumes:
       - ./config/kratos:/etc/config/kratos
     command: serve -c /etc/config/kratos/kratos.yml --dev --watch-courier
@@ -66,11 +66,18 @@ services:
       - KRATOS_PUBLIC_URL=http://kratos:4433/
     restart: on-failure
     ports:
-      - "4455:4455"
+      - 4455:4455
 
   mailslurper:
     image: oryd/mailslurper:latest-smtps
     container_name: finapp_mailslurper
     ports:
-      - "4436:4436"
-      - "4437:4437"
+      - 4436:4436
+      - 4437:4437
+
+  accounts:
+    build: ./accounts
+    container_name: finapp_accounts
+    restart: on-failure
+    ports:
+      - 8001:8001
