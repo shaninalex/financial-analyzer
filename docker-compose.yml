@@ -25,9 +25,9 @@ services:
       - GURU_API_KEY=
       - ALPH_API_KEY=
 
-  manager:
-    build: ./manager
-    container_name: finapp_manager
+  router:
+    build: ./router
+    container_name: finapp_router
     restart: on-failure
     ports:
       - 8003:8003

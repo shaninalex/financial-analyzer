@@ -22,13 +22,12 @@
       config:
         to: http://127.0.0.1:4455/login
 
-- id: "ws:protected"
+- id: "api:chat"
   upstream:
     preserve_host: true
-    url: "http://manager:8003"
-    strip_path: /ws
+    url: "http://router:8003"
   match:
-    url: "http://127.0.0.1:8080/ws/<**>"
+    url: "http://127.0.0.1:8080/ws"
     methods:
       - GET
       - POST
@@ -39,6 +38,4 @@
   authorizer:
     handler: allow
   errors:
-    - handler: redirect
-      config:
-        to: http://127.0.0.1:4455/login
+    - handler: json
