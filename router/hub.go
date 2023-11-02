@@ -1,7 +1,5 @@
 package main
 
-import "log"
-
 type Hub struct {
 	Clients    map[*Client]bool
 	Register   chan *Client
@@ -23,9 +21,6 @@ func (h *Hub) Run() {
 		// when new connection established - save client to Hub
 		case client := <-h.Register:
 			h.Clients[client] = true
-			for c := range h.Clients {
-				log.Println(c)
-			}
 
 		// when connection closed - remove client and close all client channels
 		case client := <-h.Unregister:
