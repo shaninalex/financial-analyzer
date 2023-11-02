@@ -22,8 +22,8 @@ services:
       - 8002:8002
     environment:
       - APP_PORT=8002
-      - GURU_API_KEY=
-      - ALPH_API_KEY=
+      - GURU_API_KEY=${GURU_API_KEY}
+      - ALPH_API_KEY=${ALPH_API_KEY}
 
   router:
     build: ./router
