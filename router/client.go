@@ -39,6 +39,10 @@ func (c *Client) ListenChannels() {
 			log.Printf("message: %s", string(message))
 		case message := <-c.CSearch:
 			log.Printf("Search for %s\n", string(message))
+		case message := <-c.CProcess:
+			log.Printf("Init Process for %s\n", string(message))
+		case message := <-c.CReport:
+			log.Printf("Report generating for %s\n", string(message))
 		}
 	}
 }
@@ -64,8 +68,13 @@ func (c *Client) ReadMessages() {
 			break
 		}
 
-		if action.Action == TickerActionTypeSearch {
+		switch action.Action {
+		case TickerActionTypeSearch:
 			c.CSearch <- []byte(action.Ticker)
+		case TickerActionTypeProcess:
+			c.CProcess <- []byte(action.Ticker)
+		case TickerActionTypeReport:
+			c.CReport <- []byte(action.Ticker)
 		}
 
 		// message = bytes.TrimSpace(message)
