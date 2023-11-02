@@ -1,16 +1,19 @@
 {
 	"folders": [
-		{
-			"path": "accounts"
-		},
-		{
-			"path": "config"
-		},
-		{
-			"path": "datasource"
-		},
-		{
-			"path": "router"
-		}
-	]
+        {
+            "path": "accounts"
+        },
+        {
+            "path": "config"
+        },
+        {
+            "path": "datasource"
+        },
+        {
+            "path": "router"
+        },
+        {
+            "path": "frontend"
+        }
+    ]
 }

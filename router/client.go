@@ -1,29 +1,46 @@
 package main
 
 import (
-	"bytes"
 	"log"
 
+	"github.com/goccy/go-json"
 	"github.com/gorilla/websocket"
 )
 
 type Client struct {
-	Hub  *Hub
-	Conn *websocket.Conn
-	Send chan []byte
-	Id   string
+	Hub      *Hub
+	Conn     *websocket.Conn
+	Send     chan []byte
+	Id       string
+	CSearch  chan []byte
+	CProcess chan []byte
+	CReport  chan []byte
 }
 
 func InitClient(hub *Hub, connection *websocket.Conn, user_id string) (*Client, error) {
 
 	wsclient := &Client{
-		Hub:  hub,
-		Conn: connection,
-		Send: make(chan []byte),
-		Id:   user_id,
+		Hub:      hub,
+		Conn:     connection,
+		Send:     make(chan []byte),
+		Id:       user_id,
+		CSearch:  make(chan []byte),
+		CProcess: make(chan []byte),
+		CReport:  make(chan []byte),
 	}
 
 	return wsclient, nil
+}
+
+func (c *Client) ListenChannels() {
+	for {
+		select {
+		case message := <-c.Send:
+			log.Printf("message: %s", string(message))
+		case message := <-c.CSearch:
+			log.Printf("Search for %s\n", string(message))
+		}
+	}
 }
 
 func (c *Client) ReadMessages() {
@@ -40,8 +57,19 @@ func (c *Client) ReadMessages() {
 			}
 			break
 		}
-		message = bytes.TrimSpace(message)
-		c.Send <- message
+
+		var action ITickerAction
+		if err := json.Unmarshal(message, &action); err != nil {
+			log.Printf("error: %v", err)
+			break
+		}
+
+		if action.Action == TickerActionTypeSearch {
+			c.CSearch <- []byte(action.Ticker)
+		}
+
+		// message = bytes.TrimSpace(message)
+		// c.Send <- message
 	}
 }
 

@@ -8,7 +8,7 @@ down:
 	docker compose\
 		--file docker-compose.yml\
 		--env-file=.env\
-		down -v
+		down
 
 restart: down start
 
