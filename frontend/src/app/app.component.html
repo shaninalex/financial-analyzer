@@ -1,3 +1,10 @@
-<router-outlet></router-outlet>
+<div class="dashboard">
+    <div class="dashboard-sidebar">
+    </div>
+     <div class="dashboard-container">
+         <p-button label="Submit" (click)="test_send()" size="small" severity="secondary"></p-button>
+         <router-outlet></router-outlet>
+    </div>
+</div>
 
-<button type="button" (click)="test_send()">send</button>
+
