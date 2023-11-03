@@ -14,6 +14,13 @@ services:
     environment:
       - APP_PORT=8001
 
+  notification:
+    build: ./notification
+    container_name: finapp_notification
+    restart: on-failure
+    environment:
+      - RABBITMQ_URL=amqp://guest:guest@rabbitmq:5672/
+
   datasource:
     build: ./datasource
     container_name: finapp_datasource

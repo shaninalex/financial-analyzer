@@ -38,11 +38,13 @@ func InitClient(hub *Hub, connection *websocket.Conn, user_id string) (*Client, 
 	if err != nil {
 		return nil, err
 	}
+	defer mq_connection.Close()
 
 	ch, err := mq_connection.Channel()
 	if err != nil {
 		return nil, err
 	}
+	defer ch.Close()
 
 	q, err := ch.QueueDeclare(
 		fmt.Sprintf("qNotif-%s", wsclient.Id), // name
