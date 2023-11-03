@@ -21,6 +21,5 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-
 	api.Run(port)
 }
