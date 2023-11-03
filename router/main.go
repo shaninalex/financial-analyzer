@@ -12,7 +12,8 @@ import (
 )
 
 var (
-	APP_PORT = os.Getenv("APP_PORT")
+	APP_PORT     = os.Getenv("APP_PORT")
+	RABBITMQ_URL = os.Getenv("RABBITMQ_URL")
 )
 
 var upgrader = websocket.Upgrader{

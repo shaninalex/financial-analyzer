@@ -34,7 +34,7 @@ func InitClient(hub *Hub, connection *websocket.Conn, user_id string) (*Client, 
 		CReport:  make(chan []byte),
 	}
 
-	mq_connection, err := connectToRabbitMQ("amqp://guest:guest@rabbitmq:5672/")
+	mq_connection, err := connectToRabbitMQ(RABBITMQ_URL)
 	if err != nil {
 		return nil, err
 	}
