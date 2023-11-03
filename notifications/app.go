@@ -16,6 +16,7 @@ type App struct {
 func InitApplication() (*App, error) {
 	conn, err := connectToRabbitMQ(RABBITMQ_URL)
 	failOnError(err)
+
 	app := &App{
 		Conn:   conn,
 		Router: gin.Default(),
@@ -30,9 +31,9 @@ func (app *App) SetupRoutes() {
 	api := app.Router.Group("/api/v2/notifications")
 	api.Use(UserIDMiddleware())
 	{
-		api.Get("/", app.GetNotifications)
-		api.Patch("/", app.GetNotifications)
-		api.Delete("/", app.GetNotifications)
+		api.GET("/", app.GetNotifications)
+		api.PATCH("/", app.PatchNotifications)
+		api.DELETE("/", app.DeleteNotifications)
 	}
 }
 
