@@ -59,23 +59,49 @@ func InitClient(hub *Hub, connection *websocket.Conn, user_id string) (*Client, 
 	wsclient.MQConnection = mq_connection
 	wsclient.MQChannel = ch
 	wsclient.MQQueue = &q
-
-	// TODO: Create and connect RabbitMQ channel to recieve notifications
-
 	return wsclient, nil
 }
 
+func (c *Client) ConsumeRMQMessages() {
+	msgs, err := c.MQChannel.Consume(
+		c.MQQueue.Name, // queue
+		"",             // consumer
+		true,           // auto-ack
+		false,          // exclusive
+		false,          // no-local
+		false,          // no-wait
+		nil,            // args
+	)
+	if err != nil {
+		log.Println("Failed to register a consumer:")
+		log.Println(err)
+	}
+
+	go func() {
+		for d := range msgs {
+			c.Send <- d.Body
+			log.Printf("Received a message: %s", d.Body)
+		}
+	}()
+}
+
 func (c *Client) ListenChannels() {
+	defer func() {
+		c.Conn.Close()
+	}()
+
 	for {
 		select {
-		case message := <-c.Send:
-			log.Printf("message: %s", string(message))
 		case message := <-c.CSearch:
 			log.Printf("Search for %s\n", string(message))
 		case message := <-c.CProcess:
 			log.Printf("Init Process for %s\n", string(message))
 		case message := <-c.CReport:
 			log.Printf("Report generating for %s\n", string(message))
+
+		// send to frontend
+		case message := <-c.Send:
+			c.Conn.WriteMessage(1, message)
 		}
 	}
 }
@@ -108,22 +134,6 @@ func (c *Client) ReadMessages() {
 			c.CProcess <- []byte(action.Ticker)
 		case TickerActionTypeReport:
 			c.CReport <- []byte(action.Ticker)
-		}
-
-		// message = bytes.TrimSpace(message)
-		// c.Send <- message
-	}
-}
-
-func (c *Client) WriteMessages() {
-	defer func() {
-		c.Conn.Close()
-	}()
-
-	for {
-		select {
-		case message := <-c.Send:
-			c.Conn.WriteMessage(1, message)
 		}
 	}
 }

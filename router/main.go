@@ -40,8 +40,8 @@ func ServeWebsocket(hub *Hub, user_id string, w http.ResponseWriter, r *http.Req
 
 	client.Hub.Register <- client
 	go client.ReadMessages()
-	go client.WriteMessages()
 	go client.ListenChannels()
+	go client.ConsumeRMQMessages()
 }
 
 func main() {
