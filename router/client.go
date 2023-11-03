@@ -1,20 +1,25 @@
 package main
 
 import (
+	"fmt"
 	"log"
 
 	"github.com/goccy/go-json"
 	"github.com/gorilla/websocket"
+	amqp "github.com/rabbitmq/amqp091-go"
 )
 
 type Client struct {
-	Hub      *Hub
-	Conn     *websocket.Conn
-	Send     chan []byte
-	Id       string
-	CSearch  chan []byte
-	CProcess chan []byte
-	CReport  chan []byte
+	Hub          *Hub
+	Conn         *websocket.Conn
+	Send         chan []byte
+	Id           string
+	CSearch      chan []byte
+	CProcess     chan []byte
+	CReport      chan []byte
+	MQConnection *amqp.Connection
+	MQChannel    *amqp.Channel
+	MQQueue      *amqp.Queue
 }
 
 func InitClient(hub *Hub, connection *websocket.Conn, user_id string) (*Client, error) {
@@ -29,16 +34,76 @@ func InitClient(hub *Hub, connection *websocket.Conn, user_id string) (*Client, 
 		CReport:  make(chan []byte),
 	}
 
+	mq_connection, err := connectToRabbitMQ(RABBITMQ_URL)
+	if err != nil {
+		return nil, err
+	}
+	defer mq_connection.Close()
+
+	ch, err := mq_connection.Channel()
+	if err != nil {
+		return nil, err
+	}
+	defer ch.Close()
+
+	q, err := ch.QueueDeclare(
+		fmt.Sprintf("qNotif-%s", wsclient.Id), // name
+		false,                                 // durable
+		false,                                 // delete when unused
+		false,                                 // exclusive
+		false,                                 // no-wait
+		nil,                                   // arguments
+	)
+	if err != nil {
+		return nil, err
+	}
+
+	wsclient.MQConnection = mq_connection
+	wsclient.MQChannel = ch
+	wsclient.MQQueue = &q
 	return wsclient, nil
 }
 
+func (c *Client) ConsumeRMQMessages() {
+	msgs, err := c.MQChannel.Consume(
+		c.MQQueue.Name, // queue
+		"",             // consumer
+		true,           // auto-ack
+		false,          // exclusive
+		false,          // no-local
+		false,          // no-wait
+		nil,            // args
+	)
+	if err != nil {
+		log.Println("Failed to register a consumer:")
+		log.Println(err)
+	}
+
+	go func() {
+		for d := range msgs {
+			c.Send <- d.Body
+			log.Printf("Received a message: %s", d.Body)
+		}
+	}()
+}
+
 func (c *Client) ListenChannels() {
+	defer func() {
+		c.Conn.Close()
+	}()
+
 	for {
 		select {
-		case message := <-c.Send:
-			log.Printf("message: %s", string(message))
 		case message := <-c.CSearch:
 			log.Printf("Search for %s\n", string(message))
+		case message := <-c.CProcess:
+			log.Printf("Init Process for %s\n", string(message))
+		case message := <-c.CReport:
+			log.Printf("Report generating for %s\n", string(message))
+
+		// send to frontend
+		case message := <-c.Send:
+			c.Conn.WriteMessage(1, message)
 		}
 	}
 }
@@ -64,24 +129,13 @@ func (c *Client) ReadMessages() {
 			break
 		}
 
-		if action.Action == TickerActionTypeSearch {
+		switch action.Action {
+		case TickerActionTypeSearch:
 			c.CSearch <- []byte(action.Ticker)
-		}
-
-		// message = bytes.TrimSpace(message)
-		// c.Send <- message
-	}
-}
-
-func (c *Client) WriteMessages() {
-	defer func() {
-		c.Conn.Close()
-	}()
-
-	for {
-		select {
-		case message := <-c.Send:
-			c.Conn.WriteMessage(1, message)
+		case TickerActionTypeProcess:
+			c.CProcess <- []byte(action.Ticker)
+		case TickerActionTypeReport:
+			c.CReport <- []byte(action.Ticker)
 		}
 	}
 }

@@ -12,7 +12,8 @@ import (
 )
 
 var (
-	APP_PORT = os.Getenv("APP_PORT")
+	APP_PORT     = os.Getenv("APP_PORT")
+	RABBITMQ_URL = os.Getenv("RABBITMQ_URL")
 )
 
 var upgrader = websocket.Upgrader{
@@ -40,8 +41,8 @@ func ServeWebsocket(hub *Hub, user_id string, w http.ResponseWriter, r *http.Req
 
 	client.Hub.Register <- client
 	go client.ReadMessages()
-	go client.WriteMessages()
 	go client.ListenChannels()
+	go client.ConsumeRMQMessages()
 }
 
 func main() {

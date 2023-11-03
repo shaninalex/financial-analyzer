@@ -14,6 +14,13 @@ services:
     environment:
       - APP_PORT=8001
 
+  notification:
+    build: ./notification
+    container_name: finapp_notification
+    restart: on-failure
+    environment:
+      - RABBITMQ_URL=amqp://guest:guest@rabbitmq:5672/
+
   datasource:
     build: ./datasource
     container_name: finapp_datasource
@@ -22,8 +29,8 @@ services:
       - 8002:8002
     environment:
       - APP_PORT=8002
-      - GURU_API_KEY=${GURU_API_KEY}
-      - ALPH_API_KEY=${ALPH_API_KEY}
+      - GURU_API_KEY=${GURUFOCUS_API_KEY}
+      - ALPH_API_KEY=${ALPHAVANTAGE_API_KEY}
 
   router:
     build: ./router
@@ -34,14 +41,18 @@ services:
     environment:
       - APP_PORT=8003
       - KRATOS_URL=http://kratos:4434
+      - RABBITMQ_URL=amqp://guest:guest@rabbitmq:5672/
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
 
   postgres:
-    image: postgres:15.3
-    container_name: finapp_database
+    image: postgres:15
+    container_name: memosynth_database
     environment:
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      - POSTGRES_MULTIPLE_DATABASES=${POSTGRES_DATABASE_NAME},kratos
+      - POSTGRES_MULTIPLE_DATABASES=${POSTGRES_DB},kratos
     ports:
       - 5432:5432
     volumes:
@@ -61,9 +72,6 @@ services:
     volumes:
       - ./config/kratos:/etc/config/kratos
     command: -c /etc/config/kratos/kratos.yml migrate sql -e --yes
-    depends_on:
-      postgres:
-        condition: service_healthy
 
   kratos:
     image: oryd/kratos:v1.0.0
@@ -108,3 +116,15 @@ services:
     ports:
       - 4436:4436
       - 4437:4437
+
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: finapp_rabbitmq
+    ports:
+      - 5672:5672
+      - 15672:15672
+    healthcheck:
+      test: rabbitmq-diagnostics -q ping
+      interval: 5s
+      timeout: 5s
+      retries: 3

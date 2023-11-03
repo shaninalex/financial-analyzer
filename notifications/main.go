@@ -6,13 +6,12 @@ import (
 )
 
 var (
+	RABBITMQ_URL = os.Getenv("RABBITMQ_URL")
 	APP_PORT     = os.Getenv("APP_PORT")
-	GURU_API_KEY = os.Getenv("GURU_API_KEY")
-	ALPH_API_KEY = os.Getenv("ALPH_API_KEY")
 )
 
 func main() {
-	api, err := InitializeAPI(GURU_API_KEY, ALPH_API_KEY)
+	app, err := InitApplication()
 	if err != nil {
 		panic(err)
 	}
@@ -21,5 +20,5 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	api.Run(port)
+	app.Run(port)
 }
