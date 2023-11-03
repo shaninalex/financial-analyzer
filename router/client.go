@@ -1,20 +1,25 @@
 package main
 
 import (
+	"fmt"
 	"log"
 
 	"github.com/goccy/go-json"
 	"github.com/gorilla/websocket"
+	amqp "github.com/rabbitmq/amqp091-go"
 )
 
 type Client struct {
-	Hub      *Hub
-	Conn     *websocket.Conn
-	Send     chan []byte
-	Id       string
-	CSearch  chan []byte
-	CProcess chan []byte
-	CReport  chan []byte
+	Hub          *Hub
+	Conn         *websocket.Conn
+	Send         chan []byte
+	Id           string
+	CSearch      chan []byte
+	CProcess     chan []byte
+	CReport      chan []byte
+	MQConnection *amqp.Connection
+	MQChannel    *amqp.Channel
+	MQQueue      *amqp.Queue
 }
 
 func InitClient(hub *Hub, connection *websocket.Conn, user_id string) (*Client, error) {
@@ -28,6 +33,34 @@ func InitClient(hub *Hub, connection *websocket.Conn, user_id string) (*Client, 
 		CProcess: make(chan []byte),
 		CReport:  make(chan []byte),
 	}
+
+	mq_connection, err := connectToRabbitMQ("amqp://guest:guest@rabbitmq:5672/")
+	if err != nil {
+		return nil, err
+	}
+
+	ch, err := mq_connection.Channel()
+	if err != nil {
+		return nil, err
+	}
+
+	q, err := ch.QueueDeclare(
+		fmt.Sprintf("qNotif-%s", wsclient.Id), // name
+		false,                                 // durable
+		false,                                 // delete when unused
+		false,                                 // exclusive
+		false,                                 // no-wait
+		nil,                                   // arguments
+	)
+	if err != nil {
+		return nil, err
+	}
+
+	wsclient.MQConnection = mq_connection
+	wsclient.MQChannel = ch
+	wsclient.MQQueue = &q
+
+	// TODO: Create and connect RabbitMQ channel to recieve notifications
 
 	return wsclient, nil
 }

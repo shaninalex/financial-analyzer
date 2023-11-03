@@ -22,8 +22,8 @@ services:
       - 8002:8002
     environment:
       - APP_PORT=8002
-      - GURU_API_KEY=${GURU_API_KEY}
-      - ALPH_API_KEY=${ALPH_API_KEY}
+      - GURU_API_KEY=${GURUFOCUS_API_KEY}
+      - ALPH_API_KEY=${ALPHAVANTAGE_API_KEY}
 
   router:
     build: ./router
@@ -34,9 +34,12 @@ services:
     environment:
       - APP_PORT=8003
       - KRATOS_URL=http://kratos:4434
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
 
   postgres:
-    image: postgres:15.3
+    image: postgres:15
     container_name: finapp_database
     environment:
       - POSTGRES_USER=${POSTGRES_USER}
@@ -45,10 +48,10 @@ services:
     ports:
       - 5432:5432
     volumes:
-      - ./config/database/:/docker-entrypoint-initdb.d/
+      - ./configs/db/:/docker-entrypoint-initdb.d/
       - postgres_data:/var/lib/postgresql/data/
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER}"]
+      test: ["CMD-SHELL", "pg_isready -U finapp_user"]
       interval: 5s
       timeout: 5s
       retries: 5
@@ -108,3 +111,15 @@ services:
     ports:
       - 4436:4436
       - 4437:4437
+
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: finapp_rabbitmq
+    ports:
+      - 5672:5672
+      - 15672:15672
+    healthcheck:
+      test: rabbitmq-diagnostics -q ping
+      interval: 5s
+      timeout: 5s
+      retries: 3
