@@ -1,8 +1,8 @@
 <div class="dashboard">
-    <div class="dashboard-sidebar">
-    </div>
+    <app-sidebar></app-sidebar>
      <div class="dashboard-container">
-         <p-button label="Submit" (click)="test_send()" size="small" severity="secondary"></p-button>
+        <app-header></app-header>
+         <!-- <p-button label="Submit" (click)="test_send()" size="small" severity="secondary"></p-button> -->
          <router-outlet></router-outlet>
     </div>
 </div>

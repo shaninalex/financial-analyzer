@@ -1,2 +1,40 @@
-@import "primeng/resources/themes/lara-light-blue/theme.css";
-@import "primeng/resources/primeng.css";
+* {
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    background-color: var(--color-body);
+    color: var(--color-text);
+}
+
+
+:root {
+    --color-blue-300: #E3F5FF;
+    --color-purple-100: #E5ECF6;
+    --color-secondary: #F7F9FB;
+    --color-body: #fff;
+    --color-text: #1C1C1C;
+    --color-text-secondary: #a4a4a4;
+    --color-gray: #e8e8e8;
+}
+
+:root[theme="dark"] {
+    --color-text: #fff;
+    --color-body: #1C1C1C;
+    --color-blue-300: #E3F5FF;
+    --color-purple-100: #E5ECF6;
+    --color-secondary: #282828;
+    --color-gray: #333333;
+    --color-text-secondary: #777777;
+}
+
+button,
+.clear-btn {
+    background-color: transparent;
+    padding: 0;
+    margin: 0;
+    border: 0;
+}

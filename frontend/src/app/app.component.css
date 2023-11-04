@@ -1,4 +1,5 @@
 .dashboard {
+    height: 100%;
     display: grid;
-
+    grid-template-columns: 212px auto;
 }

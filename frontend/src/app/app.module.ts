@@ -3,22 +3,25 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { WebsocketService } from './services/websocket.service';
-import { ButtonModule } from 'primeng/button';
+import { UiModule } from './ui/ui.module';
+// import { WebsocketService } from './services/websocket.service';
+
+
+
 
 
 @NgModule({
     declarations: [
-        AppComponent
+        AppComponent,
     ],
     imports: [
         BrowserModule,
         BrowserAnimationsModule,
         AppRoutingModule,
-        ButtonModule,
+        UiModule
     ],
     providers: [
-        WebsocketService
+        // WebsocketService
     ],
     bootstrap: [AppComponent],
 })

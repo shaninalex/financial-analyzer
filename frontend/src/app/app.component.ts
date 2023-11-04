@@ -8,13 +8,15 @@ import { ITickerAction } from './typedefs';
     styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-    constructor(private socket: WebsocketService) {}
+    constructor(
+        // private socket: WebsocketService
+    ) {}
 
     test_send(): void {
-        const search_payload: ITickerAction = {
-            ticker: "AAPL",
-            action: "search"
-        };
-        this.socket.send(search_payload);
+        // const search_payload: ITickerAction = {
+        //     ticker: "AAPL",
+        //     action: "search"
+        // };
+        // this.socket.send(search_payload);
     }
 }
