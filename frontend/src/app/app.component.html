@@ -1,11 +1,11 @@
-<div class="dashboard" [ngClass]="{'collapsed': !(mainSidebarCollapsed | async), 'notifications': (notificationSidebarVisible | async)}">
+<div class="dashboard"
+    [ngClass]="{'collapsed': !(mainSidebarCollapsed | async), 'notifications': (notificationSidebarVisible | async)}">
     <app-sidebar *ngIf="(mainSidebarCollapsed | async)"></app-sidebar>
-     <div class="dashboard-container">
+    <div class="dashboard-container">
         <app-header></app-header>
-         <!-- <p-button label="Submit" (click)="test_send()" size="small" severity="secondary"></p-button> -->
-         <router-outlet></router-outlet>
+        <div class="router-container">
+            <router-outlet></router-outlet>
+        </div>
     </div>
     <app-notifications-sidebar *ngIf="(notificationSidebarVisible | async)"></app-notifications-sidebar>
 </div>
-
-

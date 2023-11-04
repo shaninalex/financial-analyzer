@@ -12,8 +12,6 @@
     padding-right: 280px;
 }
 
-/* @media (max-width: 800px) {
-    .dashboard {
-        padding-left: 0;
-    }
-} */
+.router-container {
+    padding: 1rem;
+}
