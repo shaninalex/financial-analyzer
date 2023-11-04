@@ -1,5 +1,19 @@
 .dashboard {
     height: 100%;
-    display: grid;
-    grid-template-columns: 212px auto;
+    padding-left: 212px;
+    position: relative;
 }
+
+.dashboard.collapsed {
+    padding-left: 0;
+}
+
+.dashboard.notifications {
+    padding-right: 280px;
+}
+
+/* @media (max-width: 800px) {
+    .dashboard {
+        padding-left: 0;
+    }
+} */

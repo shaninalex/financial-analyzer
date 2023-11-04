@@ -10,18 +10,38 @@ import {
     iconoirWallet,
     iconoirUser,
     iconoirSidebarCollapse,
-    iconoirSidebarExpand
+    iconoirSidebarExpand,
+    iconoirSearch,
+    iconoirSunLight,
+    iconoirHalfMoon,
+    iconoirBell,
+    iconoirGraphUp,
 } from '@ng-icons/iconoir';
+import { BreadcrumbsComponent } from './components/breadcrumbs/breadcrumbs.component';
+import { PageActionsComponent } from './components/page-actions/page-actions.component';
+import { GlobalSearchComponent } from './components/global-search/global-search.component';
+import { HeaderActionsComponent } from './components/header-actions/header-actions.component';
+import { NotificationsSidebarComponent } from './notifications-sidebar/notifications-sidebar.component';
+import { NotificationItemComponent } from './notifications-sidebar/notification-item/notification-item.component';
 
 
 @NgModule({
     declarations: [
         SidebarComponent,
-        HeaderComponent
+        HeaderComponent,
+        BreadcrumbsComponent,
+        PageActionsComponent,
+        GlobalSearchComponent,
+        HeaderActionsComponent,
+        NotificationsSidebarComponent,
+        NotificationItemComponent,
     ],
     exports: [
         SidebarComponent,
-        HeaderComponent
+        HeaderComponent,
+        NotificationsSidebarComponent,
+        PageActionsComponent,
+        HeaderActionsComponent
     ],
     imports: [
         CommonModule,
@@ -32,7 +52,12 @@ import {
             iconoirWallet,
             iconoirUser,
             iconoirSidebarCollapse,
-            iconoirSidebarExpand
+            iconoirSidebarExpand,
+            iconoirSearch,
+            iconoirSunLight,
+            iconoirHalfMoon,
+            iconoirBell,
+            iconoirGraphUp,
         }),
     ]
 })
