@@ -16,20 +16,12 @@ export class AppComponent {
     notificationSidebarVisible: Observable<boolean>;
     
     constructor(
-        // private socket: WebsocketService
+        private socket: WebsocketService,
         private store: Store<AppState>
     ) {}
 
     ngOnInit(): void {
         this.mainSidebarCollapsed = this.store.select(selectMainSidebarVisible);
         this.notificationSidebarVisible = this.store.select(selectNotificationSidebarVisible);
-    }
-
-    test_send(): void {
-        // const search_payload: ITickerAction = {
-        //     ticker: "AAPL",
-        //     action: "search"
-        // };
-        // this.socket.send(search_payload);
     }
 }

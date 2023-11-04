@@ -23,8 +23,8 @@ import { GlobalSearchComponent } from './components/global-search/global-search.
 import { HeaderActionsComponent } from './components/header-actions/header-actions.component';
 import { NotificationsSidebarComponent } from './notifications-sidebar/notifications-sidebar.component';
 import { NotificationItemComponent } from './notifications-sidebar/notification-item/notification-item.component';
-import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
+import { CardComponent } from './components/card/card.component';
 
 
 @NgModule({
@@ -37,13 +37,15 @@ import { RouterModule } from '@angular/router';
         HeaderActionsComponent,
         NotificationsSidebarComponent,
         NotificationItemComponent,
+        CardComponent,
     ],
     exports: [
         SidebarComponent,
         HeaderComponent,
         NotificationsSidebarComponent,
         PageActionsComponent,
-        HeaderActionsComponent
+        HeaderActionsComponent,
+        CardComponent,
     ],
     imports: [
         CommonModule,

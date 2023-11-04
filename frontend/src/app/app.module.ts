@@ -9,7 +9,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { uiReducer } from './store/ui/reducer';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { UIEffects } from './store/ui/effects';
-// import { WebsocketService } from './services/websocket.service';
+import { WebsocketService } from './services/websocket.service';
 
 
 @NgModule({
@@ -28,7 +28,7 @@ import { UIEffects } from './store/ui/effects';
         StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() })
     ],
     providers: [
-        // WebsocketService
+        WebsocketService
     ],
     bootstrap: [AppComponent],
 })

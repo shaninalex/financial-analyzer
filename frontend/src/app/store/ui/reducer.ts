@@ -10,7 +10,7 @@ export interface UIState {
 export const InitialUiState: UIState = {
     mainSidebar: true,
     notificationSidebar: true,
-    dark_theme: false,
+    dark_theme: true,
 }
 
 export const uiReducer = createReducer(
