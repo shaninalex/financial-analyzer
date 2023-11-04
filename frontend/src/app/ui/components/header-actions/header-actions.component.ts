@@ -2,7 +2,8 @@ import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { AppState } from 'src/app/store';
-import { toggleNotificationsSidebar } from 'src/app/store/ui/actions';
+import { toggleDarkTheme, toggleNotificationsSidebar } from 'src/app/store/ui/actions';
+import { selectDarkTheme, selectNotificationSidebarVisible } from 'src/app/store/ui/selectors';
 
 @Component({
   selector: 'app-header-actions',
@@ -11,10 +12,18 @@ import { toggleNotificationsSidebar } from 'src/app/store/ui/actions';
 })
 export class HeaderActionsComponent {
     notifySidebar: Observable<boolean>;
+    darkTheme: Observable<boolean>;
 
-    constructor(private store: Store<AppState>) {}
+    constructor(private store: Store<AppState>) {
+        this.notifySidebar = this.store.select(selectNotificationSidebarVisible);
+        this.darkTheme = this.store.select(selectDarkTheme);
+    }
 
     notificationsSidebar(): void {
         this.store.dispatch(toggleNotificationsSidebar());
+    }
+
+    toggleTheme(): void {
+        this.store.dispatch(toggleDarkTheme());
     }
 }

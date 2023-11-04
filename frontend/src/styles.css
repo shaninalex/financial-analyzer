@@ -15,22 +15,28 @@ html {
 }
 
 :root {
+
+    --color-black: #1C1C1C;
+
     --color-blue-300: #E3F5FF;
-    --color-purple-100: #E5ECF6;
+    --color-purple-100: #e3f5ff;
     --color-body: #fff;
-    --color-text: #1C1C1C;
+    --color-text: var(--color-black);
     --color-secondary: #a4a4a4;
     --color-gray: #e8e8e8;
     --color-blue: #2fb5ff;
+    --main-menu-hover: var(--color-purple-100);
 }
 
-:root[theme="dark"] {
+:root[data-theme="dark"] {
     --color-text: #fff;
     --color-body: #1C1C1C;
     --color-blue-300: #E3F5FF;
-    --color-purple-100: #E5ECF6;
+    --color-purple-100: #e3f5ff;
     --color-gray: #333333;
     --color-secondary: #777777;
+
+    --main-menu-hover: hsl(201deg 100% 61% / 10%);
 }
 
 button,
@@ -44,6 +50,7 @@ button,
 
 ng-icon {
     font-size: 1.25rem;
+    color: var(--color-text)
 }
 
 .input {
@@ -52,6 +59,7 @@ ng-icon {
     border-radius: 8px;
     outline: none;
     border: 1px solid var(--color-gray);
+    color: var(--color-text)
 }
 .input.fade {
     background-color: var(--color-gray);

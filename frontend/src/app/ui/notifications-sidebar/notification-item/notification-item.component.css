@@ -20,6 +20,7 @@ figure {
 
 figure ng-icon {
     font-size: 1rem;
+    color: var(--color-black)
 }
 
 p {
