@@ -9,6 +9,7 @@ var (
 	APP_PORT     = os.Getenv("APP_PORT")
 	GURU_API_KEY = os.Getenv("GURU_API_KEY")
 	ALPH_API_KEY = os.Getenv("ALPH_API_KEY")
+	RABBITMQ_URL = os.Getenv("RABBITMQ_URL")
 )
 
 func main() {

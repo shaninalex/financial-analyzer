@@ -14,12 +14,16 @@ services:
     environment:
       - APP_PORT=8001
 
-  notification:
-    build: ./notification
-    container_name: finapp_notification
+  notifications:
+    build: ./notifications
+    container_name: finapp_notifications
     restart: on-failure
     environment:
       - RABBITMQ_URL=amqp://guest:guest@rabbitmq:5672/
+      - APP_PORT=8004
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
 
   datasource:
     build: ./datasource
@@ -52,7 +56,7 @@ services:
     environment:
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      - POSTGRES_MULTIPLE_DATABASES=${POSTGRES_DB},kratos
+      - POSTGRES_MULTIPLE_DATABASES=${POSTGRES_DATABASE_NAME},kratos
     ports:
       - 5432:5432
     volumes:

@@ -4,11 +4,15 @@ import (
 	"fmt"
 
 	"github.com/gin-gonic/gin"
+	amqp "github.com/rabbitmq/amqp091-go"
 )
 
 type Api struct {
-	datasource *Datasource
-	router     *gin.Engine
+	datasource   *Datasource
+	router       *gin.Engine
+	MQConnection *amqp.Connection
+	MQChannel    *amqp.Channel
+	MQQueue      *amqp.Queue
 }
 
 func InitializeAPI(gfApiKey, alphApiKey string) (*Api, error) {

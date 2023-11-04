@@ -95,7 +95,7 @@ func (c *Client) ListenChannels() {
 	for {
 		select {
 		case message := <-c.CSearch:
-			log.Printf("Search for %s\n", string(message))
+			c.triggerSearch(message)
 		case message := <-c.CProcess:
 			log.Printf("Init Process for %s\n", string(message))
 		case message := <-c.CReport:
