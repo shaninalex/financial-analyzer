@@ -35,6 +35,10 @@ services:
       - APP_PORT=8002
       - GURU_API_KEY=${GURUFOCUS_API_KEY}
       - ALPH_API_KEY=${ALPHAVANTAGE_API_KEY}
+      - RABBITMQ_URL=amqp://guest:guest@rabbitmq:5672/
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
 
   router:
     build: ./router

@@ -27,6 +27,11 @@ func (h *Hub) Run() {
 			if _, ok := h.Clients[client]; ok {
 				delete(h.Clients, client)
 				close(client.Send)
+				close(client.CSearch)
+				close(client.CProcess)
+				close(client.CReport)
+				client.MQConnection.Close()
+				client.MQChannel.Close()
 			}
 		}
 	}

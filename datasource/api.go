@@ -48,6 +48,29 @@ func InitializeAPI(gfApiKey, alphApiKey string) (*Api, error) {
 		return nil, err
 	}
 
+	err = ch.ExchangeDeclare(
+		"ex_datasource", // name
+		"direct",        // type
+		true,            // durable
+		false,           // auto-deleted
+		false,           // internal
+		false,           // no-wait
+		nil,             // arguments
+	)
+	if err != nil {
+		return nil, err
+	}
+	err = ch.QueueBind(
+		q.Name,
+		"",
+		"ex_datasource",
+		false,
+		nil,
+	)
+
+	if err != nil {
+		return nil, err
+	}
 	api.MQConnection = mq_connection
 	api.MQChannel = ch
 	api.MQQueue = &q

@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"log"
 
@@ -14,6 +15,7 @@ type Client struct {
 	Conn         *websocket.Conn
 	Send         chan []byte
 	Id           string
+	Context      context.Context
 	CSearch      chan []byte
 	CProcess     chan []byte
 	CReport      chan []byte
@@ -29,6 +31,7 @@ func InitClient(hub *Hub, connection *websocket.Conn, user_id string) (*Client, 
 		Conn:     connection,
 		Send:     make(chan []byte),
 		Id:       user_id,
+		Context:  context.TODO(),
 		CSearch:  make(chan []byte),
 		CProcess: make(chan []byte),
 		CReport:  make(chan []byte),
@@ -38,21 +41,19 @@ func InitClient(hub *Hub, connection *websocket.Conn, user_id string) (*Client, 
 	if err != nil {
 		return nil, err
 	}
-	defer mq_connection.Close()
 
 	ch, err := mq_connection.Channel()
 	if err != nil {
 		return nil, err
 	}
-	defer ch.Close()
 
 	q, err := ch.QueueDeclare(
-		fmt.Sprintf("qNotif-%s", wsclient.Id), // name
-		false,                                 // durable
-		false,                                 // delete when unused
-		false,                                 // exclusive
-		false,                                 // no-wait
-		nil,                                   // arguments
+		fmt.Sprintf("q_client-%s", wsclient.Id), // name
+		false,                                   // durable
+		false,                                   // delete when unused
+		false,                                   // exclusive
+		false,                                   // no-wait
+		nil,                                     // arguments
 	)
 	if err != nil {
 		return nil, err
