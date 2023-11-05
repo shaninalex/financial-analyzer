@@ -18,6 +18,11 @@ func main() {
 		panic(err)
 	}
 
+	defer api.MQConnection.Close()
+	defer api.MQChannel.Close()
+
+	go api.ConsumeRabbitMessages()
+
 	port, err := strconv.Atoi(APP_PORT)
 	if err != nil {
 		panic(err)
