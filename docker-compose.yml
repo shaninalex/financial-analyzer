@@ -1,7 +1,9 @@
 version: '3.7'
+name: finapp
 
 volumes:
   postgres_data:
+  rabbitmq_data:
 
 services:
 
@@ -13,6 +15,10 @@ services:
       - 8001:8001
     environment:
       - APP_PORT=8001
+      - RABBITMQ_URL=amqp://guest:guest@rabbitmq:5672/
+    depends_on:
+      rabbitmq_post_initialize:
+        condition: service_completed_successfully
 
   notifications:
     build: ./notifications
@@ -22,8 +28,8 @@ services:
       - RABBITMQ_URL=amqp://guest:guest@rabbitmq:5672/
       - APP_PORT=8004
     depends_on:
-      rabbitmq:
-        condition: service_healthy
+      rabbitmq_post_initialize:
+        condition: service_completed_successfully
 
   datasource:
     build: ./datasource
@@ -37,8 +43,8 @@ services:
       - ALPH_API_KEY=${ALPHAVANTAGE_API_KEY}
       - RABBITMQ_URL=amqp://guest:guest@rabbitmq:5672/
     depends_on:
-      rabbitmq:
-        condition: service_healthy
+      rabbitmq_post_initialize:
+        condition: service_completed_successfully
 
   router:
     build: ./router
@@ -51,12 +57,12 @@ services:
       - KRATOS_URL=http://kratos:4434
       - RABBITMQ_URL=amqp://guest:guest@rabbitmq:5672/
     depends_on:
-      rabbitmq:
-        condition: service_healthy
+      rabbitmq_post_initialize:
+        condition: service_completed_successfully
 
   postgres:
     image: postgres:15
-    container_name: memosynth_database
+    container_name: finapp_database
     environment:
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
@@ -131,8 +137,20 @@ services:
     ports:
       - 5672:5672
       - 15672:15672
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq/mnesia/
     healthcheck:
       test: rabbitmq-diagnostics -q ping
       interval: 5s
       timeout: 5s
       retries: 3
+
+  rabbitmq_post_initialize:
+    build: ./config/rabbitmq
+    container_name: finapp_rabbitmq_post_initialize
+    environment:
+      - RABBITMQ_HOST=rabbitmq
+      - RABBITMQ_PORT=5672
+    depends_on:
+      rabbitmq:
+        condition: service_healthy

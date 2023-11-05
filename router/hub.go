@@ -30,8 +30,8 @@ func (h *Hub) Run() {
 				close(client.CSearch)
 				close(client.CProcess)
 				close(client.CReport)
-				client.MQConnection.Close()
-				client.MQChannel.Close()
+				// client.MQConnection.Close()
+				// client.MQChannel.Close()
 			}
 		}
 	}
