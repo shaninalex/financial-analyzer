@@ -11,7 +11,6 @@ import (
 )
 
 type Client struct {
-	Hub          *Hub
 	Conn         *websocket.Conn
 	Send         chan []byte
 	Id           string
@@ -24,10 +23,9 @@ type Client struct {
 	MQQueue      *amqp.Queue
 }
 
-func InitClient(hub *Hub, connection *websocket.Conn, user_id string) (*Client, error) {
+func InitClient(connection *websocket.Conn, user_id string) (*Client, error) {
 
 	client := &Client{
-		Hub:      hub,
 		Conn:     connection,
 		Send:     make(chan []byte),
 		Id:       user_id,
@@ -116,11 +114,6 @@ func (c *Client) ListenChannels() {
 }
 
 func (c *Client) ReadMessages() {
-	defer func() {
-		c.Hub.Unregister <- c
-		c.Conn.Close()
-	}()
-
 	for {
 		_, message, err := c.Conn.ReadMessage()
 		if err != nil {
