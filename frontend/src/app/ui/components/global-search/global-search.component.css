@@ -1,0 +1,22 @@
+.global-search {
+    position: relative;
+}
+
+.global-search ng-icon {
+    position: absolute;
+    color: var(--color-secondary);
+    left: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1rem;
+}
+
+.input {
+    width: 160px;
+    padding-left: 28px;
+}
+
+.global-mobile-btn {
+    display: none;
+    position: static;
+}

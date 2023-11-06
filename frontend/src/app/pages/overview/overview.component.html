@@ -1,0 +1,111 @@
+<form *ngIf="!report_ready" class="submit-form" (ngSubmit)="onSubmit()" [formGroup]="tickerForm">
+    <div>
+        <h3>Enter ticker:</h3>
+        <div class="form-area">
+            <input type="text" class="input lg accent" placeholder="Ticker" formControlName="ticker">
+            <button class="btn lg blue" type="submit" [disabled]="!tickerForm.valid">
+                Submit
+            </button>
+        </div>
+    </div>
+</form>
+
+<div *ngIf="report_ready">
+    <header>
+        <div class="company-name">
+            <h1>Company Name</h1>
+            <div class="date">( 23.12.18 )</div>
+        </div>
+        <div class="overview-actions">
+            <button class="btn">
+                <ng-icon name="iconoirSaveFloppyDisk"></ng-icon>
+                Save
+            </button>
+            <button class="btn blue">
+                <ng-icon name="iconoirPlus"></ng-icon>
+                New
+            </button>
+        </div>
+    </header>
+
+    <div class="grid">
+        <div>
+            <app-card variant="blue">
+                <div class="top-bar-box">
+                    <div class="section-title">Price</div>
+                    <div class="top-bar-box-content">
+                        <div class="text-lg">721K</div>
+                        <div class="top-bar-box-meta text-sm">
+                            +11.01%
+                            <ng-icon name="iconoirArrowTr"></ng-icon>
+                        </div>
+                    </div>
+                </div>
+            </app-card>
+        </div>
+        <div>
+            <app-card>
+                <div class="top-bar-box">
+                    <div class="section-title">Visits</div>
+                    <div class="top-bar-box-content">
+                        <div class="text-lg">367K</div>
+                        <div class="top-bar-box-meta text-sm">
+                            +11.01%
+                            <ng-icon name="iconoirArrowTr"></ng-icon>
+                        </div>
+                    </div>
+                </div>
+            </app-card>
+        </div>
+        <div>
+            <app-card variant="blue">
+                <div class="top-bar-box">
+                    <div class="section-title">New Users</div>
+                    <div class="top-bar-box-content">
+                        <div class="text-lg">1.156</div>
+                        <div class="top-bar-box-meta text-sm">
+                            +11.01%
+                            <ng-icon name="iconoirArrowTr"></ng-icon>
+                        </div>
+                    </div>
+                </div>
+            </app-card>
+        </div>
+        <div>
+            <app-card>
+                <div class="top-bar-box">
+                    <div class="section-title">Active Users</div>
+                    <div class="top-bar-box-content">
+                        <div class="text-lg">239K</div>
+                        <div class="top-bar-box-meta text-sm">
+                            +11.01%
+                            <ng-icon name="iconoirArrowTr"></ng-icon>
+                        </div>
+                    </div>
+                </div>
+            </app-card>
+        </div>
+
+        <div class="col-3-4">
+            <app-card>
+                <div class="section-title">[placeholder]</div>
+            </app-card>
+        </div>
+        <div>
+            <app-card class="col-2-4 ">
+                <div class="section-title">[placeholder]</div>
+            </app-card>
+        </div>
+
+        <div class="col-2-4">
+            <app-card>
+                <div class="section-title">[placeholder]</div>
+            </app-card>
+        </div>
+        <div class="col-2-4">
+            <app-card>
+                <div class="section-title">[placeholder]</div>
+            </app-card>
+        </div>
+    </div>
+</div>

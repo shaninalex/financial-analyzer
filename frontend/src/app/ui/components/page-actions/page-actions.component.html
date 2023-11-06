@@ -1,0 +1,6 @@
+<div class="page-actions">
+    <button (click)="toggleMainSidebar()">
+        <ng-icon *ngIf="(collapsed | async)" name="iconoirSidebarCollapse"></ng-icon>
+        <ng-icon *ngIf="!(collapsed | async)" name="iconoirSidebarExpand"></ng-icon>
+    </button>
+</div>

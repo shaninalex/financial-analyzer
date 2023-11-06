@@ -10,3 +10,10 @@ export interface IResponseData {
     Payload: any
 }
 
+export interface INotification {
+    level: "success"|"error"|"warning"|"info"
+    message: string
+    read: boolean
+    datetime: Date
+}
+

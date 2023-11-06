@@ -1,1 +1,144 @@
-/* You can add global styles to this file, and also import other style files */
+* {
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    background-color: var(--color-body);
+    color: var(--color-text);
+}
+
+html {
+    overflow: hidden;
+}
+
+:root {
+
+    --color-black: #1C1C1C;
+
+    --color-blue-300: #E3F5FF;
+    --color-purple-100: #e3f5ff;
+    --color-body: #fff;
+    --color-text: var(--color-black);
+    --color-secondary: #a4a4a4;
+    --color-gray: #e8e8e8;
+    --color-blue: #2fb5ff;
+    --main-menu-hover: var(--color-purple-100);
+
+    --card-gray: #E5ECF6;
+    --card-blue: #E3F5FF;
+}
+
+:root[data-theme="dark"] {
+    --color-text: #fff;
+    --color-body: #1C1C1C;
+    --color-blue-300: #E3F5FF;
+    --color-purple-100: #e3f5ff;
+    --color-gray: #333333;
+    --color-secondary: #777777;
+
+    --main-menu-hover: hsl(201deg 100% 61% / 10%);
+
+    --card-gray: var(--color-gray);
+    --card-blue: #114460;
+}
+
+button,
+.clear-btn {
+    background-color: transparent;
+    padding: 0;
+    margin: 0;
+    border: 0;
+    cursor: pointer;
+}
+
+button[disabled] {
+    pointer-events: none;
+    filter: grayscale(100%);
+}
+
+ng-icon {
+    font-size: 1.25rem;
+    color: var(--color-text)
+}
+
+.input {
+    --_background: var(--background, transparent);
+    --_height: var(--height, 28px);
+    --_padding: var(--padding, 0.5rem);
+    --_border-color: var(--border-color, transparent);
+    --_border-width: var(--border-width, 0);
+    border: var(--_border-width) solid var(--_border-color);
+    padding: var(--_padding);
+    height: var(--_height);
+    border-radius: 8px;
+    outline: none;
+    /* border: 1px solid var(--color-gray); */
+    color: var(--color-text);
+    background-color: var(--_background);
+}
+
+.input.accent {
+    --border-color: #3ab9ff;
+    --border-width: 1px;
+}
+
+.input.lg {
+    --height: 38px;
+    --padding: 0.5rem 1rem;
+}
+
+.input.fade {
+    --background: var(--color-gray);
+}
+
+.input:focus,
+.input:focus-visible {
+    border: 1px solid var(--color-gray);
+}
+
+.section-title {
+    font-size: 0.875rem;
+    font-weight: 700;
+}
+
+.text-lg {
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.text-sm {
+    font-size: .75rem;
+}
+
+.text-sm ng-icon {
+    font-size: .75rem;
+}
+
+
+.btn {
+    --_background: var(--background, transparent);
+    --_border-color: var(--border-color, var(--color-secondary));
+    height: 1.75rem;
+    border-radius: 8px;
+    padding: 8px;
+    border: 1px solid var(--_border-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: inherit;
+    gap: 8px;
+    background-color: var(--_background);
+}
+
+.btn.lg {
+    font-size: 1rem;
+    height: 2.3rem;
+}
+
+.btn.blue {
+    --background: var(--card-blue);
+    --border-color: #3ab9ff;
+}

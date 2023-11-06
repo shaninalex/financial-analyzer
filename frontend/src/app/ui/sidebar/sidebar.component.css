@@ -1,0 +1,91 @@
+.dashboard-sidebar {
+    height: 100%;
+    border-right: 1px solid var(--color-gray);
+    padding: 1.5rem 1rem;
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 212px;
+}
+
+.logo {
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0 0.5rem;
+    margin-bottom: 24px;
+}
+
+.logo img {
+    width: 24px;
+}
+
+.menu-title {
+    color: var(--color-secondary);
+    margin-bottom: 12px;
+    font-size: 0.875rem;
+    padding: 0 0.5rem;
+}
+
+
+nav {
+    display: grid;
+    gap: 4px;
+    transition: 0.5ms;
+
+}
+
+nav a {
+    color: inherit;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    position: relative;
+    padding: 0.25rem 1.7rem;
+    font-size: 0.875rem;
+    border-radius: 0.25rem;
+    transition: 0.2s;
+    gap: 0.4rem;
+    background-color: transparent;
+}
+
+nav a.active,
+nav a:hover {
+    background-color: var(--main-menu-hover);
+}
+
+nav a.active:before,
+nav a:hover:before {
+    left: 0;
+    height: 16px;
+    background-color: var(--color-blue);
+    border-radius: 4px;
+}
+
+nav a:before {
+    content: '';
+    display: block;
+    width: 6px;
+    height: 6px;
+    position: absolute;
+    top: 50%;
+    left: 12px;
+    transform: translateY(-50%);
+    font-size: 0.875rem;
+    border-radius: 100%;
+    background-color: var(--color-secondary);
+    transition: 0.2s;
+}
+
+.nav-favorites {
+    margin-bottom: 36px;
+}
+
+.nav-main {
+    flex-grow: 1;
+}

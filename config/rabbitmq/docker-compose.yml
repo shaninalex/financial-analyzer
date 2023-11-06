@@ -1,0 +1,36 @@
+version: '3.7'
+
+volumes:
+  rabbitmq_data:
+
+services:
+
+  test_post_install:
+    image: busybox
+    command: ["ls", "-la", "/"]  # just for testing
+    depends_on:
+      rabbitmq_post_initialize:
+        condition: service_completed_successfully
+
+  rabbitmq_post_initialize:
+    build: ./
+    container_name: finapp_rabbitmq_post_initialize
+    environment:
+      - RABBITMQ_HOST=rabbitmq
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: finapp_rabbitmq
+    ports:
+      - 5672:5672
+      - 15672:15672
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq/mnesia/
+    healthcheck:
+      test: rabbitmq-diagnostics -q ping
+      interval: 5s
+      timeout: 5s
+      retries: 3

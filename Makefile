@@ -10,8 +10,10 @@ down:
 		--env-file=.env\
 		down
 
+down_volumes:
+	docker compose\
+		--file docker-compose.yml\
+		--env-file=.env\
+		down -v
+
 restart: down start
-
-
-# app_start:
-# 	go run ./cmd/analyzer/main.go

@@ -1,0 +1,11 @@
+:host {
+    display: flex;
+    gap: 1rem
+}
+
+
+@media (max-width: 800px) {
+    .notification-sidebar-toggle {
+        display: none;
+    }
+}

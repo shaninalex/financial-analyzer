@@ -1,3 +1,11 @@
-<router-outlet></router-outlet>
-
-<button type="button" (click)="test_send()">send</button>
+<div class="dashboard"
+    [ngClass]="{'collapsed': !(mainSidebarCollapsed | async), 'notifications': (notificationSidebarVisible | async)}">
+    <app-sidebar *ngIf="(mainSidebarCollapsed | async)"></app-sidebar>
+    <div class="dashboard-container">
+        <app-header></app-header>
+        <div class="router-container">
+            <router-outlet></router-outlet>
+        </div>
+    </div>
+    <app-notifications-sidebar *ngIf="(notificationSidebarVisible | async)"></app-notifications-sidebar>
+</div>
