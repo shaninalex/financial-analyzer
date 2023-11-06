@@ -28,7 +28,7 @@ func InitializeAPI(gfApiKey, alphApiKey string) (*Api, error) {
 		Router:     gin.Default(),
 	}
 
-	api.Router.Use(UserRequestCounter())
+	// api.Router.Use(UserRequestCounter())
 	api.InitRoutes()
 
 	mq_connection, err := connectToRabbitMQ(RABBITMQ_URL)
@@ -51,7 +51,7 @@ func InitializeAPI(gfApiKey, alphApiKey string) (*Api, error) {
 }
 
 func (api *Api) InitRoutes() {
-	api.Router.GET("alphavantage/overview", nil)
+	api.Router.GET("alphavantage/overview", api.AlphavantageOverview)
 	api.Router.GET("alphavantage/earnings", nil)
 	api.Router.GET("alphavantage/cashflow", nil)
 	api.Router.GET("gurufocus/summary", nil)
@@ -85,12 +85,14 @@ func (api *Api) ConsumeRabbitMessages() {
 				err := json.Unmarshal(d.Body, &action)
 				if err != nil {
 					log.Printf("Unable to unmarshal action: %s. Error: %v", d.Body, err)
+					continue
 				}
 				key := "client_id"
 				if client_id, ok := d.Headers[key]; ok {
 					go api.GatheringInformation(action, client_id.(string))
 				} else {
 					fmt.Printf("Key not found: %s\n", key)
+					continue
 				}
 			}
 		}
