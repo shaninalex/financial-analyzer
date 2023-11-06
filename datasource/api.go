@@ -5,8 +5,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
-	"sync"
-	"time"
 
 	"github.com/gin-gonic/gin"
 	amqp "github.com/rabbitmq/amqp091-go"
@@ -119,41 +117,27 @@ func (api *Api) PublishResults(message []byte, client_id string) {
 }
 
 func (api *Api) GatheringInformation(action TickerAction, client_id string) {
-	start := time.Now()
-	var wg sync.WaitGroup
-	wg.Add(3)
 	go func(ticker string) {
-		defer wg.Done()
-		data, err := api.Datasource.Alphavantage.Overview(ticker)
+		overview, err := api.Datasource.Alphavantage.Overview(ticker)
 		if err != nil {
 			log.Printf("Unable to get Alphavantage.Overview for \"%s\". Error: %v", ticker, err)
 		}
-		bData, _ := json.Marshal(data)
-		api.PublishResults(bData, client_id)
-	}(action.Ticker)
+		boverview, _ := json.Marshal(overview)
+		go api.PublishResults(boverview, client_id)
 
-	go func(ticker string) {
-		defer wg.Done()
-		data, err := api.Datasource.Alphavantage.CashFlow(ticker)
+		cashflow, err := api.Datasource.Alphavantage.CashFlow(ticker)
 		if err != nil {
 			log.Printf("Unable to get Alphavantage.CashFlow for \"%s\". Error: %v", ticker, err)
 		}
-		bData, _ := json.Marshal(data)
-		api.PublishResults(bData, client_id)
-	}(action.Ticker)
+		bcashflow, _ := json.Marshal(cashflow)
+		go api.PublishResults(bcashflow, client_id)
 
-	go func(ticker string) {
-		defer wg.Done()
-		data, err := api.Datasource.Alphavantage.Earnings(ticker)
+		earnings, err := api.Datasource.Alphavantage.Earnings(ticker)
 		if err != nil {
 			log.Printf("Unable to get Alphavantage.Earnings for \"%s\". Error: %v", ticker, err)
 		}
-		bData, _ := json.Marshal(data)
-		api.PublishResults(bData, client_id)
+		bearnings, _ := json.Marshal(earnings)
+		go api.PublishResults(bearnings, client_id)
 	}(action.Ticker)
 
-	wg.Wait()
-	t := time.Now()
-	elapsed := t.Sub(start)
-	log.Printf("Gathering information for \"%s\" is done. Time spent: %s", action.Ticker, elapsed)
 }
