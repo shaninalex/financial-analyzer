@@ -1,5 +1,8 @@
 version: '3.7'
 
+volumes:
+  rabbitmq_data:
+
 services:
   datasource:
     build: ./
@@ -13,8 +16,8 @@ services:
       - ALPH_API_KEY=demo
       - RABBITMQ_URL=amqp://guest:guest@rabbitmq:5672/
     depends_on:
-      rabbitmq:
-        condition: service_healthy
+      rabbitmq_post_initialize:
+        condition: service_completed_successfully
 
   rabbitmq:
     image: rabbitmq:3-management-alpine
@@ -22,8 +25,20 @@ services:
     ports:
       - 5672:5672
       - 15672:15672
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq/mnesia/
     healthcheck:
       test: rabbitmq-diagnostics -q ping
       interval: 5s
       timeout: 5s
       retries: 3
+
+  rabbitmq_post_initialize:
+    build: ../config/rabbitmq
+    container_name: finapp_rabbitmq_post_initialize
+    environment:
+      - RABBITMQ_HOST=rabbitmq
+      - RABBITMQ_PORT=5672
+    depends_on:
+      rabbitmq:
+        condition: service_healthy

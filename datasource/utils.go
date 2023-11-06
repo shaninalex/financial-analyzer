@@ -5,6 +5,7 @@ import (
 	"math"
 	"time"
 
+	"github.com/gin-gonic/gin"
 	amqp "github.com/rabbitmq/amqp091-go"
 )
 
@@ -36,4 +37,11 @@ func connectToRabbitMQ(connectionString string) (*amqp.Connection, error) {
 	}
 
 	return connection, nil
+}
+
+func ErrorResponse(c *gin.Context, status int, error_text string) {
+	c.JSON(status, gin.H{
+		"error":   true,
+		"message": error_text,
+	})
 }

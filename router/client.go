@@ -131,7 +131,7 @@ func (c *Client) ReadMessages() {
 
 		switch action.Action {
 		case TickerActionTypeSearch:
-			c.CSearch <- []byte(action.Ticker)
+			c.CSearch <- []byte(message)
 		case TickerActionTypeProcess:
 			c.CProcess <- []byte(action.Ticker)
 		case TickerActionTypeReport:
