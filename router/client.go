@@ -26,13 +26,9 @@ type Client struct {
 func InitClient(connection *websocket.Conn, user_id string) (*Client, error) {
 
 	client := &Client{
-		Conn:     connection,
-		Send:     make(chan []byte),
-		Id:       user_id,
-		Context:  context.TODO(),
-		CSearch:  make(chan []byte),
-		CProcess: make(chan []byte),
-		CReport:  make(chan []byte),
+		Conn:    connection,
+		Id:      user_id,
+		Context: context.TODO(),
 	}
 
 	mq_connection, err := connectToRabbitMQ(RABBITMQ_URL)
@@ -71,13 +67,13 @@ func InitClient(connection *websocket.Conn, user_id string) (*Client, error) {
 
 func (c *Client) ConsumeRMQMessages() {
 	msgs, err := c.MQChannel.Consume(
-		c.MQQueue.Name,  // queue
-		"client_router", // consumer
-		true,            // auto-ack
-		false,           // exclusive
-		false,           // no-local
-		false,           // no-wait
-		nil,             // args
+		c.MQQueue.Name, // queue
+		"",             // consumer
+		false,          // auto-ack
+		false,          // exclusive
+		false,          // no-local
+		false,          // no-wait
+		nil,            // args
 	)
 	if err != nil {
 		log.Println("Failed to register a consumer:")
@@ -86,31 +82,9 @@ func (c *Client) ConsumeRMQMessages() {
 
 	go func() {
 		for d := range msgs {
-			c.Send <- d.Body
-			log.Printf("Received a message: %s", d.Body)
+			c.Conn.WriteMessage(1, d.Body)
 		}
 	}()
-}
-
-func (c *Client) ListenChannels() {
-	defer func() {
-		c.Conn.Close()
-	}()
-
-	for {
-		select {
-		case message := <-c.CSearch:
-			c.triggerSearch(message)
-		case message := <-c.CProcess:
-			log.Printf("Init Process for %s\n", string(message))
-		case message := <-c.CReport:
-			log.Printf("Report generating for %s\n", string(message))
-
-		// send to frontend
-		case message := <-c.Send:
-			c.Conn.WriteMessage(1, message)
-		}
-	}
 }
 
 func (c *Client) ReadMessages() {
@@ -129,13 +103,21 @@ func (c *Client) ReadMessages() {
 			break
 		}
 
-		switch action.Action {
-		case TickerActionTypeSearch:
-			c.CSearch <- []byte(message)
-		case TickerActionTypeProcess:
-			c.CProcess <- []byte(action.Ticker)
-		case TickerActionTypeReport:
-			c.CReport <- []byte(action.Ticker)
+		if action.Action == TickerActionTypeSearch {
+			c.triggerSearch(message)
 		}
+	}
+}
+
+func (c *Client) Disconnect() {
+	if c.MQConnection != nil {
+		err := c.MQConnection.Close()
+		if err != nil {
+			log.Printf("Error closing RabbitMQ connection: %v", err)
+		}
+		fmt.Println("RabbitMQ connection closed")
+		close(c.Send)
+		// close(c.CProcess)
+		// close(c.CReport)
 	}
 }
