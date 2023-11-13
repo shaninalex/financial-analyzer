@@ -32,6 +32,7 @@ func ServeWebsocket(user_id string, w http.ResponseWriter, r *http.Request) {
 		log.Println(err)
 		return
 	}
+	defer conn.Close()
 
 	client, err := InitClient(conn, user_id)
 	if err != nil {
@@ -39,16 +40,10 @@ func ServeWebsocket(user_id string, w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	go client.ReadMessages()
-	go client.ListenChannels()
-	go client.ConsumeRMQMessages()
+	client.ConsumeRMQMessages()
+	client.ReadMessages()
 
-	defer func() {
-		log.Printf("Close connection: %s", client.Id)
-		client.Conn.Close()
-		client.MQConnection.Close()
-		client.MQChannel.Close()
-	}()
+	defer client.Disconnect()
 }
 
 func main() {
