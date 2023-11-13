@@ -5,15 +5,18 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"os"
 )
 
 type Alphavantage struct {
+	DEBUG   bool
 	API_KEY string
 	API_URL string
 }
 
-func InitAlphavantage(api_key string) *Alphavantage {
+func InitAlphavantage(api_key string, debug bool) *Alphavantage {
 	return &Alphavantage{
+		DEBUG:   debug,
 		API_KEY: api_key,
 		API_URL: "https://www.alphavantage.co",
 	}
@@ -48,11 +51,19 @@ func (a *Alphavantage) unpack(resp *http.Response, resultStruct interface{}) err
 // Request response example: https://www.alphavantage.co/query?function=OVERVIEW&symbol=IBM&apikey=demo
 // Request documentation: https://www.alphavantage.co/documentation/#company-overview
 func (a *Alphavantage) Overview(ticker string) (*AlphavantageOverview, error) {
+	var results AlphavantageOverview
+	if a.DEBUG {
+		fileBytes, _ := os.ReadFile("./demo_data/alphavantage_overview.json")
+		err := json.Unmarshal(fileBytes, &results)
+		if err != nil {
+			return nil, err
+		}
+		return &results, nil
+	}
 	resp, err := a.req("OVERVIEW", ticker)
 	if err != nil {
 		return nil, err
 	}
-	var results AlphavantageOverview
 	if err = a.unpack(resp, &results); err != nil {
 		return nil, err
 	}
@@ -63,11 +74,19 @@ func (a *Alphavantage) Overview(ticker string) (*AlphavantageOverview, error) {
 // Request documentation: https://www.alphavantage.co/documentation/#earnings
 // Request example: https://www.alphavantage.co/query?function=EARNINGS&symbol=IBM&apikey=demo
 func (a *Alphavantage) Earnings(ticker string) (*AlphavantageEarnings, error) {
+	var results AlphavantageEarnings
+	if a.DEBUG {
+		fileBytes, _ := os.ReadFile("./demo_data/alphavantage_earnings.json")
+		err := json.Unmarshal(fileBytes, &results)
+		if err != nil {
+			return nil, err
+		}
+		return &results, nil
+	}
 	resp, err := a.req("EARNINGS", ticker)
 	if err != nil {
 		return nil, err
 	}
-	var results AlphavantageEarnings
 	if err = a.unpack(resp, &results); err != nil {
 		return nil, err
 	}
@@ -77,11 +96,20 @@ func (a *Alphavantage) Earnings(ticker string) (*AlphavantageEarnings, error) {
 // Request documentation: https://www.alphavantage.co/documentation/#cash-flow
 // Request example: https://www.alphavantage.co/query?function=CASH_FLOW&symbol=IBM&apikey=demo
 func (a *Alphavantage) CashFlow(ticker string) (*AlphavantageCashFlow, error) {
+	var results AlphavantageCashFlow
+	if a.DEBUG {
+		fileBytes, _ := os.ReadFile("./demo_data/alphavantage_cash_flow.json")
+		err := json.Unmarshal(fileBytes, &results)
+		if err != nil {
+			return nil, err
+		}
+		return &results, nil
+	}
+
 	resp, err := a.req("CASH_FLOW", ticker)
 	if err != nil {
 		return nil, err
 	}
-	var results AlphavantageCashFlow
 	if err = a.unpack(resp, &results); err != nil {
 		return nil, err
 	}

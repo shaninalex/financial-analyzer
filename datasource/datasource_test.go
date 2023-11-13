@@ -9,6 +9,7 @@ func TestDataSourceInitialization(t *testing.T) {
 	datasource := InitializeDatasource(
 		os.Getenv("GURUFOCUS_API_KEY"),
 		"demo",
+		true,
 	)
 
 	if datasource.Gurufocus == nil {

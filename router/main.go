@@ -43,12 +43,12 @@ func ServeWebsocket(user_id string, w http.ResponseWriter, r *http.Request) {
 	go client.ListenChannels()
 	go client.ConsumeRMQMessages()
 
-	// close(client.Send)
-	// close(client.CSearch)
-	// close(client.CProcess)
-	// close(client.CReport)
-	// defer client.MQConnection.Close()
-	// defer client.MQChannel.Close()
+	defer func() {
+		log.Printf("Close connection: %s", client.Id)
+		client.Conn.Close()
+		client.MQConnection.Close()
+		client.MQChannel.Close()
+	}()
 }
 
 func main() {

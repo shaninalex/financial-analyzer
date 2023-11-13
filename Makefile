@@ -16,4 +16,7 @@ down_volumes:
 		--env-file=.env\
 		down -v
 
+rebuild_router:
+	docker compose up -d --no-deps --build router
+
 restart: down start
