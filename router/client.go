@@ -6,43 +6,33 @@ import (
 	"log"
 
 	"github.com/goccy/go-json"
+	"github.com/google/uuid"
 	"github.com/gorilla/websocket"
 	amqp "github.com/rabbitmq/amqp091-go"
 )
 
 type Client struct {
-	Conn         *websocket.Conn
-	Send         chan []byte
-	Id           string
-	Context      context.Context
-	CSearch      chan []byte
-	CProcess     chan []byte
-	CReport      chan []byte
+	ID           string
+	ClientId     string
 	MQConnection *amqp.Connection
 	MQChannel    *amqp.Channel
 	MQQueue      *amqp.Queue
+	WSConnection *websocket.Conn
+	Context      context.Context
 }
 
-func InitClient(connection *websocket.Conn, user_id string) (*Client, error) {
-
+func InitClient(user_id string, mq *amqp.Connection, ch *amqp.Channel, ws *websocket.Conn) (*Client, error) {
 	client := &Client{
-		Conn:    connection,
-		Id:      user_id,
-		Context: context.TODO(),
+		ID:           user_id,
+		ClientId:     uuid.New().String(),
+		MQConnection: mq,
+		MQChannel:    ch,
+		WSConnection: ws,
+		Context:      context.TODO(),
 	}
 
-	mq_connection, err := connectToRabbitMQ(RABBITMQ_URL)
-	if err != nil {
-		return nil, err
-	}
-
-	ch, err := mq_connection.Channel()
-	if err != nil {
-		return nil, err
-	}
-
-	err = ch.ExchangeDeclare(
-		fmt.Sprintf("ex.client.%s", client.Id), // name
+	err := ch.ExchangeDeclare(
+		fmt.Sprintf("ex.client.%s", client.ID), // name
 		"fanout",                               // type
 		true,                                   // durable
 		false,                                  // auto-deleted
@@ -50,36 +40,42 @@ func InitClient(connection *websocket.Conn, user_id string) (*Client, error) {
 		false,                                  // no-wait
 		nil,                                    // arguments
 	)
+
 	if err != nil {
+		log.Println(err)
 		return nil, err
 	}
 
-	q, err := ch.QueueDeclare(
+	q, err := client.MQChannel.QueueDeclare(
 		"",    // name
-		true,  // durable
-		false, // delete when unused
+		false, // durable
+		true,  // delete when unused
 		false, // exclusive
 		false, // no-wait
 		nil,   // arguments
 	)
 	if err != nil {
+		log.Println(err)
 		return nil, err
 	}
 
-	ch.QueueBind(q.Name, "", "ex.client.%s", false, nil)
-
-	client.MQConnection = mq_connection
-	client.MQChannel = ch
 	client.MQQueue = &q
+	client.MQChannel.QueueBind(
+		q.Name, // name
+		fmt.Sprintf("client.%s__dev.%s", user_id, client.ClientId), // routing key
+		fmt.Sprintf("ex.client.%s", client.ID),                     // exchange name
+		false,
+		nil,
+	)
 
 	return client, nil
 }
 
-func (c *Client) ConsumeRMQMessages() {
+func (c *Client) ConsumeMQ() {
 	msgs, err := c.MQChannel.Consume(
 		c.MQQueue.Name, // queue
 		"",             // consumer
-		false,          // auto-ack
+		true,           // auto-ack
 		false,          // exclusive
 		false,          // no-local
 		false,          // no-wait
@@ -92,14 +88,14 @@ func (c *Client) ConsumeRMQMessages() {
 
 	go func() {
 		for d := range msgs {
-			c.Conn.WriteMessage(1, d.Body)
+			c.WSConnection.WriteMessage(1, d.Body)
 		}
 	}()
 }
 
-func (c *Client) ReadMessages() {
+func (c *Client) ConsumeFrontend() {
 	for {
-		_, message, err := c.Conn.ReadMessage()
+		_, message, err := c.WSConnection.ReadMessage()
 		if err != nil {
 			if websocket.IsUnexpectedCloseError(err, websocket.CloseGoingAway, websocket.CloseAbnormalClosure) {
 				log.Printf("error: %v", err)
@@ -113,21 +109,27 @@ func (c *Client) ReadMessages() {
 			break
 		}
 
-		if action.Action == TickerActionTypeSearch {
-			c.triggerSearch(message)
+		switch action.Action {
+		case TickerActionTypeSearch:
+			err := c.MQChannel.PublishWithContext(c.Context,
+				"ex.datasource", // exchange
+				"new_report",    // routing key
+				false,           // mandatory
+				false,           // immediate
+				amqp.Publishing{
+					ContentType: "application/json",
+					Body:        message,
+					Headers: amqp.Table{
+						"user_id":   c.ID,
+						"client_id": c.ClientId,
+					},
+				},
+			)
+			if err != nil {
+				log.Println(err)
+			} else {
+				log.Println("message published")
+			}
 		}
-	}
-}
-
-func (c *Client) Disconnect() {
-	if c.MQConnection != nil {
-		err := c.MQConnection.Close()
-		if err != nil {
-			log.Printf("Error closing RabbitMQ connection: %v", err)
-		}
-		fmt.Println("RabbitMQ connection closed")
-		close(c.Send)
-		// close(c.CProcess)
-		// close(c.CReport)
 	}
 }

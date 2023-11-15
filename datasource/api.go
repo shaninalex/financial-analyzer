@@ -78,35 +78,37 @@ func (api *Api) ConsumeRabbitMessages() {
 		for d := range msgs {
 			log.Printf("Message Body: %s", d.Body)
 
-			if d.RoutingKey == "q.datasource" {
+			if d.RoutingKey == "new_report" {
 				var action TickerAction
 				err := json.Unmarshal(d.Body, &action)
 				if err != nil {
 					log.Printf("Unable to unmarshal action: %s. Error: %v", d.Body, err)
 					continue
 				}
-				key := "client_id"
-				if client_id, ok := d.Headers[key]; ok {
-					go api.GatheringInformation(action, client_id.(string))
-				} else {
-					fmt.Printf("Key not found: %s\n", key)
-					continue
-				}
+				go api.GatheringInformation(
+					action,
+					d.Headers["user_id"].(string),
+					d.Headers["client_id"].(string),
+				)
 			}
 		}
 	}()
 }
 
-func (api *Api) PublishResults(message any, client_id string, message_type string, ticker string) {
+func (api *Api) PublishResults(message any, user_id string, client_id string, message_type string, ticker string) {
 	comp_message, _ := json.Marshal(map[string]interface{}{
 		"action": "results",
 		"ticker": ticker,
 		"type":   message_type,
 		"data":   message,
 	})
+
+	routing_key := fmt.Sprintf("client.%s__dev.%s", user_id, client_id)
+	fmt.Printf("Routing key: %s", routing_key)
+
 	err := api.MQChannel.PublishWithContext(api.Context,
 		fmt.Sprintf("ex.client.%s", client_id), // exchange
-		"",                                     // routing key
+		routing_key,                            // routing key
 		false,                                  // mandatory
 		false,                                  // immediate
 		amqp.Publishing{
@@ -121,24 +123,24 @@ func (api *Api) PublishResults(message any, client_id string, message_type strin
 	}
 }
 
-func (api *Api) GatheringInformation(action TickerAction, client_id string) {
+func (api *Api) GatheringInformation(action TickerAction, user_id string, client_id string) {
 	overview, err := api.Datasource.Alphavantage.Overview(action.Ticker)
 	if err != nil {
 		log.Printf("Unable to get Alphavantage.Overview for \"%s\". Error: %v", action.Ticker, err)
 	} else {
-		api.PublishResults(overview, client_id, "alph_overview", action.Ticker)
+		api.PublishResults(overview, user_id, client_id, "alph_overview", action.Ticker)
 	}
 
 	cashflow, err := api.Datasource.Alphavantage.CashFlow(action.Ticker)
 	if err != nil {
 		log.Printf("Unable to get Alphavantage.CashFlow for \"%s\". Error: %v", action.Ticker, err)
 	} else {
-		api.PublishResults(cashflow, client_id, "alph_cashflow", action.Ticker)
+		api.PublishResults(cashflow, user_id, client_id, "alph_cashflow", action.Ticker)
 	}
 	earnings, err := api.Datasource.Alphavantage.Earnings(action.Ticker)
 	if err != nil {
 		log.Printf("Unable to get Alphavantage.Earnings for \"%s\". Error: %v", action.Ticker, err)
 	} else {
-		api.PublishResults(earnings, client_id, "alph_earnings", action.Ticker)
+		api.PublishResults(earnings, user_id, client_id, "alph_earnings", action.Ticker)
 	}
 }

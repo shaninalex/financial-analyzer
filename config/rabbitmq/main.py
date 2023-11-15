@@ -29,7 +29,7 @@ print("Connected\nDeclare exchanges.")
 # deliver messages to client queue by routing key
 # every client should subscribe to this exchange (Bind all this exchanges to user queue)
 channel.exchange_declare(
-    exchange="ex.datasource", exchange_type=ExchangeType.direct, durable=True
+    exchange="ex.datasource", exchange_type=ExchangeType.fanout, durable=True
 )
 channel.exchange_declare(
     exchange="ex.email", exchange_type=ExchangeType.direct, durable=True
