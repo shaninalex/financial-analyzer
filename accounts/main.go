@@ -7,10 +7,6 @@ import (
 	ory "github.com/ory/kratos-client-go"
 )
 
-type App struct {
-	Router gin.Engine
-}
-
 func main() {
 
 	configuration := ory.NewConfiguration()

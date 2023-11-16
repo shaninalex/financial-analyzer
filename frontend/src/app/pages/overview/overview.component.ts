@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { BehaviorSubject, Observable, map, of } from 'rxjs';
 import { WebsocketService } from 'src/app/services/websocket.service';
 import { ITickerAction } from 'src/app/typedefs';
 
@@ -9,14 +10,18 @@ import { ITickerAction } from 'src/app/typedefs';
     styleUrls: ['./overview.component.css']
 })
 export class OverviewComponent {
-    report_ready: boolean = false;
-
+    result_data: boolean = false;
+    current_date: Date = new Date();
     tickerForm: FormGroup = new FormGroup({
-        "ticker": new FormControl("", [Validators.required])
+        "ticker": new FormControl("IBM", [Validators.required])
     })
+    messageHub$: Observable<any>;
+    overview$: Observable<any>;
+    cashflow$: Observable<any>;
+    earnings$: Observable<any>;
 
     constructor(private socket: WebsocketService) {
-
+        this.messageHub$ = this.socket.messages;
     }
 
     onSubmit(): void {
@@ -29,3 +34,7 @@ export class OverviewComponent {
         }
     }
 }
+
+// action
+// type
+// data

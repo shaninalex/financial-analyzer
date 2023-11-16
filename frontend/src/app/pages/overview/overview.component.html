@@ -1,4 +1,6 @@
-<form *ngIf="!report_ready" class="submit-form" (ngSubmit)="onSubmit()" [formGroup]="tickerForm">
+<code>{{ (messageHub$ | async ) | json }}</code>
+
+<form class="submit-form" (ngSubmit)="onSubmit()" [formGroup]="tickerForm">
     <div>
         <h3>Enter ticker:</h3>
         <div class="form-area">
@@ -10,11 +12,12 @@
     </div>
 </form>
 
-<div *ngIf="report_ready">
+<div>
     <header>
         <div class="company-name">
-            <h1>Company Name</h1>
-            <div class="date">( 23.12.18 )</div>
+            {{ overview$ | json }}
+            <h1 *ngIf="(overview$ | async) as overview">{{overview.Name}}</h1>
+            <div class="date">{{current_date | date: 'shortDate'}}</div>
         </div>
         <div class="overview-actions">
             <button class="btn">

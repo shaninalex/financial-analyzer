@@ -10,9 +10,9 @@ type Datasource struct {
 	Alphavantage *Alphavantage
 }
 
-func InitializeDatasource(gfApiKey, alphApiKey string) *Datasource {
+func InitializeDatasource(gfApiKey, alphApiKey string, debug bool) *Datasource {
 	return &Datasource{
 		Gurufocus:    InitGurufocus(gfApiKey),
-		Alphavantage: InitAlphavantage(alphApiKey),
+		Alphavantage: InitAlphavantage(alphApiKey, debug),
 	}
 }

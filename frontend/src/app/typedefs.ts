@@ -17,3 +17,14 @@ export interface INotification {
     datetime: Date
 }
 
+// example return object
+// {
+// 	"action": "results",
+// 	"ticker": "IBM",
+// 	"type":   "alph_overview",
+// 	"data":   {
+// 		"value1": "value1",
+// 		"value2": "value2",
+// 		"value3": "value3"
+// 	}
+// }
