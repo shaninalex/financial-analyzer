@@ -33,7 +33,7 @@ func InitClient(user_id string, mq *amqp.Connection, ch *amqp.Channel, ws *webso
 
 	err := ch.ExchangeDeclare(
 		fmt.Sprintf("ex.client.%s", client.ID), // name
-		"fanout",                               // type
+		"direct",                               // type
 		true,                                   // durable
 		false,                                  // auto-deleted
 		false,                                  // internal
