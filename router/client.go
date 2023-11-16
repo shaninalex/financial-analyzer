@@ -68,6 +68,14 @@ func InitClient(user_id string, mq *amqp.Connection, ch *amqp.Channel, ws *webso
 		nil,
 	)
 
+	client.MQChannel.QueueBind(
+		q.Name,                                 // name
+		fmt.Sprintf("client.%s.all", user_id),  // routing key
+		fmt.Sprintf("ex.client.%s", client.ID), // exchange name
+		false,
+		nil,
+	)
+
 	return client, nil
 }
 
