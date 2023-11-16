@@ -6,78 +6,88 @@ import (
 	"log"
 
 	"github.com/goccy/go-json"
+	"github.com/google/uuid"
 	"github.com/gorilla/websocket"
 	amqp "github.com/rabbitmq/amqp091-go"
 )
 
 type Client struct {
-	Conn         *websocket.Conn
-	Send         chan []byte
-	Id           string
-	Context      context.Context
-	CSearch      chan []byte
-	CProcess     chan []byte
-	CReport      chan []byte
+	ID           string
+	ClientId     string
 	MQConnection *amqp.Connection
 	MQChannel    *amqp.Channel
 	MQQueue      *amqp.Queue
+	WSConnection *websocket.Conn
+	Context      context.Context
 }
 
-func InitClient(connection *websocket.Conn, user_id string) (*Client, error) {
-
+func InitClient(user_id string, mq *amqp.Connection, ch *amqp.Channel, ws *websocket.Conn) (*Client, error) {
 	client := &Client{
-		Conn:     connection,
-		Send:     make(chan []byte),
-		Id:       user_id,
-		Context:  context.TODO(),
-		CSearch:  make(chan []byte),
-		CProcess: make(chan []byte),
-		CReport:  make(chan []byte),
+		ID:           user_id,
+		ClientId:     uuid.New().String(),
+		MQConnection: mq,
+		MQChannel:    ch,
+		WSConnection: ws,
+		Context:      context.TODO(),
 	}
 
-	mq_connection, err := connectToRabbitMQ(RABBITMQ_URL)
+	err := ch.ExchangeDeclare(
+		fmt.Sprintf("ex.client.%s", client.ID), // name
+		"direct",                               // type
+		true,                                   // durable
+		false,                                  // auto-deleted
+		false,                                  // internal
+		false,                                  // no-wait
+		nil,                                    // arguments
+	)
+
 	if err != nil {
+		log.Println(err)
 		return nil, err
 	}
 
-	ch, err := mq_connection.Channel()
-	if err != nil {
-		return nil, err
-	}
-
-	q, err := ch.QueueDeclare(
-		fmt.Sprintf("q_client-%s", client.Id), // name
-		true,                                  // durable
-		false,                                 // delete when unused
-		false,                                 // exclusive
-		false,                                 // no-wait
-		nil,                                   // arguments
+	q, err := client.MQChannel.QueueDeclare(
+		"",    // name
+		false, // durable
+		true,  // delete when unused
+		false, // exclusive
+		false, // no-wait
+		nil,   // arguments
 	)
 	if err != nil {
+		log.Println(err)
 		return nil, err
 	}
-	routing_key := fmt.Sprintf("client_%s", client.Id)
-	ch.QueueBind(q.Name, routing_key, "ex.datasource", false, nil)
-	ch.QueueBind(q.Name, routing_key, "ex.email", false, nil)
-	ch.QueueBind(q.Name, routing_key, "ex.notifications", false, nil)
-	ch.QueueBind(q.Name, routing_key, "ex.report", false, nil)
-	ch.QueueBind(q.Name, "", "ex.global.notifications", false, nil)
 
-	client.MQConnection = mq_connection
-	client.MQChannel = ch
 	client.MQQueue = &q
+	client.MQChannel.QueueBind(
+		q.Name, // name
+		fmt.Sprintf("client.%s__dev.%s", user_id, client.ClientId), // routing key
+		fmt.Sprintf("ex.client.%s", client.ID),                     // exchange name
+		false,
+		nil,
+	)
+
+	client.MQChannel.QueueBind(
+		q.Name,                                 // name
+		fmt.Sprintf("client.%s.all", user_id),  // routing key
+		fmt.Sprintf("ex.client.%s", client.ID), // exchange name
+		false,
+		nil,
+	)
+
 	return client, nil
 }
 
-func (c *Client) ConsumeRMQMessages() {
+func (c *Client) ConsumeMQ() {
 	msgs, err := c.MQChannel.Consume(
-		c.MQQueue.Name,  // queue
-		"client_router", // consumer
-		true,            // auto-ack
-		false,           // exclusive
-		false,           // no-local
-		false,           // no-wait
-		nil,             // args
+		c.MQQueue.Name, // queue
+		"",             // consumer
+		true,           // auto-ack
+		false,          // exclusive
+		false,          // no-local
+		false,          // no-wait
+		nil,            // args
 	)
 	if err != nil {
 		log.Println("Failed to register a consumer:")
@@ -86,36 +96,14 @@ func (c *Client) ConsumeRMQMessages() {
 
 	go func() {
 		for d := range msgs {
-			c.Send <- d.Body
-			log.Printf("Received a message: %s", d.Body)
+			c.WSConnection.WriteMessage(1, d.Body)
 		}
 	}()
 }
 
-func (c *Client) ListenChannels() {
-	defer func() {
-		c.Conn.Close()
-	}()
-
+func (c *Client) ConsumeFrontend() {
 	for {
-		select {
-		case message := <-c.CSearch:
-			c.triggerSearch(message)
-		case message := <-c.CProcess:
-			log.Printf("Init Process for %s\n", string(message))
-		case message := <-c.CReport:
-			log.Printf("Report generating for %s\n", string(message))
-
-		// send to frontend
-		case message := <-c.Send:
-			c.Conn.WriteMessage(1, message)
-		}
-	}
-}
-
-func (c *Client) ReadMessages() {
-	for {
-		_, message, err := c.Conn.ReadMessage()
+		_, message, err := c.WSConnection.ReadMessage()
 		if err != nil {
 			if websocket.IsUnexpectedCloseError(err, websocket.CloseGoingAway, websocket.CloseAbnormalClosure) {
 				log.Printf("error: %v", err)
@@ -131,11 +119,25 @@ func (c *Client) ReadMessages() {
 
 		switch action.Action {
 		case TickerActionTypeSearch:
-			c.CSearch <- []byte(message)
-		case TickerActionTypeProcess:
-			c.CProcess <- []byte(action.Ticker)
-		case TickerActionTypeReport:
-			c.CReport <- []byte(action.Ticker)
+			err := c.MQChannel.PublishWithContext(c.Context,
+				"ex.datasource", // exchange
+				"new_report",    // routing key
+				false,           // mandatory
+				false,           // immediate
+				amqp.Publishing{
+					ContentType: "application/json",
+					Body:        message,
+					Headers: amqp.Table{
+						"user_id":   c.ID,
+						"client_id": c.ClientId,
+					},
+				},
+			)
+			if err != nil {
+				log.Println(err)
+			} else {
+				log.Println("message published")
+			}
 		}
 	}
 }

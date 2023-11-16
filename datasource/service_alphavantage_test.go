@@ -10,7 +10,7 @@ import (
 // https://www.alphavantage.co/support/#api-key
 
 func TestAlphavantageServiceInitialization(t *testing.T) {
-	alphavantage := InitAlphavantage("demo")
+	alphavantage := InitAlphavantage("demo", false)
 	if alphavantage.API_URL != "https://www.alphavantage.co" {
 		t.Errorf("Expected alphavantage.API_URL to be 'https://alphavantage.co', but got %s", alphavantage.API_URL)
 	}
@@ -26,7 +26,7 @@ func TestAlphavantageServiceInitialization(t *testing.T) {
 }
 
 func TestAlphavantageOverview(t *testing.T) {
-	alphavantage := InitAlphavantage("demo")
+	alphavantage := InitAlphavantage("demo", false)
 	result, err := alphavantage.Overview("IBM")
 	if err != nil {
 		t.Errorf("Expected no error, but got %v", err)
@@ -40,7 +40,7 @@ func TestAlphavantageOverview(t *testing.T) {
 }
 
 func TestAlphavantageEarnings(t *testing.T) {
-	alphavantage := InitAlphavantage("demo")
+	alphavantage := InitAlphavantage("demo", false)
 	result, err := alphavantage.Earnings("IBM")
 	if err != nil {
 		t.Errorf("Expected no error, but got %v", err)
@@ -54,7 +54,7 @@ func TestAlphavantageEarnings(t *testing.T) {
 }
 
 func TestAlphavantageCashFlow(t *testing.T) {
-	alphavantage := InitAlphavantage("demo")
+	alphavantage := InitAlphavantage("demo", false)
 	result, err := alphavantage.CashFlow("IBM")
 	if err != nil {
 		t.Errorf("Expected no error, but got %v", err)

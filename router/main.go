@@ -32,23 +32,34 @@ func ServeWebsocket(user_id string, w http.ResponseWriter, r *http.Request) {
 		log.Println(err)
 		return
 	}
+	defer conn.Close()
 
-	client, err := InitClient(conn, user_id)
+	mq, err := connectToRabbitMQ(RABBITMQ_URL)
 	if err != nil {
 		log.Println(err)
 		return
 	}
 
-	go client.ReadMessages()
-	go client.ListenChannels()
-	go client.ConsumeRMQMessages()
+	ch, err := mq.Channel()
+	if err != nil {
+		log.Println(err)
+		return
+	}
 
-	// close(client.Send)
-	// close(client.CSearch)
-	// close(client.CProcess)
-	// close(client.CReport)
-	// defer client.MQConnection.Close()
-	// defer client.MQChannel.Close()
+	client, err := InitClient(user_id, mq, ch, conn)
+	if err != nil {
+		log.Println(err)
+		return
+	}
+
+	client.ConsumeMQ()
+	client.ConsumeFrontend()
+
+	defer func() {
+		log.Println("close channel and connection")
+		ch.Close()
+		mq.Close()
+	}()
 }
 
 func main() {

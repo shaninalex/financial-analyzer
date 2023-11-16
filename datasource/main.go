@@ -1,31 +1,43 @@
 package main
 
 import (
+	"log"
 	"os"
-	"strconv"
 )
 
 var (
-	APP_PORT     = os.Getenv("APP_PORT")
+	DEBUG        = os.Getenv("DEBUG") // "0" or "1"
 	GURU_API_KEY = os.Getenv("GURU_API_KEY")
 	ALPH_API_KEY = os.Getenv("ALPH_API_KEY")
 	RABBITMQ_URL = os.Getenv("RABBITMQ_URL")
 )
 
 func main() {
-	api, err := InitializeAPI(GURU_API_KEY, ALPH_API_KEY)
+
+	connection, err := connectToRabbitMQ(RABBITMQ_URL)
 	if err != nil {
 		panic(err)
 	}
 
-	defer api.MQConnection.Close()
-	defer api.MQChannel.Close()
-
-	go api.ConsumeRabbitMessages()
-
-	port, err := strconv.Atoi(APP_PORT)
+	channel, err := connection.Channel()
 	if err != nil {
 		panic(err)
 	}
-	api.Run(port)
+
+	if err != nil {
+		panic(err)
+	}
+
+	api, err := InitializeApplication(GURU_API_KEY, ALPH_API_KEY, connection, channel)
+	if err != nil {
+		panic(err)
+	}
+
+	api.ConsumeRabbitMessages()
+
+	defer func() {
+		log.Println("close channel and connection")
+		connection.Close()
+		channel.Close()
+	}()
 }
