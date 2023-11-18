@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { BehaviorSubject, Observable, map, of } from 'rxjs';
-import { WebsocketService } from 'src/app/services/websocket.service';
-import { ITickerAction } from 'src/app/typedefs';
+import { Observable } from 'rxjs';
+import { WebsocketService } from '../../services/websocket.service';
+import { ITickerAction } from '../../typedefs/global';
 
 @Component({
     selector: 'app-overview',

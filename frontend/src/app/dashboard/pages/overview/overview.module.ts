@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { OverviewComponent } from './overview.component';
 import { RouterModule, Routes } from '@angular/router';
-import { UiModule } from 'src/app/ui/ui.module';
+import { UiModule } from '../../ui/ui.module';
 import { NgIconsModule } from '@ng-icons/core';
 import { 
     iconoirArrowTr,

@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { AppState } from 'src/app/store';
-import { toggleMainSidebar } from 'src/app/store/ui/actions';
-import { UIState } from 'src/app/store/ui/reducer';
-import { selectMainSidebarVisible } from 'src/app/store/ui/selectors';
+import { AppState } from 'src/app/dashboard/store';
+import { toggleMainSidebar } from 'src/app/dashboard/store/ui/actions';
+import { selectMainSidebarVisible } from 'src/app/dashboard/store/ui/selectors';
 
 @Component({
     selector: 'app-page-actions',
