@@ -46,7 +46,8 @@ selfservice:
 
     verification:
       enabled: true
-      ui_url: http://127.0.0.1:4455/verification
+      # ui_url: http://127.0.0.1:4455/verification
+      ui_url: http://127.0.0.1:4200/auth/verification
       use: code
       after:
         default_browser_return_url: http://127.0.0.1:4200/app
