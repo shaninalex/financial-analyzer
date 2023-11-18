@@ -3,19 +3,19 @@ import { AppState } from '..';
 import { UIState } from './reducer';
 
 
-export const selectFeature = (state: AppState) => state.ui;
+export const selectUI = (state: any) => state.dashboard.ui;
 
 export const selectMainSidebarVisible = createSelector(
-    selectFeature,
+    selectUI,
     (state: UIState) => state.mainSidebar
 );
 
 export const selectNotificationSidebarVisible = createSelector(
-    selectFeature,
+    selectUI,
     (state: UIState) => state.notificationSidebar
 );
 
 export const selectDarkTheme = createSelector(
-    selectFeature,
+    selectUI,
     (state: UIState) => state.dark_theme
 );
