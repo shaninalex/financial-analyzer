@@ -26,7 +26,6 @@
   upstream:
     preserve_host: true
     url: "http://auth:8005"
-    strip_path: /api/v2/auth
   match:
     url: "http://127.0.0.1:8080/api/v2/auth/<**>"
     methods:

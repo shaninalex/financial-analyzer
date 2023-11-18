@@ -20,16 +20,16 @@ services:
       rabbitmq_post_initialize:
         condition: service_completed_successfully
 
-  notifications:
-    build: ./notifications
-    container_name: finapp_notifications
-    restart: on-failure
-    environment:
-      - RABBITMQ_URL=amqp://guest:guest@rabbitmq:5672/
-      - APP_PORT=8004
-    depends_on:
-      rabbitmq_post_initialize:
-        condition: service_completed_successfully
+  # notifications:
+  #   build: ./notifications
+  #   container_name: finapp_notifications
+  #   restart: on-failure
+  #   environment:
+  #     - RABBITMQ_URL=amqp://guest:guest@rabbitmq:5672/
+  #     - APP_PORT=8004
+  #   depends_on:
+  #     rabbitmq_post_initialize:
+  #       condition: service_completed_successfully
 
   datasource:
     build: ./datasource
@@ -69,11 +69,10 @@ services:
       - 8005:8005
     environment:
       - PORT=8005
-      - KRATOS_URL=http://kratos:4434
+      - KRATOS_URL=http://kratos:4433
       - RABBITMQ_URL=amqp://guest:guest@rabbitmq:5672/
     depends_on:
-      kratos:
-        condition: service_completed_successfully
+      - kratos
   
   postgres:
     image: postgres:15
