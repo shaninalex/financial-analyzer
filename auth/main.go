@@ -52,6 +52,21 @@ func main() {
 		ProxyResponse(c, resp)
 	})
 
+	router.GET("/api/v2/auth/get-verification-form", func(c *gin.Context) {
+		verification_flow_id := c.Query("flow")
+		_, resp, err := client.FrontendApi.GetVerificationFlow(c).Id(
+			verification_flow_id,
+		).Cookie(
+			c.Request.Header.Get("Cookie"),
+		).Execute()
+
+		if err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
+		}
+		ProxyResponse(c, resp)
+	})
+
 	router.Run(fmt.Sprintf(":%d", port))
 }
 

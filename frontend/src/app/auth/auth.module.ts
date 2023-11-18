@@ -6,6 +6,7 @@ import { AuthComponent } from './auth.component';
 import { AuthRoutingModule } from './auth-routing.module';
 import { AuthService } from './services/auth.service';
 import { HttpClientModule } from '@angular/common/http';
+import { VerificationComponent } from './pages/verification/verification.component';
 
 
 @NgModule({
@@ -13,6 +14,7 @@ import { HttpClientModule } from '@angular/common/http';
         RegisterComponent,
         LoginComponent,
         AuthComponent,
+        VerificationComponent,
     ],
     imports: [
         CommonModule,
