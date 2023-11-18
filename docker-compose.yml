@@ -61,6 +61,20 @@ services:
       rabbitmq_post_initialize:
         condition: service_completed_successfully
 
+  auth:
+    build: ./auth
+    container_name: finapp_auth
+    restart: on-failure
+    ports:
+      - 8005:8005
+    environment:
+      - PORT=8005
+      - KRATOS_URL=http://kratos:4434
+      - RABBITMQ_URL=amqp://guest:guest@rabbitmq:5672/
+    depends_on:
+      kratos:
+        condition: service_completed_successfully
+  
   postgres:
     image: postgres:15
     container_name: finapp_database
