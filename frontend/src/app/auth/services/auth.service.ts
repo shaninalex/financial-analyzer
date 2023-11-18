@@ -9,7 +9,7 @@ export class AuthService {
     constructor(private http: HttpClient) {}
 
     formGetRegistration(): Observable<RegistrationForm> {
-        return this.http.get<RegistrationForm>("http://127.0.0.1:8080/api/v2/auth/get-registration-form").pipe(
+        return this.http.get<RegistrationForm>("http://127.0.0.1:8080/api/v2/auth/get-registration-form", {withCredentials: true}).pipe(
             shareReplay()
         );
     }

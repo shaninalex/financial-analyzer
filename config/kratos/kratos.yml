@@ -49,17 +49,17 @@ selfservice:
       ui_url: http://127.0.0.1:4455/verification
       use: code
       after:
-        default_browser_return_url: http://127.0.0.1:4455/
+        default_browser_return_url: http://127.0.0.1:4200/app
 
     logout:
       after:
-        default_browser_return_url: http://127.0.0.1:4455/login
+        default_browser_return_url: http://127.0.0.1:4200/auth/login
 
     login:
       ui_url: http://127.0.0.1:4455/login
       lifespan: 10m
       after:
-        default_browser_return_url: http://127.0.0.1:4200
+        default_browser_return_url: http://127.0.0.1:4200/app
 
     registration:
       lifespan: 10m
