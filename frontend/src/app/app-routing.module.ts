@@ -3,20 +3,13 @@ import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
     {
-        path: "",
-        loadChildren: () => import('./pages/overview/overview.module').then(m => m.OverviewModule)
+        path: "auth", loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule)
     },
     {
-        path: "reports",
-        loadChildren: () => import('./pages/reports/reports.module').then(m => m.ReportsModule)
+        path: "app", loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule)
     },
     {
-        path: "subscription",
-        loadChildren: () => import('./pages/subscription/subscription.module').then(m => m.SubscriptionModule)
-    },
-    {
-        path: "profile",
-        loadChildren: () => import('./pages/profile/profile.module').then(m => m.ProfileModule)
+        path: "**", redirectTo: "auth"
     }
 ];
 

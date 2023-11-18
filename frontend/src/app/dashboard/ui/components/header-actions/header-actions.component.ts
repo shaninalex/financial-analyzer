@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { AppState } from 'src/app/store';
-import { toggleDarkTheme, toggleNotificationsSidebar } from 'src/app/store/ui/actions';
-import { selectDarkTheme, selectNotificationSidebarVisible } from 'src/app/store/ui/selectors';
+import { AppState } from 'src/app/dashboard/store';
+import { toggleDarkTheme, toggleNotificationsSidebar } from 'src/app/dashboard/store/ui/actions';
+import { selectDarkTheme, selectNotificationSidebarVisible } from 'src/app/dashboard/store/ui/selectors';
 
 @Component({
   selector: 'app-header-actions',

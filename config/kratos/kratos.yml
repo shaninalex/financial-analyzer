@@ -14,6 +14,7 @@ selfservice:
   default_browser_return_url: http://127.0.0.1:4455/
   allowed_return_urls:
     - http://127.0.0.1:4455
+    - http://127.0.0.1:4200
 
   methods:
     password:
@@ -57,6 +58,8 @@ selfservice:
     login:
       ui_url: http://127.0.0.1:4455/login
       lifespan: 10m
+      after:
+        default_browser_return_url: http://127.0.0.1:4200
 
     registration:
       lifespan: 10m
@@ -94,4 +97,4 @@ identity:
 
 courier:
   smtp:
-    connection_uri: smtps://test:test@mailslurper:1025/?skip_ssl_verify=true
+    connection_uri: smtp://70eea8bdd520e8:cbb16981743f88@sandbox.smtp.mailtrap.io:2525
