@@ -15,7 +15,7 @@ import { EffectsModule } from '@ngrx/effects';
         BrowserModule,
         BrowserAnimationsModule,
         AppRoutingModule,
-        StoreModule.forRoot({}, {}),
+        StoreModule.forRoot({}),
         EffectsModule.forRoot([]),
         StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() })
     ],

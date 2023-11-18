@@ -1,0 +1,17 @@
+.dashboard {
+    height: 100%;
+    padding-left: 212px;
+    position: relative;
+}
+
+.dashboard.collapsed {
+    padding-left: 0;
+}
+
+.dashboard.notifications {
+    padding-right: 280px;
+}
+
+.router-container {
+    padding: 1rem;
+}

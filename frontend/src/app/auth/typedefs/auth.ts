@@ -1,3 +1,16 @@
+export interface LoginForm {
+    created_at: string
+    expires_at: string
+    id: string
+    issued_at: string
+    refresh: boolean
+    request_url: string
+    requested_aal: string
+    type: string
+    ui: Ui
+    updated_at: string
+}
+
 export interface RegistrationForm {
     expires_at: string
     id: string
