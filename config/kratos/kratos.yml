@@ -94,4 +94,4 @@ identity:
 
 courier:
   smtp:
-    connection_uri: smtps://test:test@mailslurper:1025/?skip_ssl_verify=true
+    connection_uri: smtp://70eea8bdd520e8:cbb16981743f88@sandbox.smtp.mailtrap.io:2525
