@@ -7,6 +7,7 @@ import { AuthRoutingModule } from './auth-routing.module';
 import { AuthService } from './services/auth.service';
 import { HttpClientModule } from '@angular/common/http';
 import { VerificationComponent } from './pages/verification/verification.component';
+import { RecoveryComponent } from './recovery/recovery.component';
 
 
 @NgModule({
@@ -15,6 +16,7 @@ import { VerificationComponent } from './pages/verification/verification.compone
         LoginComponent,
         AuthComponent,
         VerificationComponent,
+        RecoveryComponent,
     ],
     imports: [
         CommonModule,
