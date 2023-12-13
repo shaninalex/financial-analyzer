@@ -1,12 +1,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RegisterComponent } from './pages/register/register.component';
-import { LoginComponent } from './pages/login/login.component';
+import { RegisterComponent } from './pages/register.component';
+import { LoginComponent } from './pages/login.component';
 import { AuthComponent } from './auth.component';
 import { AuthRoutingModule } from './auth-routing.module';
 import { HttpClientModule } from '@angular/common/http';
-import { VerificationComponent } from './pages/verification/verification.component';
-import { RecoveryComponent } from './pages/recovery/recovery.component';
+import { VerificationComponent } from './pages/verification.component';
+import { RecoveryComponent } from './pages/recovery.component';
+import { GeneratedFormComponent } from './components/generated-form/generated-form.component';
 
 
 @NgModule({
@@ -16,6 +17,7 @@ import { RecoveryComponent } from './pages/recovery/recovery.component';
         AuthComponent,
         VerificationComponent,
         RecoveryComponent,
+        GeneratedFormComponent,
     ],
     imports: [
         CommonModule,

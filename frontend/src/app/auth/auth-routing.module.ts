@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { LoginComponent } from './pages/login/login.component';
-import { RegisterComponent } from './pages/register/register.component';
+import { LoginComponent } from './pages/login.component';
+import { RegisterComponent } from './pages/register.component';
 import { AuthComponent } from './auth.component';
-import { VerificationComponent } from './pages/verification/verification.component';
-import { RecoveryComponent } from './pages/recovery/recovery.component';
+import { VerificationComponent } from './pages/verification.component';
+import { RecoveryComponent } from './pages/recovery.component';
 
 const routes: Routes = [{
   path: "",

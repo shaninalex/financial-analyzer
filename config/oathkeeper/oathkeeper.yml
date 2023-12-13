@@ -30,7 +30,7 @@ errors:
     redirect:
       enabled: true
       config:
-        to: http://localhost:4455/auth/login
+        to: http://localhost:4200/auth/login
         when:
           - error:
               - unauthorized
