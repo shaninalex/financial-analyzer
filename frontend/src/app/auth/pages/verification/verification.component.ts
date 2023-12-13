@@ -6,7 +6,6 @@ import { ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'app-verification',
   templateUrl: './verification.component.html',
-  styleUrls: ['./verification.component.css']
 })
 export class VerificationComponent {
     form$: Observable<any>;
@@ -14,7 +13,7 @@ export class VerificationComponent {
 
     constructor(private auth: AuthService, private route: ActivatedRoute) {
     }
-    
+
     ngOnInit(): void {
         this.route.queryParams.subscribe(data => {
             this.flow = data["flow"];

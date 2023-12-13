@@ -6,7 +6,6 @@ import { LoginForm } from '../../typedefs/auth';
 @Component({
     selector: 'app-login',
     templateUrl: './login.component.html',
-    styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
     form$: Observable<LoginForm>;

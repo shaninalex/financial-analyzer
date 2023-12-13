@@ -6,7 +6,6 @@ import { Observable } from 'rxjs';
 @Component({
     selector: 'app-register',
     templateUrl: './register.component.html',
-    styleUrls: ['./register.component.css']
 })
 export class RegisterComponent {
     form$: Observable<RegistrationForm>;
