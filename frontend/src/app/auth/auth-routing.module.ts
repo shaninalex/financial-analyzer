@@ -4,7 +4,7 @@ import { LoginComponent } from './pages/login/login.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { AuthComponent } from './auth.component';
 import { VerificationComponent } from './pages/verification/verification.component';
-import { RecoveryComponent } from './recovery/recovery.component';
+import { RecoveryComponent } from './pages/recovery/recovery.component';
 
 const routes: Routes = [{
   path: "",

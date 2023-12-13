@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../../services/auth.service';
 import { Observable } from 'rxjs';
 import { LoginForm } from '../../typedefs/auth';
+import { AuthService } from 'src/app/services/auth.service';
+
 
 @Component({
     selector: 'app-login',
@@ -13,6 +14,6 @@ export class LoginComponent implements OnInit {
     constructor(private auth: AuthService) { }
 
     ngOnInit(): void {
-        this.form$ = this.auth.formGetLogin();
+        this.form$ = this.auth.getLoginFlow();
     }
 }

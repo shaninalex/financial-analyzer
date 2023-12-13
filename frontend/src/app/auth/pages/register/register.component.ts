@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { AuthService } from '../../services/auth.service';
-import { RegistrationForm } from '../../typedefs/auth';
+import { AuthService } from 'src/app/services/auth.service';
+  import { RegistrationForm } from '../../typedefs/auth';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -13,6 +13,6 @@ export class RegisterComponent {
     constructor(private auth: AuthService) { }
 
     ngOnInit(): void {
-        this.form$ = this.auth.formGetRegistration();
+        this.form$ = this.auth.getRegistrationFlow();
     }
 }

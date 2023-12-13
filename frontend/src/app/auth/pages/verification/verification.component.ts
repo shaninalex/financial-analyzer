@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Observable } from 'rxjs';
-import { AuthService } from '../../services/auth.service';
+import { AuthService } from 'src/app/services/auth.service';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -17,7 +17,7 @@ export class VerificationComponent {
     ngOnInit(): void {
         this.route.queryParams.subscribe(data => {
             this.flow = data["flow"];
-            this.form$ = this.auth.formGetVerification(this.flow);
+            this.form$ = this.auth.getVerification(this.flow);
         });
     }
 }
