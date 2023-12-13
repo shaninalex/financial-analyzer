@@ -4,17 +4,16 @@ dsn: memory
 
 serve:
   public:
-    base_url: http://127.0.0.1:4433/
+    base_url: http://localhost:4433/
     cors:
       enabled: true
   admin:
     base_url: http://kratos:4434/
 
 selfservice:
-  default_browser_return_url: http://127.0.0.1:4455/
+  default_browser_return_url: http://localhost:4200/
   allowed_return_urls:
-    - http://127.0.0.1:4455
-    - http://127.0.0.1:4200
+    - http://localhost:4200
 
   methods:
     password:
@@ -29,38 +28,37 @@ selfservice:
       enabled: true
     code:
       enabled: true
-
+  
   flows:
     error:
-      ui_url: http://127.0.0.1:4455/error
+      ui_url: http://localhost:4200/error
 
     settings:
-      ui_url: http://127.0.0.1:4455/settings
+      ui_url: http://localhost:4200/settings
       privileged_session_max_age: 15m
       required_aal: highest_available
 
     recovery:
       enabled: true
-      ui_url: http://127.0.0.1:4455/recovery
+      ui_url: http://localhost:4200/auth/recovery
       use: code
 
     verification:
       enabled: true
-      # ui_url: http://127.0.0.1:4455/verification
-      ui_url: http://127.0.0.1:4200/auth/verification
+      ui_url: http://localhost:4200/auth/verification
       use: code
       after:
-        default_browser_return_url: http://127.0.0.1:4200/app
+        default_browser_return_url: http://localhost:4200/app
 
     logout:
       after:
-        default_browser_return_url: http://127.0.0.1:4200/auth/login
+        default_browser_return_url: http://localhost:4200/auth/login
 
     login:
-      ui_url: http://127.0.0.1:4455/login
+      ui_url: http://localhost:4200/auth/login
       lifespan: 10m
       after:
-        default_browser_return_url: http://127.0.0.1:4200/app
+        default_browser_return_url: http://localhost:4200/app
 
     registration:
       lifespan: 10m
@@ -98,4 +96,4 @@ identity:
 
 courier:
   smtp:
-    connection_uri: smtp://70eea8bdd520e8:cbb16981743f88@sandbox.smtp.mailtrap.io:2525
+    connection_uri: smtps://test:test@mailslurper:1025/?skip_ssl_verify=true
