@@ -10,9 +10,7 @@ export class WebsocketService {
     public messages: BehaviorSubject<any> = new BehaviorSubject("");
 
     constructor() {
-        this.socket.onopen = (event: Event) => {
-            console.log(event);
-        }
+        this.socket.onopen = (event: Event) => {}
 
         this.socket.onmessage = (event: Event) => {
             this.messages.next(event);
