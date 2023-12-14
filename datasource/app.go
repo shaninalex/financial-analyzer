@@ -136,17 +136,17 @@ func (app *App) GatheringInformation(action TickerAction, user_id string, client
 		app.PublishResults(overview, user_id, client_id, "alph_overview", action.Ticker)
 	}
 
-	// cashflow, err := app.Datasource.Alphavantage.CashFlow(action.Ticker)
-	// if err != nil {
-	// 	log.Printf("Unable to get Alphavantage.CashFlow for \"%s\". Error: %v", action.Ticker, err)
-	// } else {
-	// 	app.PublishResults(cashflow, user_id, client_id, "alph_cashflow", action.Ticker)
-	// }
+	cashflow, err := app.Datasource.Alphavantage.CashFlow(action.Ticker)
+	if err != nil {
+		log.Printf("Unable to get Alphavantage.CashFlow for \"%s\". Error: %v", action.Ticker, err)
+	} else {
+		app.PublishResults(cashflow, user_id, client_id, "alph_cashflow", action.Ticker)
+	}
 
-	// earnings, err := app.Datasource.Alphavantage.Earnings(action.Ticker)
-	// if err != nil {
-	// 	log.Printf("Unable to get Alphavantage.Earnings for \"%s\". Error: %v", action.Ticker, err)
-	// } else {
-	// 	app.PublishResults(earnings, user_id, client_id, "alph_earnings", action.Ticker)
-	// }
+	earnings, err := app.Datasource.Alphavantage.Earnings(action.Ticker)
+	if err != nil {
+		log.Printf("Unable to get Alphavantage.Earnings for \"%s\". Error: %v", action.Ticker, err)
+	} else {
+		app.PublishResults(earnings, user_id, client_id, "alph_earnings", action.Ticker)
+	}
 }
