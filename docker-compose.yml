@@ -6,30 +6,16 @@ volumes:
   rabbitmq_data:
 
 services:
-
-  accounts:
-    build: ./accounts
-    container_name: finapp_accounts
+  notifications:
+    build: ./notifications
+    container_name: finapp_notifications
     restart: on-failure
-    ports:
-      - 8001:8001
     environment:
-      - APP_PORT=8001
-      - RABBITMQ_URL=amqp://guest:guest@rabbitmq:5672/
+      - RABBITMQ_URL=${RABBITMQ_URL}
+      - APP_PORT=8004
     depends_on:
       rabbitmq_post_initialize:
         condition: service_completed_successfully
-
-  # notifications:
-  #   build: ./notifications
-  #   container_name: finapp_notifications
-  #   restart: on-failure
-  #   environment:
-  #     - RABBITMQ_URL=amqp://guest:guest@rabbitmq:5672/
-  #     - APP_PORT=8004
-  #   depends_on:
-  #     rabbitmq_post_initialize:
-  #       condition: service_completed_successfully
 
   datasource:
     build: ./datasource
@@ -42,7 +28,7 @@ services:
       - APP_PORT=8002
       - GURU_API_KEY=${GURUFOCUS_API_KEY}
       - ALPH_API_KEY=${ALPHAVANTAGE_API_KEY}
-      - RABBITMQ_URL=amqp://guest:guest@rabbitmq:5672/
+      - RABBITMQ_URL=${RABBITMQ_URL}
     depends_on:
       rabbitmq_post_initialize:
         condition: service_completed_successfully
@@ -55,32 +41,32 @@ services:
       - 8003:8003
     environment:
       - APP_PORT=8003
-      - KRATOS_URL=http://kratos:4434
-      - RABBITMQ_URL=amqp://guest:guest@rabbitmq:5672/
+      - KRATOS_URL=${KRATOS_URL}
+      - RABBITMQ_URL=${RABBITMQ_URL}
     depends_on:
       rabbitmq_post_initialize:
         condition: service_completed_successfully
 
-  auth:
-    build: ./auth
-    container_name: finapp_auth
+  kratos_proxy:
+    image: shanart/m-kratos-forms-proxy:latest
     restart: on-failure
     ports:
-      - 8005:8005
+      - ${KRATOS_PROXY_PORT}:${KRATOS_PROXY_PORT}
     environment:
-      - PORT=8005
-      - KRATOS_URL=http://kratos:4433
-      - RABBITMQ_URL=amqp://guest:guest@rabbitmq:5672/
+      - PORT=${KRATOS_PROXY_PORT}
+      - KRATOS_URL=${KRATOS_URL}
     depends_on:
       - kratos
-  
+
+  # #######################
+  # INFRASTRUCTURE
   postgres:
     image: postgres:15
     container_name: finapp_database
     environment:
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      - POSTGRES_MULTIPLE_DATABASES=${POSTGRES_DATABASE_NAME},kratos
+      - POSTGRES_MULTIPLE_DATABASES=${POSTGRES_DATABASE_NAME},${POSTGRES_KRATOS_DATABASE}
     ports:
       - 5432:5432
     volumes:
@@ -92,20 +78,12 @@ services:
       timeout: 5s
       retries: 5
 
-  kratos-migrate:
-    image: oryd/kratos:v1.0.0
-    container_name: finapp_kratos_db_migrate
-    environment:
-      - DSN=postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:5432/kratos?sslmode=disable&max_conns=20&max_idle_conns=4
-    volumes:
-      - ./config/kratos:/etc/config/kratos
-    command: -c /etc/config/kratos/kratos.yml migrate sql -e --yes
-
   kratos:
     image: oryd/kratos:v1.0.0
     container_name: finapp_kratos
     environment:
-      - DSN=postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:5432/kratos?sslmode=disable&max_conns=20&max_idle_conns=4
+      - DSN=${DSN}
+      - COURIER_SMTP_CONNECTION_URI=${COURIER_SMTP_CONNECTION_URI} 
     ports:
       - 4433:4433
       - 4434:4434
@@ -128,16 +106,6 @@ services:
     volumes:
       - ./config/oathkeeper:/etc/config/oathkeeper
 
-  kratos-selfservice-ui-node:
-    image: oryd/kratos-selfservice-ui-node:v1.0.0
-    container_name: finapp_kratos_ui
-    environment:
-      - PORT=4455
-      - KRATOS_PUBLIC_URL=http://kratos:4433/
-      - KRATOS_BROWSER_URL=http://127.0.0.1:4433/
-    ports:
-      - 4455:4455
-
   rabbitmq:
     image: rabbitmq:3-management-alpine
     container_name: finapp_rabbitmq
@@ -152,6 +120,8 @@ services:
       timeout: 5s
       retries: 3
 
+  # #######################
+  # INITIALIZETIONS SCRIPTS
   rabbitmq_post_initialize:
     build: ./config/rabbitmq
     container_name: finapp_rabbitmq_post_initialize
@@ -161,3 +131,13 @@ services:
     depends_on:
       rabbitmq:
         condition: service_healthy
+
+  kratos-migrate:
+    image: oryd/kratos:v1.0.0
+    container_name: finapp_kratos_db_migrate
+    environment:
+      - DSN=${DSN}
+    volumes:
+      - ./config/kratos:/etc/config/kratos
+    command: -c /etc/config/kratos/kratos.yml migrate sql -e --yes
+

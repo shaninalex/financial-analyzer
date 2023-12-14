@@ -1,11 +1,9 @@
-<div class="dashboard"
-    [ngClass]="{'collapsed': !(mainSidebarCollapsed | async), 'notifications': (notificationSidebarVisible | async)}">
-    <app-sidebar *ngIf="(mainSidebarCollapsed | async)"></app-sidebar>
-    <div class="dashboard-container">
+<div class="d-flex vh-100">
+    <app-sidebar></app-sidebar>
+    <div class="flex-grow-1">
         <app-header></app-header>
-        <div class="router-container">
+        <div class="container-fluid">
             <router-outlet></router-outlet>
         </div>
     </div>
-    <app-notifications-sidebar *ngIf="(notificationSidebarVisible | async)"></app-notifications-sidebar>
 </div>
