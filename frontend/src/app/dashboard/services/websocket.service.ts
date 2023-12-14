@@ -1,13 +1,14 @@
 import { Injectable } from "@angular/core";
 import { BehaviorSubject } from "rxjs";
+import { environment } from "src/environments/environment.development";
 
 @Injectable({
     providedIn: "root"
 })
 export class WebsocketService {
-    private socket = new WebSocket("ws://127.0.0.1:8080/ws");
+    private socket = new WebSocket(environment.WEBSOCKET_ADDRESS);
     public messages: BehaviorSubject<any> = new BehaviorSubject("");
-    
+
     constructor() {
         this.socket.onopen = (event: Event) => {
             console.log(event);
