@@ -1,4 +1,4 @@
-package main
+package typedefs
 
 type TickerActionType string
 

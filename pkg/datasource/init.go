@@ -1,21 +1,12 @@
-package main
+package datasource
 
 import (
 	"log"
-	"os"
 
 	rabbitmq "github.com/shaninalex/financial-analyzer/internal/rabbitmq"
 )
 
-var (
-	DEBUG        = os.Getenv("DEBUG") // "0" or "1"
-	GURU_API_KEY = os.Getenv("GURU_API_KEY")
-	ALPH_API_KEY = os.Getenv("ALPH_API_KEY")
-	RABBITMQ_URL = os.Getenv("RABBITMQ_URL")
-)
-
-func main() {
-
+func Init(GURU_API_KEY, ALPH_API_KEY, RABBITMQ_URL string) {
 	connection, err := rabbitmq.ConnectToRabbitMQ(RABBITMQ_URL)
 	if err != nil {
 		panic(err)
@@ -30,7 +21,7 @@ func main() {
 		panic(err)
 	}
 
-	api, err := InitializeApplication(GURU_API_KEY, ALPH_API_KEY, connection, channel)
+	api, err := InitializeApplication(GURU_API_KEY, ALPH_API_KEY, connection, channel, RABBITMQ_URL)
 	if err != nil {
 		panic(err)
 	}

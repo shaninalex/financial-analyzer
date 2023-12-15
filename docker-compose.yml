@@ -6,35 +6,9 @@ volumes:
   rabbitmq_data:
 
 services:
-  notifications:
-    build: ./notifications
-    container_name: finapp_notifications
-    restart: on-failure
-    environment:
-      - RABBITMQ_URL=${RABBITMQ_URL}
-      - APP_PORT=8004
-    depends_on:
-      rabbitmq_post_initialize:
-        condition: service_completed_successfully
-
-  datasource:
-    build: ./datasource
-    container_name: finapp_datasource
-    restart: on-failure
-    ports:
-      - 8002:8002
-    environment:
-      - DEBUG=1
-      - APP_PORT=8002
-      - GURU_API_KEY=${GURUFOCUS_API_KEY}
-      - ALPH_API_KEY=${ALPHAVANTAGE_API_KEY}
-      - RABBITMQ_URL=${RABBITMQ_URL}
-    depends_on:
-      rabbitmq_post_initialize:
-        condition: service_completed_successfully
 
   router:
-    build: ./router
+    build: ./
     container_name: finapp_router
     restart: on-failure
     ports:

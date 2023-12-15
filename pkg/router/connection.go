@@ -1,11 +1,9 @@
-package main
+package router
 
 import (
-	"fmt"
 	"log"
 	"net/http"
 	"os"
-	"strconv"
 
 	"github.com/gorilla/websocket"
 	"github.com/shaninalex/financial-analyzer/internal/rabbitmq"
@@ -60,28 +58,4 @@ func ServeWebsocket(user_id string, w http.ResponseWriter, r *http.Request) {
 		ch.Close()
 		mq.Close()
 	}()
-}
-
-func main() {
-
-	http.HandleFunc("/ws", func(w http.ResponseWriter, r *http.Request) {
-		userID := r.Header.Get("X-User")
-		if userID == "" {
-			http.Error(w, "user id is empty", http.StatusUnauthorized)
-			return
-		}
-		ServeWebsocket(userID, w, r)
-	})
-
-	port, err := strconv.Atoi(os.Getenv("APP_PORT"))
-	if err != nil {
-		panic(err)
-	}
-
-	addr := fmt.Sprintf(":%d", port)
-	fmt.Printf("Server is running on http://localhost%s\n", addr)
-	err = http.ListenAndServe(addr, nil)
-	if err != nil {
-		panic(err)
-	}
 }

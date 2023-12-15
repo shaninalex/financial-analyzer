@@ -1,4 +1,4 @@
-package main
+package notifications
 
 import (
 	"os"
@@ -31,7 +31,9 @@ type App struct {
 
 func InitApplication() (*App, error) {
 	conn, err := rabbitmq.ConnectToRabbitMQ(RABBITMQ_URL)
-	failOnError(err)
+	if err != nil {
+		return nil, err
+	}
 
 	app := &App{
 		Conn: conn,

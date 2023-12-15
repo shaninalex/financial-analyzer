@@ -1,4 +1,4 @@
-package main
+package datasource
 
 type TickerAction struct {
 	Ticker string `json:"ticker"`

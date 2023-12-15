@@ -1,4 +1,4 @@
-package main
+package datasource
 
 import (
 	"context"
@@ -16,14 +16,16 @@ type App struct {
 	Datasource   *Datasource
 	MQConnection *amqp.Connection
 	MQChannel    *amqp.Channel
+	RabbitmqUrl  string
 }
 
-func InitializeApplication(gfAppKey, alphAppKey string, connection *amqp.Connection, channel *amqp.Channel) (*App, error) {
+func InitializeApplication(gfAppKey, alphAppKey string, connection *amqp.Connection, channel *amqp.Channel, RABBITMQ_URL string) (*App, error) {
 	app := &App{
 		Context:      context.TODO(),
 		Datasource:   InitializeDatasource(gfAppKey, alphAppKey, true),
 		MQConnection: connection,
 		MQChannel:    channel,
+		RabbitmqUrl:  RABBITMQ_URL,
 	}
 
 	return app, nil
@@ -40,17 +42,10 @@ func (app *App) ConsumeRabbitMessages() {
 		nil,                  // args
 	)
 	if err != nil {
-		log.Println("Failed to register a consumer:")
-		log.Println(err)
+		log.Println("Failed to register a consumer.", err)
 	}
 
 	for d := range msgs {
-		log.Printf("Message Body: %s", d.Body)
-
-		// {
-		// 	"ticker": "IBM",
-		// 	"action": "new_report"
-		// }
 		if d.RoutingKey == "new_report" {
 			var action TickerAction
 			err := json.Unmarshal(d.Body, &action)
@@ -58,8 +53,6 @@ func (app *App) ConsumeRabbitMessages() {
 				log.Printf("Unable to unmarshal action: %s. Error: %v", d.Body, err)
 				continue
 			}
-			log.Println(string(d.Body))
-			log.Println(d.Headers)
 			app.GatheringInformation(
 				action,
 				d.Headers["user_id"].(string),
@@ -67,7 +60,6 @@ func (app *App) ConsumeRabbitMessages() {
 			)
 		}
 	}
-
 }
 
 func (app *App) PublishResults(message any, user_id string, client_id string, message_type string, ticker string) {
@@ -107,7 +99,7 @@ func (app *App) PublishResults(message any, user_id string, client_id string, me
 func (app *App) reconnectToRabbitMQ() error {
 	if app.MQConnection.IsClosed() {
 		log.Println("Reconnect to rabbitmq")
-		connection, err := rabbitmq.ConnectToRabbitMQ(RABBITMQ_URL)
+		connection, err := rabbitmq.ConnectToRabbitMQ(app.RabbitmqUrl)
 		if err != nil {
 			return err
 		}

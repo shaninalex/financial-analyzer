@@ -1,4 +1,4 @@
-package main
+package router
 
 import (
 	"context"
@@ -9,6 +9,7 @@ import (
 	"github.com/google/uuid"
 	"github.com/gorilla/websocket"
 	amqp "github.com/rabbitmq/amqp091-go"
+	"github.com/shaninalex/financial-analyzer/internal/typedefs"
 )
 
 type Client struct {
@@ -111,14 +112,14 @@ func (c *Client) ConsumeFrontend() {
 			break
 		}
 
-		var action ITickerAction
+		var action typedefs.ITickerAction
 		if err := json.Unmarshal(message, &action); err != nil {
 			log.Printf("error: %v", err)
 			break
 		}
 
 		switch action.Action {
-		case TickerActionTypeSearch:
+		case typedefs.TickerActionTypeSearch:
 			err := c.MQChannel.PublishWithContext(c.Context,
 				"ex.datasource", // exchange
 				"new_report",    // routing key
