@@ -3,6 +3,8 @@ package main
 import (
 	"log"
 	"os"
+
+	rabbitmq "github.com/shaninalex/financial-analyzer/internal/rabbitmq"
 )
 
 var (
@@ -14,7 +16,7 @@ var (
 
 func main() {
 
-	connection, err := connectToRabbitMQ(RABBITMQ_URL)
+	connection, err := rabbitmq.ConnectToRabbitMQ(RABBITMQ_URL)
 	if err != nil {
 		panic(err)
 	}

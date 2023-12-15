@@ -1,4 +1,4 @@
-package main
+package rabbitmq
 
 import (
 	"log"
@@ -8,7 +8,7 @@ import (
 	amqp "github.com/rabbitmq/amqp091-go"
 )
 
-func connectToRabbitMQ(connectionString string) (*amqp.Connection, error) {
+func ConnectToRabbitMQ(connectionString string) (*amqp.Connection, error) {
 	var counts int64
 	var backOff = 1 * time.Second
 	var connection *amqp.Connection
@@ -36,10 +36,4 @@ func connectToRabbitMQ(connectionString string) (*amqp.Connection, error) {
 	}
 
 	return connection, nil
-}
-
-func failOnError(err error) {
-	if err != nil {
-		log.Panicf("%s", err)
-	}
 }

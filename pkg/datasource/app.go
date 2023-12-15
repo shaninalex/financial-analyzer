@@ -6,14 +6,14 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/gin-gonic/gin"
 	amqp "github.com/rabbitmq/amqp091-go"
+
+	rabbitmq "github.com/shaninalex/financial-analyzer/internal/rabbitmq"
 )
 
 type App struct {
 	Context      context.Context
 	Datasource   *Datasource
-	Router       *gin.Engine
 	MQConnection *amqp.Connection
 	MQChannel    *amqp.Channel
 }
@@ -22,7 +22,6 @@ func InitializeApplication(gfAppKey, alphAppKey string, connection *amqp.Connect
 	app := &App{
 		Context:      context.TODO(),
 		Datasource:   InitializeDatasource(gfAppKey, alphAppKey, true),
-		Router:       gin.Default(),
 		MQConnection: connection,
 		MQChannel:    channel,
 	}
@@ -108,7 +107,7 @@ func (app *App) PublishResults(message any, user_id string, client_id string, me
 func (app *App) reconnectToRabbitMQ() error {
 	if app.MQConnection.IsClosed() {
 		log.Println("Reconnect to rabbitmq")
-		connection, err := connectToRabbitMQ(RABBITMQ_URL)
+		connection, err := rabbitmq.ConnectToRabbitMQ(RABBITMQ_URL)
 		if err != nil {
 			return err
 		}

@@ -7,8 +7,8 @@ import (
 	"os"
 	"strconv"
 
-	"github.com/gin-gonic/gin"
 	"github.com/gorilla/websocket"
+	"github.com/shaninalex/financial-analyzer/internal/rabbitmq"
 )
 
 var (
@@ -34,7 +34,7 @@ func ServeWebsocket(user_id string, w http.ResponseWriter, r *http.Request) {
 	}
 	defer conn.Close()
 
-	mq, err := connectToRabbitMQ(RABBITMQ_URL)
+	mq, err := rabbitmq.ConnectToRabbitMQ(RABBITMQ_URL)
 	if err != nil {
 		log.Println(err)
 		return
@@ -64,19 +64,24 @@ func ServeWebsocket(user_id string, w http.ResponseWriter, r *http.Request) {
 
 func main() {
 
-	router := gin.Default()
-	router.GET("/ws", func(c *gin.Context) {
-		user_id := c.Request.Header.Get("X-User")
-		if user_id == "" {
-			c.JSON(http.StatusUnauthorized, gin.H{"message": "user id is empty"})
+	http.HandleFunc("/ws", func(w http.ResponseWriter, r *http.Request) {
+		userID := r.Header.Get("X-User")
+		if userID == "" {
+			http.Error(w, "user id is empty", http.StatusUnauthorized)
 			return
 		}
-		ServeWebsocket(user_id, c.Writer, c.Request)
+		ServeWebsocket(userID, w, r)
 	})
 
 	port, err := strconv.Atoi(os.Getenv("APP_PORT"))
 	if err != nil {
 		panic(err)
 	}
-	router.Run(fmt.Sprintf(":%d", port))
+
+	addr := fmt.Sprintf(":%d", port)
+	fmt.Printf("Server is running on http://localhost%s\n", addr)
+	err = http.ListenAndServe(addr, nil)
+	if err != nil {
+		panic(err)
+	}
 }
