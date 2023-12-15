@@ -13,11 +13,12 @@ var (
 	GURU_API_KEY = os.Getenv("GURU_API_KEY")
 	ALPH_API_KEY = os.Getenv("ALPH_API_KEY")
 	RABBITMQ_URL = os.Getenv("RABBITMQ_URL")
+	APP_PORT     = os.Getenv("APP_PORT")
 )
 
 func main() {
 
-	port, err := strconv.Atoi(os.Getenv("APP_PORT"))
+	port, err := strconv.Atoi(APP_PORT)
 	if err != nil {
 		panic(err)
 	}
