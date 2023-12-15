@@ -27,6 +27,6 @@ func main() {
 	web.Websocket(port)
 
 	// initialize datasource
-	go datasource.Init(GURU_API_KEY, ALPH_API_KEY, RABBITMQ_URL)
+	datasource.Init(GURU_API_KEY, ALPH_API_KEY, RABBITMQ_URL)
 
 }
