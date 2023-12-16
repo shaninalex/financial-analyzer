@@ -7,11 +7,13 @@ import { selectFinancialsChartData } from "src/app/dashboard/store/report/select
 @Component({
     selector: "financials-chart",
     host: { "class": "col-md-6" },
-    template: `<div *ngIf="financialsChart" class="card mb-4 overflow-y-scroll">
-        <div class="card-body">
-            <div [chart]="financialsChart"></div>
+    template: `@if (financialsChart) {
+        <div class="card mb-4 overflow-y-scroll">
+            <div class="card-body">
+                <div [chart]="financialsChart"></div>
+            </div>
         </div>
-    </div>`
+    }`
 })
 export class FinancialsChartComponent {
     financialsChart: Chart;

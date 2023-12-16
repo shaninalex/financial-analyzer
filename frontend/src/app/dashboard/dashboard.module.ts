@@ -22,7 +22,7 @@ import { dashboardReducer } from './store';
         UiModule,
         StoreModule.forFeature("dashboard", dashboardReducer),
         EffectsModule.forFeature([UIEffects]),
-        StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() })
+        StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() , connectInZone: true})
     ]
 })
 export class DashboardModule { }
