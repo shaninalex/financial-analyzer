@@ -4,13 +4,4 @@ import { Component } from '@angular/core';
     selector: 'app-root',
     templateUrl: './app.component.html'
 })
-export class AppComponent {
-    
-    constructor() {
-        console.log("app component constructor");
-    }
-
-    ngOnInit(): void {
-        console.log("app component ngOnInit");
-    }
-}
+export class AppComponent {}

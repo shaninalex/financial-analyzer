@@ -8,12 +8,11 @@ import { selectMainSidebarVisible, selectNotificationSidebarVisible } from './st
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent {
     mainSidebarCollapsed: Observable<boolean>;
     notificationSidebarVisible: Observable<boolean>;
-    
+
     constructor(
         private socket: WebsocketService,
         private store: Store<AppState>

@@ -1,32 +1,19 @@
-<div class="dashboard-sidebar">
-    <div class="logo">
-        <img src="/assets/logo.svg" alt="">
-        FinApp
-    </div>
+<aside class="d-flex flex-column justify-content-between h-100 bg-body-tertiary">
+  <ul class="nav flex-column">
+    <li class="nav-item">
+      <a class="nav-link" routerLink="/app" routerLinkActive="active">Overview</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" routerLink="/app/reports" routerLinkActive="active">Reports</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" routerLink="/app/subscription" routerLinkActive="active">Subscription</a>
+    </li>
+  </ul>
 
-    <div class="nav-main">
-        <nav>
-            <a routerLink="">
-                <ng-icon name="iconoirHome"></ng-icon>
-                Overview
-            </a>
-            <a routerLink="reports">
-                <ng-icon name="iconoirPageSearch"></ng-icon>
-                Reports
-            </a>
-            <a routerLink="subscription">
-                <ng-icon name="iconoirWallet"></ng-icon>
-                Subscription
-            </a>
-        </nav>
-    </div>
-
-    <div>
-        <nav>
-            <a routerLink="profile">
-                <ng-icon name="iconoirUser"></ng-icon>
-                Profile
-            </a>
-        </nav>
-    </div>
-</div>
+  <ul class="nav flex-column">
+    <li class="nav-item">
+      <a class="nav-link" routerLink="profile">Profile</a>
+    </li>
+  </ul>
+</aside>
