@@ -10,7 +10,31 @@ import (
 
 	rabbitmq "github.com/shaninalex/financial-analyzer/internal/rabbitmq"
 	"github.com/shaninalex/financial-analyzer/internal/typedefs"
+	"github.com/shaninalex/financial-analyzer/pkg/datasource/data"
 )
+
+type ReportDataFunction func(provider interface{}, ticker string) (*interface{}, error)
+
+var ReportData = []ReportDataFunction{
+	func(provider interface{}, ticker string) (*interface{}, error) {
+		return provider.(*data.GuruFocus).Summary(ticker)
+	},
+	func(provider interface{}, ticker string) (*interface{}, error) {
+		return provider.(*data.GuruFocus).Financials(ticker)
+	},
+	func(provider interface{}, ticker string) (*interface{}, error) {
+		return provider.(*data.GuruFocus).Dividends(ticker)
+	},
+	func(provider interface{}, ticker string) (*interface{}, error) {
+		return provider.(*data.Alphavantage).Overview(ticker)
+	},
+	func(provider interface{}, ticker string) (*interface{}, error) {
+		return provider.(*data.Alphavantage).Earnings(ticker)
+	},
+	func(provider interface{}, ticker string) (*interface{}, error) {
+		return provider.(*data.Alphavantage).CashFlow(ticker)
+	},
+}
 
 type App struct {
 	Context      context.Context
@@ -121,24 +145,12 @@ func (app *App) reconnectToRabbitMQ() error {
 }
 
 func (app *App) GatheringInformation(action typedefs.ITickerAction, user_id string, client_id string) {
-	overview, err := app.Datasource.Alphavantage.Overview(action.Ticker)
-	if err != nil {
-		log.Printf("Unable to get Alphavantage.Overview for \"%s\". Error: %v", action.Ticker, err)
-	} else {
-		app.PublishResults(overview, user_id, client_id, "alph_overview", action.Ticker)
-	}
-
-	cashflow, err := app.Datasource.Alphavantage.CashFlow(action.Ticker)
-	if err != nil {
-		log.Printf("Unable to get Alphavantage.CashFlow for \"%s\". Error: %v", action.Ticker, err)
-	} else {
-		app.PublishResults(cashflow, user_id, client_id, "alph_cashflow", action.Ticker)
-	}
-
-	earnings, err := app.Datasource.Alphavantage.Earnings(action.Ticker)
-	if err != nil {
-		log.Printf("Unable to get Alphavantage.Earnings for \"%s\". Error: %v", action.Ticker, err)
-	} else {
-		app.PublishResults(earnings, user_id, client_id, "alph_earnings", action.Ticker)
+	for _, f := range ReportData {
+		data, err := f(app.Datasource.Alphavantage, action.Ticker)
+		if err != nil {
+			log.Printf("Unable to get Alphavantage.Overview for \"%s\". Error: %v", action.Ticker, err)
+		} else {
+			app.PublishResults(data, user_id, client_id, "alph_overview", action.Ticker)
+		}
 	}
 }
