@@ -14,25 +14,32 @@ export class OverviewComponent {
     tickerForm: FormGroup = new FormGroup({
         "ticker": new FormControl("IBM", [Validators.required])
     })
-    messageHub$: Observable<any>;
-    overview: any;
-    cashflow: any;
-    earnings: any;
+    summary: any;
+    financials: any;
+    dividend: any;
+    price: any;
+    keyratios: any;
 
     constructor(private socket: WebsocketService) {
         this.socket.messages.subscribe({
-            next: data => {
-                if (data) {
-                    const res = JSON.parse(data.data);
-                    switch(res.type) {
-                        case "alph_overview":
-                            this.overview = res;
+            next: payload => {
+                console.log(payload);
+                if (payload) {
+                    switch(payload.type) {
+                        case "summary":
+                            this.summary = payload.data;
                             break;
-                        case "alph_cashflow":
-                            this.cashflow = res;
+                        case "financials":
+                            this.financials = payload.data;
                             break;
-                        case "alph_earnings":
-                            this.earnings = res;
+                        case "dividend":
+                            this.dividend = payload.data;
+                            break;
+                        case "price":
+                            this.price = payload.data;
+                            break;
+                        case "keyratios":
+                            this.keyratios = payload.data;
                             break;
                     }
                 }

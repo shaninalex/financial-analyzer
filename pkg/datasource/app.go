@@ -83,10 +83,12 @@ func (app *App) ConsumeRabbitMessages() {
 
 func (app *App) PublishResults(message any, user_id string, client_id string, message_type string, ticker string) {
 	comp_message, _ := json.Marshal(map[string]interface{}{
-		"action": "results",
-		"ticker": ticker,
-		"type":   message_type,
-		"data":   message,
+		"action": "data_result",
+		"payload": map[string]interface{}{
+			"ticker": ticker,
+			"type":   message_type,
+			"data":   message,
+		},
 	})
 
 	routing_key := fmt.Sprintf("client.%s__dev.%s", user_id, client_id)

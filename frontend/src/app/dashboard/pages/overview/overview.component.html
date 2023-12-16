@@ -10,6 +10,32 @@
   </div>
 </form>
 
-<div *ngIf="overview" class="mb-4">{{ overview | json }}</div>
-<div *ngIf="cashflow" class="mb-4">{{ cashflow | json }}</div>
-<div *ngIf="earnings" class="mb-4">{{ earnings | json }}</div>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-6">
+      <div *ngIf="summary" class="card mb-4 overflow-y-scroll" style="height: 300px;">
+        <div class="card-body">{{ summary | json }}</div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div *ngIf="financials" class="card mb-4 overflow-y-scroll" style="height: 300px;">
+        <div class="card-body">{{ financials | json }}</div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div *ngIf="dividend" class="card mb-4 overflow-y-scroll" style="height: 300px;">
+        <div class="card-body">{{ dividend | json }}</div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div *ngIf="price" class="card mb-4 overflow-y-scroll" style="height: 300px;">
+        <div class="card-body">{{ price | json }}</div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div *ngIf="keyratios" class="card mb-4 overflow-y-scroll" style="height: 300px;">
+        <div class="card-body">{{ keyratios | json }}</div>
+      </div>
+    </div>
+  </div>
+</div>
