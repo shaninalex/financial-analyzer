@@ -6,7 +6,6 @@ package datasource
 
 import "github.com/shaninalex/financial-analyzer/pkg/datasource/data"
 
-// Usage example: data, err: := app.Datasource.Gurufocus.summary("AAPL")
 type Datasource struct {
 	Gurufocus    *data.GuruFocus
 	Alphavantage *data.Alphavantage

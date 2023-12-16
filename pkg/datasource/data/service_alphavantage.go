@@ -8,6 +8,7 @@ import (
 	"os"
 )
 
+// Deprecated: Alphavantage datasource will no longer used since it's to expensive to use
 type Alphavantage struct {
 	DEBUG   bool
 	API_KEY string
