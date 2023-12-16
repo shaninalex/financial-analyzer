@@ -148,7 +148,7 @@ func (app *App) GatheringInformation(action typedefs.ITickerAction, user_id stri
 			defer wg.Done()
 			data, err := method(ticker)
 			if err != nil {
-				log.Printf("Unable to get %s for \"%s\". Error: %v", datatype, action.Ticker, err)
+				log.Printf("Unable to get %s for \"%s\". Error: %v", datatype, ticker, err)
 			} else {
 				app.PublishResults(data, user, client, datatype, ticker)
 			}

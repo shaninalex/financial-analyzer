@@ -133,6 +133,7 @@ func (c *Client) ConsumeFrontend() {
 				c.RequestDenied(*msg)
 				break
 			}
+			report_id := uuid.New().String()
 			err := c.MQChannel.PublishWithContext(c.Context,
 				"ex.datasource", // exchange
 				"new_report",    // routing key
@@ -144,6 +145,7 @@ func (c *Client) ConsumeFrontend() {
 					Headers: amqp.Table{
 						"user_id":   c.ID,
 						"client_id": c.ClientId,
+						"report_id": report_id,
 					},
 				},
 			)
