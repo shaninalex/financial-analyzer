@@ -18,13 +18,12 @@ export class WebsocketService {
 
         this.socket.onmessage = (event: MessageEvent) => {
             const m = JSON.parse(event.data);
-            console.log(m.action)
             switch(m.action) {
                 case "notification":
-                    this.notifications.next(m as INotification);
+                    this.notifications.next(m.payload);
                     break
                 case "data_result":
-                    this.messages.next(m as IResponseData);
+                    this.messages.next(m.payload);
                     break
             }
         }

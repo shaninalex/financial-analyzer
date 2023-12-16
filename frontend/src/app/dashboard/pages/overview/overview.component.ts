@@ -23,25 +23,22 @@ export class OverviewComponent {
     constructor(private socket: WebsocketService) {
         this.socket.messages.subscribe({
             next: payload => {
-                console.log(payload);
-                if (payload) {
-                    switch(payload.type) {
-                        case "summary":
-                            this.summary = payload.data;
-                            break;
-                        case "financials":
-                            this.financials = payload.data;
-                            break;
-                        case "dividend":
-                            this.dividend = payload.data;
-                            break;
-                        case "price":
-                            this.price = payload.data;
-                            break;
-                        case "keyratios":
-                            this.keyratios = payload.data;
-                            break;
-                    }
+                switch(payload?.type) {
+                    case "summary":
+                        this.summary = payload.data;
+                        break;
+                    case "financials":
+                        this.financials = payload.data;
+                        break;
+                    case "dividend":
+                        this.dividend = payload.data;
+                        break;
+                    case "price":
+                        this.price = payload.data;
+                        break;
+                    case "keyratios":
+                        this.keyratios = payload.data;
+                        break;
                 }
             }
         });

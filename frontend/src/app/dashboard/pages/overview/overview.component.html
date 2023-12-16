@@ -1,40 +1,46 @@
-<form class="submit-form" (ngSubmit)="onSubmit()" [formGroup]="tickerForm">
-  <div>
-    <h3>Enter ticker:</h3>
-    <div class="form-area">
-      <input type="text" class="input lg accent" placeholder="Ticker" formControlName="ticker">
-      <button class="btn lg blue" type="submit" [disabled]="!tickerForm.valid">
-        Submit
-      </button>
-    </div>
-  </div>
+<form class="input-group mb-3" (ngSubmit)="onSubmit()" [formGroup]="tickerForm">
+  <input type="text" class="form-control" formControlName="ticker" />
+  <button [disabled]="!tickerForm.valid" type="submit" class="btn btn-outline-secondary">Search</button>
 </form>
 
-<div class="container-fluid">
-  <div class="row">
-    <div class="col-md-6">
-      <div *ngIf="summary" class="card mb-4 overflow-y-scroll" style="height: 300px;">
-        <div class="card-body">{{ summary | json }}</div>
+<div class="row">
+  <div *ngIf="summary" class="col-md-6">
+    <div class="card mb-4 overflow-y-scroll" style="height: 300px;">
+      <div class="card-body">
+        <h5 class="card-title">Summary</h5>
+        <pre>{{ summary | json }}</pre>
       </div>
     </div>
-    <div class="col-md-6">
-      <div *ngIf="financials" class="card mb-4 overflow-y-scroll" style="height: 300px;">
-        <div class="card-body">{{ financials | json }}</div>
+  </div>
+  <div *ngIf="financials" class="col-md-6">
+    <div class="card mb-4 overflow-y-scroll" style="height: 300px;">
+      <div class="card-body">
+        <h5 class="card-title">Financials</h5>
+        <pre>{{ financials | json }}</pre>
       </div>
     </div>
-    <div class="col-md-6">
-      <div *ngIf="dividend" class="card mb-4 overflow-y-scroll" style="height: 300px;">
-        <div class="card-body">{{ dividend | json }}</div>
+  </div>
+  <div *ngIf="dividend" class="col-md-6">
+    <div class="card mb-4 overflow-y-scroll" style="height: 300px;">
+      <div class="card-body">
+        <h5 class="card-title">Dividends</h5>
+        <pre>{{ dividend | json }}</pre>
       </div>
     </div>
-    <div class="col-md-6">
-      <div *ngIf="price" class="card mb-4 overflow-y-scroll" style="height: 300px;">
-        <div class="card-body">{{ price | json }}</div>
+  </div>
+  <div *ngIf="price" class="col-md-6">
+    <div class="card mb-4 overflow-y-scroll" style="height: 300px;">
+      <div class="card-body">
+        <h5 class="card-title">Price</h5>
+        <pre>{{ price | json }}</pre>
       </div>
     </div>
-    <div class="col-md-6">
-      <div *ngIf="keyratios" class="card mb-4 overflow-y-scroll" style="height: 300px;">
-        <div class="card-body">{{ keyratios | json }}</div>
+  </div>
+  <div *ngIf="keyratios" class="col-md-6">
+    <div class="card mb-4 overflow-y-scroll" style="height: 300px;">
+      <div class="card-body">
+        <h5 class="card-title">Keyratios</h5>
+        <pre>{{ keyratios | json }}</pre>
       </div>
     </div>
   </div>
