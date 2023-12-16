@@ -6,43 +6,17 @@ volumes:
   rabbitmq_data:
 
 services:
-  notifications:
-    build: ./notifications
-    container_name: finapp_notifications
-    restart: on-failure
-    environment:
-      - RABBITMQ_URL=${RABBITMQ_URL}
-      - APP_PORT=8004
-    depends_on:
-      rabbitmq_post_initialize:
-        condition: service_completed_successfully
-
-  datasource:
-    build: ./datasource
-    container_name: finapp_datasource
-    restart: on-failure
-    ports:
-      - 8002:8002
-    environment:
-      - DEBUG=1
-      - APP_PORT=8002
-      - GURU_API_KEY=${GURUFOCUS_API_KEY}
-      - ALPH_API_KEY=${ALPHAVANTAGE_API_KEY}
-      - RABBITMQ_URL=${RABBITMQ_URL}
-    depends_on:
-      rabbitmq_post_initialize:
-        condition: service_completed_successfully
 
   router:
-    build: ./router
+    build: ./
     container_name: finapp_router
-    restart: on-failure
+    # restart: on-failure
     ports:
       - 8003:8003
-    environment:
-      - APP_PORT=8003
-      - KRATOS_URL=${KRATOS_URL}
-      - RABBITMQ_URL=${RABBITMQ_URL}
+    env_file:
+      - .env
+    volumes:
+      - ./mock_data/:/demo_data/
     depends_on:
       rabbitmq_post_initialize:
         condition: service_completed_successfully
@@ -73,7 +47,7 @@ services:
       - ./config/database/:/docker-entrypoint-initdb.d/
       - postgres_data:/var/lib/postgresql/data/
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER}"]
+      test: ["CMD-SHELL", "pg_isready -U user"]
       interval: 5s
       timeout: 5s
       retries: 5
@@ -140,4 +114,6 @@ services:
     volumes:
       - ./config/kratos:/etc/config/kratos
     command: -c /etc/config/kratos/kratos.yml migrate sql -e --yes
-
+    depends_on:
+      postgres:
+        condition: service_healthy
