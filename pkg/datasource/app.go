@@ -9,6 +9,7 @@ import (
 	amqp "github.com/rabbitmq/amqp091-go"
 
 	rabbitmq "github.com/shaninalex/financial-analyzer/internal/rabbitmq"
+	"github.com/shaninalex/financial-analyzer/internal/typedefs"
 )
 
 type App struct {
@@ -47,7 +48,7 @@ func (app *App) ConsumeRabbitMessages() {
 
 	for d := range msgs {
 		if d.RoutingKey == "new_report" {
-			var action TickerAction
+			var action typedefs.ITickerAction
 			err := json.Unmarshal(d.Body, &action)
 			if err != nil {
 				log.Printf("Unable to unmarshal action: %s. Error: %v", d.Body, err)
@@ -119,7 +120,7 @@ func (app *App) reconnectToRabbitMQ() error {
 	return nil
 }
 
-func (app *App) GatheringInformation(action TickerAction, user_id string, client_id string) {
+func (app *App) GatheringInformation(action typedefs.ITickerAction, user_id string, client_id string) {
 	overview, err := app.Datasource.Alphavantage.Overview(action.Ticker)
 	if err != nil {
 		log.Printf("Unable to get Alphavantage.Overview for \"%s\". Error: %v", action.Ticker, err)

@@ -1,6 +1,7 @@
 package main
 
 import (
+	"log"
 	"os"
 	"strconv"
 
@@ -24,9 +25,19 @@ func main() {
 	}
 
 	// initialize websocket connection
-	web.Websocket(port)
+	go web.Websocket(port)
 
 	// initialize datasource
-	datasource.Init(GURU_API_KEY, ALPH_API_KEY, RABBITMQ_URL)
+	log.Println("initialize datasource")
+	connection, channel, err := datasource.Init(GURU_API_KEY, ALPH_API_KEY, RABBITMQ_URL)
+	if err != nil {
+		panic(err)
+	}
+
+	defer func() {
+		log.Println("Close rabbitmq connections")
+		connection.Close()
+		channel.Close()
+	}()
 
 }

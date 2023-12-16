@@ -53,7 +53,7 @@ func (a *Alphavantage) unpack(resp *http.Response, resultStruct interface{}) err
 func (a *Alphavantage) Overview(ticker string) (*AlphavantageOverview, error) {
 	var results AlphavantageOverview
 	if a.DEBUG {
-		fileBytes, _ := os.ReadFile("./demo_data/alphavantage_overview.json")
+		fileBytes, _ := os.ReadFile("/demo_data/alphavantage_overview.json")
 		err := json.Unmarshal(fileBytes, &results)
 		if err != nil {
 			return nil, err
@@ -76,7 +76,7 @@ func (a *Alphavantage) Overview(ticker string) (*AlphavantageOverview, error) {
 func (a *Alphavantage) Earnings(ticker string) (*AlphavantageEarnings, error) {
 	var results AlphavantageEarnings
 	if a.DEBUG {
-		fileBytes, _ := os.ReadFile("./demo_data/alphavantage_earnings.json")
+		fileBytes, _ := os.ReadFile("/demo_data/alphavantage_earnings.json")
 		err := json.Unmarshal(fileBytes, &results)
 		if err != nil {
 			return nil, err
@@ -98,7 +98,7 @@ func (a *Alphavantage) Earnings(ticker string) (*AlphavantageEarnings, error) {
 func (a *Alphavantage) CashFlow(ticker string) (*AlphavantageCashFlow, error) {
 	var results AlphavantageCashFlow
 	if a.DEBUG {
-		fileBytes, _ := os.ReadFile("./demo_data/alphavantage_cash_flow.json")
+		fileBytes, _ := os.ReadFile("/demo_data/alphavantage_cash_flow.json")
 		err := json.Unmarshal(fileBytes, &results)
 		if err != nil {
 			return nil, err
