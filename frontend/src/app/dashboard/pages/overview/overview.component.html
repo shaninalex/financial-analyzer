@@ -1,6 +1,8 @@
 <form class="input-group mb-3" (ngSubmit)="onSubmit()" [formGroup]="tickerForm">
   <input type="text" class="form-control" formControlName="ticker" />
-  <button [disabled]="!tickerForm.valid" type="submit" class="btn btn-outline-secondary">Search</button>
+  <button [disabled]="!tickerForm.valid" type="submit" class="btn btn-outline-secondary">
+    <i class="fa fa-search" aria-hidden="true"></i>
+  </button>
 </form>
 
 <div class="row">

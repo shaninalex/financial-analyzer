@@ -9,11 +9,12 @@ export class UIEffects {
     switchTheme$ = createEffect(() => this.actions$.pipe(
         ofType(toggleDarkTheme),
         tap(() => {
-            const theme = document.documentElement.getAttribute("data-theme");
+            console.log("toggle dark theme");
+            const theme = document.documentElement.getAttribute("data-bs-theme");
             if (!theme || theme !== "dark") {
-                document.documentElement.setAttribute("data-theme", "dark");
+                document.documentElement.setAttribute("data-bs-theme", "dark");
             } else {
-                document.documentElement.removeAttribute("data-theme");
+                document.documentElement.removeAttribute("data-bs-theme");
             }
         })
     ), {dispatch: false});

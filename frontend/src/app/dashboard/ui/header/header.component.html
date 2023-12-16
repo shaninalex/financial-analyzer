@@ -6,10 +6,18 @@
           <a class="nav-link" href="#">Home</a>
         </li>
       </ul>
-      <form class="d-flex" role="search">
-        <input class="form-control me-2" type="search" placeholder="Search" />
-        <button class="btn btn-outline-success" type="submit">Search</button>
-      </form>
+      <div class="d-flex gap-2 align-items-center">
+        <div>
+          <button class="btn btn-sm" (click)="toggleTheme()">
+              <i *ngIf="(theme$ | async)" class="fa fa-sun-o" aria-hidden="true"></i>
+              <i *ngIf="!(theme$ | async)" class="fa fa-moon-o" aria-hidden="true"></i>
+          </button>
+        </div>
+        <form class="d-flex" role="search">
+          <input class="form-control me-2" type="search" placeholder="Search" />
+          <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
+      </div>
     </div>
   </div>
 </nav>
