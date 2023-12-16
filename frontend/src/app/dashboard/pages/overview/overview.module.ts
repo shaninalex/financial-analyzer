@@ -6,6 +6,7 @@ import { UiModule } from '../../ui/ui.module';
 import { ChartModule } from 'angular-highcharts';
 
 import { ReactiveFormsModule } from '@angular/forms';
+import { PriceChartComponent } from './components/price-chart/price-chart.components';
 
 const routes: Routes = [
     { path: "", component: OverviewComponent }
@@ -13,7 +14,8 @@ const routes: Routes = [
 
 @NgModule({
     declarations: [
-        OverviewComponent
+        OverviewComponent,
+        PriceChartComponent,
     ],
     imports: [
         CommonModule,

@@ -6,9 +6,9 @@ import { HttpClientModule } from '@angular/common/http';
 import { UiModule } from './ui/ui.module';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
-import { uiReducer } from './store/ui/reducer';
 import { UIEffects } from './store/ui/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { dashboardReducer } from './store';
 
 
 @NgModule({
@@ -20,9 +20,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
         DashboardRoutingModule,
         HttpClientModule,
         UiModule,
-        StoreModule.forFeature("dashboard", {
-            ui: uiReducer
-        }),
+        StoreModule.forFeature("dashboard", dashboardReducer),
         EffectsModule.forFeature([UIEffects]),
         StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() })
     ]

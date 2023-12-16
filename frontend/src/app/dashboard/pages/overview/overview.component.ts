@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Observable } from 'rxjs';
 import { WebsocketService } from '../../services/websocket.service';
 import { ITickerAction } from '../../typedefs/global';
-import { Chart } from 'angular-highcharts';
+import { Store } from '@ngrx/store';
+import { IReportState } from '../../store/report/reducer';
+import { setPriceChartData } from '../../store/report/actions';
 
 
 @Component({
@@ -19,11 +20,11 @@ export class OverviewComponent {
     summary: any;
     financials: any;
     dividend: any;
-    price: any;
     keyratios: any;
-    priceChart: Chart;
 
-    constructor(private socket: WebsocketService) {
+    is_price_chart_loaded: boolean;
+
+    constructor(private socket: WebsocketService, private store: Store<IReportState>) {
         this.socket.messages.subscribe({
             next: payload => {
                 switch (payload?.type) {
@@ -37,8 +38,8 @@ export class OverviewComponent {
                         this.dividend = payload.data;
                         break;
                     case "price":
-                        this.price = payload.data;
-                        this.setPriceChart(payload.data);
+                        this.store.dispatch(setPriceChartData({data: payload.data}));
+                        this.is_price_chart_loaded = true;
                         break;
                     case "keyratios":
                         this.keyratios = payload.data;
@@ -48,32 +49,6 @@ export class OverviewComponent {
         });
     }
 
-    setPriceChart(data: Array<[string, number]>) {
-        this.priceChart = new Chart({
-            chart: {
-                type: 'line'
-            },
-            title: {
-                text: 'Price'
-            },
-            xAxis: {
-                categories: data.map(d => d[0])
-            },
-            yAxis: {
-                title: {
-                    text: "$"
-                }
-            },
-            credits: {
-                enabled: false
-            },
-            series: [{
-                type: "line",
-                name: 'Line 1',
-                data: data.map(i => i[1])
-            }]
-        });
-    }
 
     onSubmit(): void {
         if (this.tickerForm.valid) {
@@ -82,10 +57,7 @@ export class OverviewComponent {
                 action: "search"
             };
             this.socket.send(search_payload);
+            this.is_price_chart_loaded = false;
         }
     }
 }
-
-// action
-// type
-// data
