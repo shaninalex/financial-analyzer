@@ -4,15 +4,17 @@ GuruFocus, Alphavantage etc.
 */
 package datasource
 
+import "github.com/shaninalex/financial-analyzer/pkg/datasource/data"
+
 // Usage example: data, err: := app.Datasource.Gurufocus.summary("AAPL")
 type Datasource struct {
-	Gurufocus    *GuruFocus
-	Alphavantage *Alphavantage
+	Gurufocus    *data.GuruFocus
+	Alphavantage *data.Alphavantage
 }
 
 func InitializeDatasource(gfApiKey, alphApiKey string, debug bool) *Datasource {
 	return &Datasource{
-		Gurufocus:    InitGurufocus(gfApiKey),
-		Alphavantage: InitAlphavantage(alphApiKey, debug),
+		Gurufocus:    data.InitGurufocus(gfApiKey, debug),
+		Alphavantage: data.InitAlphavantage(alphApiKey, debug),
 	}
 }

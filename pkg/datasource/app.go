@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"sync"
 
 	amqp "github.com/rabbitmq/amqp091-go"
 
@@ -12,12 +13,18 @@ import (
 	"github.com/shaninalex/financial-analyzer/internal/typedefs"
 )
 
+type providerMethod struct {
+	f        func(ticker string) (*interface{}, error)
+	dataType string
+}
+
 type App struct {
 	Context      context.Context
 	Datasource   *Datasource
 	MQConnection *amqp.Connection
 	MQChannel    *amqp.Channel
 	RabbitmqUrl  string
+	Methods      []providerMethod
 }
 
 func InitializeApplication(gfAppKey, alphAppKey string, connection *amqp.Connection, channel *amqp.Channel, RABBITMQ_URL string) (*App, error) {
@@ -27,6 +34,15 @@ func InitializeApplication(gfAppKey, alphAppKey string, connection *amqp.Connect
 		MQConnection: connection,
 		MQChannel:    channel,
 		RabbitmqUrl:  RABBITMQ_URL,
+	}
+
+	app.Methods = []providerMethod{
+		{f: app.Datasource.Gurufocus.Summary, dataType: string(typedefs.GurufocusRequestSummary)},
+		{f: app.Datasource.Gurufocus.Dividends, dataType: string(typedefs.GurufocusRequestFinancials)},
+		{f: app.Datasource.Gurufocus.Financials, dataType: string(typedefs.GurufocusRequestDividend)},
+		{f: app.Datasource.Alphavantage.CashFlow, dataType: string(typedefs.AlphavantageRequestCashFlow)},
+		{f: app.Datasource.Alphavantage.Earnings, dataType: string(typedefs.AlphavantageRequestEarnings)},
+		{f: app.Datasource.Alphavantage.Overview, dataType: string(typedefs.AlphavantageRequestOverview)},
 	}
 
 	return app, nil
@@ -121,24 +137,19 @@ func (app *App) reconnectToRabbitMQ() error {
 }
 
 func (app *App) GatheringInformation(action typedefs.ITickerAction, user_id string, client_id string) {
-	overview, err := app.Datasource.Alphavantage.Overview(action.Ticker)
-	if err != nil {
-		log.Printf("Unable to get Alphavantage.Overview for \"%s\". Error: %v", action.Ticker, err)
-	} else {
-		app.PublishResults(overview, user_id, client_id, "alph_overview", action.Ticker)
+	var wg sync.WaitGroup
+	for _, p := range app.Methods {
+		wg.Add(1)
+		go func(ticker, datatype, user, client string, method func(t string) (*interface{}, error)) {
+			defer wg.Done()
+			data, err := method(ticker)
+			if err != nil {
+				log.Printf("Unable to get %s for \"%s\". Error: %v", datatype, action.Ticker, err)
+			} else {
+				app.PublishResults(data, user, client, datatype, ticker)
+			}
+		}(action.Ticker, p.dataType, user_id, client_id, p.f)
 	}
-
-	cashflow, err := app.Datasource.Alphavantage.CashFlow(action.Ticker)
-	if err != nil {
-		log.Printf("Unable to get Alphavantage.CashFlow for \"%s\". Error: %v", action.Ticker, err)
-	} else {
-		app.PublishResults(cashflow, user_id, client_id, "alph_cashflow", action.Ticker)
-	}
-
-	earnings, err := app.Datasource.Alphavantage.Earnings(action.Ticker)
-	if err != nil {
-		log.Printf("Unable to get Alphavantage.Earnings for \"%s\". Error: %v", action.Ticker, err)
-	} else {
-		app.PublishResults(earnings, user_id, client_id, "alph_earnings", action.Ticker)
-	}
+	wg.Wait()
+	log.Println("End gathering information for report")
 }
