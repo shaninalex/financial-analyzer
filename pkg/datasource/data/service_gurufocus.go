@@ -11,15 +11,15 @@ import (
 )
 
 type GuruFocus struct {
-	api_url string
-	api_key string
+	API_URL string
+	API_KEY string
 	DEBUG   bool
 }
 
 func InitGurufocus(apikey string, debug bool) *GuruFocus {
 	return &GuruFocus{
-		api_key: apikey,
-		api_url: "https://api.gurufocus.com/public/user/",
+		API_KEY: apikey,
+		API_URL: "https://api.gurufocus.com/public/user/",
 		DEBUG:   debug,
 	}
 }
@@ -39,8 +39,8 @@ func (g *GuruFocus) DoGurufocusRequest(api_function typedefs.GurufocusRequestTyp
 
 	client := http.Client{}
 	url := fmt.Sprintf("%s/%s/stock/%s/%s",
-		g.api_url,
-		g.api_key,
+		g.API_URL,
+		g.API_KEY,
 		symbol,
 		api_function,
 	)
