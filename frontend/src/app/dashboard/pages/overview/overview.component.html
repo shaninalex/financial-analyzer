@@ -29,11 +29,9 @@
     </div>
   </div>
   <div *ngIf="price" class="col-md-6">
-    <div class="card mb-4 overflow-y-scroll">
-      <div class="card-body">
-        <div [chart]="chart"></div>
-      </div>
-    </div>
+    <card>
+      <div [chart]="priceChart"></div>
+    </card>
   </div>
   <div *ngIf="keyratios" class="col-md-6">
     <div class="card mb-4 overflow-y-scroll" style="height: 300px;">

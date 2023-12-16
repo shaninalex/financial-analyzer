@@ -21,7 +21,7 @@ export class OverviewComponent {
     dividend: any;
     price: any;
     keyratios: any;
-    chart: Chart;
+    priceChart: Chart;
 
     constructor(private socket: WebsocketService) {
         this.socket.messages.subscribe({
@@ -49,7 +49,7 @@ export class OverviewComponent {
     }
 
     setPriceChart(data: Array<[string, number]>) {
-        this.chart = new Chart({
+        this.priceChart = new Chart({
             chart: {
                 type: 'line'
             },
