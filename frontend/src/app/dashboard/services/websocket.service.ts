@@ -3,9 +3,7 @@ import { BehaviorSubject } from "rxjs";
 import { environment } from "src/environments/environment.development";
 import { INotification, IResponseData } from "../typedefs/global";
 
-@Injectable({
-    providedIn: "root"
-})
+@Injectable()
 export class WebsocketService {
     private socket = new WebSocket(environment.WEBSOCKET_ADDRESS);
     public messages: BehaviorSubject<IResponseData | null> = new BehaviorSubject<IResponseData | null>(null);

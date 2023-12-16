@@ -8,6 +8,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { VerificationComponent } from './pages/verification.component';
 import { RecoveryComponent } from './pages/recovery.component';
 import { GeneratedFormComponent } from './components/generated-form/generated-form.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { AuthService } from './services/auth.service';
 
 
 @NgModule({
@@ -22,7 +24,11 @@ import { GeneratedFormComponent } from './components/generated-form/generated-fo
     imports: [
         CommonModule,
         AuthRoutingModule,
-        HttpClientModule
+        HttpClientModule,
+        ReactiveFormsModule,
     ],
+    providers: [
+        AuthService
+    ]
 })
 export class AuthModule { }
