@@ -10,6 +10,7 @@ import (
 	"github.com/gorilla/websocket"
 	amqp "github.com/rabbitmq/amqp091-go"
 	"github.com/shaninalex/financial-analyzer/internal/typedefs"
+	"github.com/shaninalex/financial-analyzer/pkg/account"
 )
 
 type Client struct {
@@ -20,9 +21,15 @@ type Client struct {
 	MQQueue      *amqp.Queue
 	WSConnection *websocket.Conn
 	Context      context.Context
+	Account      account.IAccount
 }
 
 func InitClient(user_id string, mq *amqp.Connection, ch *amqp.Channel, ws *websocket.Conn) (*Client, error) {
+	acc, err := account.InitAccount(user_id, mq, ch)
+	if err != nil {
+		return nil, err
+	}
+
 	client := &Client{
 		ID:           user_id,
 		ClientId:     uuid.New().String(),
@@ -30,9 +37,10 @@ func InitClient(user_id string, mq *amqp.Connection, ch *amqp.Channel, ws *webso
 		MQChannel:    ch,
 		WSConnection: ws,
 		Context:      context.TODO(),
+		Account:      acc,
 	}
 
-	err := ch.ExchangeDeclare(
+	err = ch.ExchangeDeclare(
 		fmt.Sprintf("ex.client.%s", client.ID), // name
 		"direct",                               // type
 		true,                                   // durable
@@ -120,6 +128,11 @@ func (c *Client) ConsumeFrontend() {
 
 		switch action.Action {
 		case typedefs.TickerActionTypeSearch:
+			able, msg := c.Account.AbleToReport()
+			if !able {
+				c.RequestDenied(*msg)
+				break
+			}
 			err := c.MQChannel.PublishWithContext(c.Context,
 				"ex.datasource", // exchange
 				"new_report",    // routing key
@@ -136,9 +149,23 @@ func (c *Client) ConsumeFrontend() {
 			)
 			if err != nil {
 				log.Println(err)
-			} else {
-				log.Println("message published")
 			}
 		}
 	}
+}
+
+func (c *Client) RequestDenied(msg string) {
+	message := map[string]interface{}{
+		"action": "notification",
+		"payload": map[string]interface{}{
+			"level":   "error",
+			"message": msg,
+		},
+	}
+	body, err := json.Marshal(message)
+	if err != nil {
+		// TODO: need global logger
+		log.Println(err)
+	}
+	c.WSConnection.WriteMessage(1, body)
 }
