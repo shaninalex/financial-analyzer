@@ -21,3 +21,12 @@ export interface IBaseWebsocket {
     action: "notification" | "data_result"
     payload: IResponseData | INotification
 }
+
+export interface IFinancials {
+    amount: string
+    currency: string
+    ex_date: string
+    pay_date: string
+    record_date: string
+    type: string
+}
