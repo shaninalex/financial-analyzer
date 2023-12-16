@@ -1,11 +1,11 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Injectable, Pipe } from '@angular/core';
-import { Observable, catchError, delay, finalize, of, shareReplay, throwError } from 'rxjs';
+import { Injectable } from '@angular/core';
+import { Observable, catchError, finalize, shareReplay, throwError } from 'rxjs';
+import { MessagesService } from '../../shared/services/messages.service';
+import { UiService } from '../../shared/services/ui.service';
 
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class AuthService {
 
     private request_params = {
@@ -14,14 +14,17 @@ export class AuthService {
 
     constructor(
         private http: HttpClient,
+        private messages: MessagesService,
+        private ui: UiService
     ) {}
 
     private handleRequest<T>(observable: Observable<T>): Observable<T> {
-        // this.ui.loading.next(true);
+        this.ui.loading.next(true);
         return observable.pipe(
-            // finalize(() => this.ui.loading.next(false)),
+            finalize(() => this.ui.loading.next(false)),
             shareReplay(),
             catchError(err => {
+                this.messages.message.next(err);
                 return throwError(() => err);
             })
         )
