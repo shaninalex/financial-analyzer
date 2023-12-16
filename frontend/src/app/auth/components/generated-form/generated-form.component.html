@@ -27,8 +27,10 @@
         </span>
       </div>
 
-      <button *ngIf="node.attributes.type === 'submit'" class="btn btn-primary" [disabled]="node.attributes.disabled" [name]="node.attributes.name"
-        [value]="node.attributes.value" [type]="node.attributes.type">{{ node.meta.label?.text }}</button>
+      <div class="mb-3" *ngIf="node.attributes.type === 'submit'">
+        <button class="btn btn-info" [disabled]="node.attributes.disabled" [name]="node.attributes.name"
+          [value]="node.attributes.value" [type]="node.attributes.type">{{ node.meta.label?.text }}</button>
+      </div>
 
     </ng-container>
 

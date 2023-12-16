@@ -16,10 +16,10 @@ down_volumes:
 		--env-file=.env\
 		down -v
 
-rebuild_router:
+rebuild:
 	docker compose \
 		--file docker-compose.yml\
 		--env-file=.env\
-		up -d --no-deps --build router
+		up -d --no-deps --build $(service)
 
 restart: down start
