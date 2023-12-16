@@ -1,6 +1,10 @@
-import { UIState } from "./ui/reducer";
+import { combineReducers } from "@ngrx/store";
+import { uiReducer } from "./ui/reducer";
+import { reportReducer } from "./report/reducer";
 
-export interface AppState {
-    ui: UIState;
-}
+
+export const dashboardReducer = combineReducers({
+    ui: uiReducer,
+    report: reportReducer,
+})
    

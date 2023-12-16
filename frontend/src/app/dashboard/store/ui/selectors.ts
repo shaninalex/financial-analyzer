@@ -1,5 +1,4 @@
 import { createSelector } from '@ngrx/store';
-import { AppState } from '..';
 import { UIState } from './reducer';
 
 

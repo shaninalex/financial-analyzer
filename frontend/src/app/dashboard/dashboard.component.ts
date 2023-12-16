@@ -2,8 +2,8 @@ import { Component } from '@angular/core';
 import { Observable } from 'rxjs';
 import { WebsocketService } from './services/websocket.service';
 import { Store } from '@ngrx/store';
-import { AppState } from './store';
 import { selectMainSidebarVisible, selectNotificationSidebarVisible } from './store/ui/selectors';
+import { UIState } from './store/ui/reducer';
 
 @Component({
   selector: 'app-dashboard',
@@ -16,7 +16,7 @@ export class DashboardComponent {
 
     constructor(
         private socket: WebsocketService,
-        private store: Store<AppState>
+        private store: Store<UIState>
     ) {}
 
     ngOnInit(): void {
