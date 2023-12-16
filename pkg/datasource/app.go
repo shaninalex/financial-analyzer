@@ -9,7 +9,6 @@ import (
 
 	amqp "github.com/rabbitmq/amqp091-go"
 
-	rabbitmq "github.com/shaninalex/financial-analyzer/internal/rabbitmq"
 	"github.com/shaninalex/financial-analyzer/internal/typedefs"
 )
 
@@ -23,17 +22,15 @@ type App struct {
 	Datasource   *Datasource
 	MQConnection *amqp.Connection
 	MQChannel    *amqp.Channel
-	RabbitmqUrl  string
 	Methods      []providerMethod
 }
 
-func InitializeApplication(gfAppKey, alphAppKey string, connection *amqp.Connection, channel *amqp.Channel, RABBITMQ_URL string) (*App, error) {
+func InitializeApplication(gfAppKey, alphAppKey string, connection *amqp.Connection, channel *amqp.Channel) (*App, error) {
 	app := &App{
 		Context:      context.TODO(),
 		Datasource:   InitializeDatasource(gfAppKey, alphAppKey, true),
 		MQConnection: connection,
 		MQChannel:    channel,
-		RabbitmqUrl:  RABBITMQ_URL,
 	}
 
 	app.Methods = []providerMethod{
@@ -92,15 +89,9 @@ func (app *App) PublishResults(message any, user_id string, client_id string, me
 	})
 
 	routing_key := fmt.Sprintf("client.%s__dev.%s", user_id, client_id)
-	// routing_key := "client.b5aa9b5e-a1b8-43f3-9fe1-9e8ab85d8025__dev.6f4314b5-1b08-4734-86f8-9b467dd1c9ec"
 	fmt.Printf("Routing key: %s", routing_key)
 
-	err := app.reconnectToRabbitMQ()
-	if err != nil {
-		log.Printf("Error publishing message: %v", err)
-	}
-
-	err = app.MQChannel.PublishWithContext(app.Context,
+	err := app.MQChannel.PublishWithContext(app.Context,
 		fmt.Sprintf("ex.client.%s", user_id), // exchange
 		routing_key,                          // routing key
 		false,                                // mandatory
@@ -115,29 +106,6 @@ func (app *App) PublishResults(message any, user_id string, client_id string, me
 	} else {
 		log.Printf("message \"%s\" for \"%s\" is published", message_type, ticker)
 	}
-}
-
-func (app *App) reconnectToRabbitMQ() error {
-	if app.MQConnection.IsClosed() {
-		log.Println("Reconnect to rabbitmq")
-		connection, err := rabbitmq.ConnectToRabbitMQ(app.RabbitmqUrl)
-		if err != nil {
-			return err
-		}
-		app.MQConnection = connection
-	}
-
-	if app.MQChannel.IsClosed() {
-		log.Println("Recreate rabbitmq channel")
-		channel, err := app.MQConnection.Channel()
-		if err != nil {
-			return err
-		}
-
-		app.MQChannel = channel
-	}
-
-	return nil
 }
 
 func (app *App) GatheringInformation(action typedefs.ITickerAction, user_id string, client_id string) {
