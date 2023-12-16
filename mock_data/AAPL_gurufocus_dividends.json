@@ -1,644 +1,1202 @@
-{
-    "data": [
-        {
-            "amount": "0.240",
-            "ex_date": "2023-08-11",
-            "record_date": "2023-08-14",
-            "pay_date": "2023-08-17",
-            "type": "Cash Div.",
-            "currency": "USD"
-        },
-        {
-            "amount": "0.240",
-            "ex_date": "2023-05-12",
-            "record_date": "2023-05-15",
-            "pay_date": "2023-05-18",
-            "type": "Cash Div.",
-            "currency": "USD"
-        },
-        {
-            "amount": "0.230",
-            "ex_date": "2023-02-10",
-            "record_date": "2023-02-13",
-            "pay_date": "2023-02-16",
-            "type": "Cash Div.",
-            "currency": "USD"
-        },
-        {
-            "amount": "0.230",
-            "ex_date": "2022-11-04",
-            "record_date": "2022-11-07",
-            "pay_date": "2022-11-10",
-            "type": "Cash Div.",
-            "currency": "USD"
-        },
-        {
-            "amount": "0.230",
-            "ex_date": "2022-08-05",
-            "record_date": "2022-08-08",
-            "pay_date": "2022-08-11",
-            "type": "Cash Div.",
-            "currency": "USD"
-        },
-        {
-            "amount": "0.230",
-            "ex_date": "2022-05-06",
-            "record_date": "2022-05-09",
-            "pay_date": "2022-05-12",
-            "type": "Cash Div.",
-            "currency": "USD"
-        },
-        {
-            "amount": "0.220",
-            "ex_date": "2022-02-04",
-            "record_date": "2022-02-07",
-            "pay_date": "2022-02-10",
-            "type": "Cash Div.",
-            "currency": "USD"
-        },
-        {
-            "amount": "0.220",
-            "ex_date": "2021-11-05",
-            "record_date": "2021-11-08",
-            "pay_date": "2021-11-11",
-            "type": "Cash Div.",
-            "currency": "USD"
-        },
-        {
-            "amount": "0.220",
-            "ex_date": "2021-08-06",
-            "record_date": "2021-08-09",
-            "pay_date": "2021-08-12",
-            "type": "Cash Div.",
-            "currency": "USD"
-        },
-        {
-            "amount": "0.220",
-            "ex_date": "2021-05-07",
-            "record_date": "2021-05-10",
-            "pay_date": "2021-05-13",
-            "type": "Cash Div.",
-            "currency": "USD"
-        },
-        {
-            "amount": "0.205",
-            "ex_date": "2021-02-05",
-            "record_date": "2021-02-08",
-            "pay_date": "2021-02-11",
-            "type": "Cash Div.",
-            "currency": "USD"
-        },
-        {
-            "amount": "0.205",
-            "ex_date": "2020-11-06",
-            "record_date": "2020-11-09",
-            "pay_date": "2020-11-12",
-            "type": "Cash Div.",
-            "currency": "USD"
-        },
-        {
-            "amount": "0.205",
-            "ex_date": "2020-08-07",
-            "record_date": "2020-08-10",
-            "pay_date": "2020-08-13",
-            "type": "Cash Div.",
-            "currency": "USD"
-        },
-        {
-            "amount": "0.205",
-            "ex_date": "2020-05-08",
-            "record_date": "2020-05-11",
-            "pay_date": "2020-05-14",
-            "type": "Cash Div.",
-            "currency": "USD"
-        },
-        {
-            "amount": "0.193",
-            "ex_date": "2020-02-07",
-            "record_date": "2020-02-10",
-            "pay_date": "2020-02-13",
-            "type": "Cash Div.",
-            "currency": "USD"
-        },
-        {
-            "amount": "0.193",
-            "ex_date": "2019-11-07",
-            "record_date": "2019-11-11",
-            "pay_date": "2019-11-14",
-            "type": "Cash Div.",
-            "currency": "USD"
-        },
-        {
-            "amount": "0.193",
-            "ex_date": "2019-08-09",
-            "record_date": "2019-08-12",
-            "pay_date": "2019-08-15",
-            "type": "Cash Div.",
-            "currency": "USD"
-        },
-        {
-            "amount": "0.193",
-            "ex_date": "2019-05-10",
-            "record_date": "2019-05-13",
-            "pay_date": "2019-05-16",
-            "type": "Cash Div.",
-            "currency": "USD"
-        },
-        {
-            "amount": "0.183",
-            "ex_date": "2019-02-08",
-            "record_date": "2019-02-11",
-            "pay_date": "2019-02-14",
-            "type": "Cash Div.",
-            "currency": "USD"
-        },
-        {
-            "amount": "0.183",
-            "ex_date": "2018-11-08",
-            "record_date": "2018-11-12",
-            "pay_date": "2018-11-15",
-            "type": "Cash Div.",
-            "currency": "USD"
-        },
-        {
-            "amount": "0.183",
-            "ex_date": "2018-08-10",
-            "record_date": "2018-08-13",
-            "pay_date": "2018-08-16",
-            "type": "Cash Div.",
-            "currency": "USD"
-        },
-        {
-            "amount": "0.183",
-            "ex_date": "2018-05-11",
-            "record_date": "2018-05-14",
-            "pay_date": "2018-05-17",
-            "type": "Cash Div.",
-            "currency": "USD"
-        },
-        {
-            "amount": "0.158",
-            "ex_date": "2018-02-09",
-            "record_date": "2018-02-12",
-            "pay_date": "2018-02-15",
-            "type": "Cash Div.",
-            "currency": "USD"
-        },
-        {
-            "amount": "0.158",
-            "ex_date": "2017-11-10",
-            "record_date": "2017-11-13",
-            "pay_date": "2017-11-16",
-            "type": "Cash Div.",
-            "currency": "USD"
-        },
-        {
-            "amount": "0.158",
-            "ex_date": "2017-08-10",
-            "record_date": "2017-08-14",
-            "pay_date": "2017-08-17",
-            "type": "Cash Div.",
-            "currency": "USD"
-        },
-        {
-            "amount": "0.158",
-            "ex_date": "2017-05-11",
-            "record_date": "2017-05-15",
-            "pay_date": "2017-05-18",
-            "type": "Cash Div.",
-            "currency": "USD"
-        },
-        {
-            "amount": "0.143",
-            "ex_date": "2017-02-09",
-            "record_date": "2017-02-13",
-            "pay_date": "2017-02-16",
-            "type": "Cash Div.",
-            "currency": "USD"
-        },
-        {
-            "amount": "0.143",
-            "ex_date": "2016-11-03",
-            "record_date": "2016-11-07",
-            "pay_date": "2016-11-10",
-            "type": "Cash Div.",
-            "currency": "USD"
-        },
-        {
-            "amount": "0.143",
-            "ex_date": "2016-08-04",
-            "record_date": "2016-08-08",
-            "pay_date": "2016-08-11",
-            "type": "Cash Div.",
-            "currency": "USD"
-        },
-        {
-            "amount": "0.143",
-            "ex_date": "2016-05-05",
-            "record_date": "2016-05-09",
-            "pay_date": "2016-05-12",
-            "type": "Cash Div.",
-            "currency": "USD"
-        },
-        {
-            "amount": "0.130",
-            "ex_date": "2016-02-04",
-            "record_date": "2016-02-08",
-            "pay_date": "2016-02-11",
-            "type": "Cash Div.",
-            "currency": "USD"
-        },
-        {
-            "amount": "0.130",
-            "ex_date": "2015-11-05",
-            "record_date": "2015-11-09",
-            "pay_date": "2015-11-12",
-            "type": "Cash Div.",
-            "currency": "USD"
-        },
-        {
-            "amount": "0.130",
-            "ex_date": "2015-08-06",
-            "record_date": "2015-08-10",
-            "pay_date": "2015-08-13",
-            "type": "Cash Div.",
-            "currency": "USD"
-        },
-        {
-            "amount": "0.130",
-            "ex_date": "2015-05-07",
-            "record_date": "2015-05-11",
-            "pay_date": "2015-05-14",
-            "type": "Cash Div.",
-            "currency": "USD"
-        },
-        {
-            "amount": "0.118",
-            "ex_date": "2015-02-05",
-            "record_date": "2015-02-09",
-            "pay_date": "2015-02-12",
-            "type": "Cash Div.",
-            "currency": "USD"
-        },
-        {
-            "amount": "0.118",
-            "ex_date": "2014-11-06",
-            "record_date": "2014-11-10",
-            "pay_date": "2014-11-13",
-            "type": "Cash Div.",
-            "currency": "USD"
-        },
-        {
-            "amount": "0.118",
-            "ex_date": "2014-08-07",
-            "record_date": "2014-08-11",
-            "pay_date": "2014-08-14",
-            "type": "Cash Div.",
-            "currency": "USD"
-        },
-        {
-            "amount": "0.118",
-            "ex_date": "2014-05-08",
-            "record_date": "2014-05-12",
-            "pay_date": "2014-05-15",
-            "type": "Cash Div.",
-            "currency": "USD"
-        },
-        {
-            "amount": "0.109",
-            "ex_date": "2014-02-06",
-            "record_date": "2014-02-10",
-            "pay_date": "2014-02-13",
-            "type": "Cash Div.",
-            "currency": "USD"
-        },
-        {
-            "amount": "0.109",
-            "ex_date": "2013-11-06",
-            "record_date": "2013-11-11",
-            "pay_date": "2013-11-14",
-            "type": "Cash Div.",
-            "currency": "USD"
-        },
-        {
-            "amount": "0.109",
-            "ex_date": "2013-08-08",
-            "record_date": "2013-08-12",
-            "pay_date": "2013-08-15",
-            "type": "Cash Div.",
-            "currency": "USD"
-        },
-        {
-            "amount": "0.109",
-            "ex_date": "2013-05-09",
-            "record_date": "2013-05-13",
-            "pay_date": "2013-05-16",
-            "type": "Cash Div.",
-            "currency": "USD"
-        },
-        {
-            "amount": "0.095",
-            "ex_date": "2013-02-07",
-            "record_date": "2013-02-11",
-            "pay_date": "2013-02-14",
-            "type": "Cash Div.",
-            "currency": "USD"
-        },
-        {
-            "amount": "0.095",
-            "ex_date": "2012-11-07",
-            "record_date": "2012-11-12",
-            "pay_date": "2012-11-15",
-            "type": "Cash Div.",
-            "currency": "USD"
-        },
-        {
-            "amount": "0.095",
-            "ex_date": "2012-08-09",
-            "record_date": "2012-08-13",
-            "pay_date": "2012-08-16",
-            "type": "Cash Div.",
-            "currency": "USD"
-        },
-        {
-            "amount": "0.001",
-            "ex_date": "1995-11-21",
-            "record_date": "1995-11-24",
-            "pay_date": "1995-12-15",
-            "type": "Cash Div.",
-            "currency": "USD"
-        },
-        {
-            "amount": "0.001",
-            "ex_date": "1995-08-16",
-            "record_date": "1995-08-18",
-            "pay_date": "1995-09-08",
-            "type": "Cash Div.",
-            "currency": "USD"
-        },
-        {
-            "amount": "0.001",
-            "ex_date": "1995-05-26",
-            "record_date": "1995-06-02",
-            "pay_date": "1995-06-23",
-            "type": "Cash Div.",
-            "currency": "USD"
-        },
-        {
-            "amount": "0.001",
-            "ex_date": "1995-02-13",
-            "record_date": "1995-02-17",
-            "pay_date": "1995-03-10",
-            "type": "Cash Div.",
-            "currency": "USD"
-        },
-        {
-            "amount": "0.001",
-            "ex_date": "1994-11-18",
-            "record_date": "1994-11-25",
-            "pay_date": "1994-12-16",
-            "type": "Cash Div.",
-            "currency": "USD"
-        },
-        {
-            "amount": "0.001",
-            "ex_date": "1994-08-15",
-            "record_date": "1994-08-19",
-            "pay_date": "1994-09-09",
-            "type": "Cash Div.",
-            "currency": "USD"
-        },
-        {
-            "amount": "0.001",
-            "ex_date": "1994-05-27",
-            "record_date": "1994-06-03",
-            "pay_date": "1994-06-24",
-            "type": "Cash Div.",
-            "currency": "USD"
-        },
-        {
-            "amount": "0.001",
-            "ex_date": "1994-02-07",
-            "record_date": "1994-02-11",
-            "pay_date": "1994-03-04",
-            "type": "Cash Div.",
-            "currency": "USD"
-        },
-        {
-            "amount": "0.001",
-            "ex_date": "1993-11-19",
-            "record_date": "1993-11-26",
-            "pay_date": "1993-12-17",
-            "type": "Cash Div.",
-            "currency": "USD"
-        },
-        {
-            "amount": "0.001",
-            "ex_date": "1993-08-16",
-            "record_date": "1993-08-20",
-            "pay_date": "1993-09-10",
-            "type": "Cash Div.",
-            "currency": "USD"
-        },
-        {
-            "amount": "0.001",
-            "ex_date": "1993-05-28",
-            "record_date": "1993-06-04",
-            "pay_date": "1993-06-25",
-            "type": "Cash Div.",
-            "currency": "USD"
-        },
-        {
-            "amount": "0.001",
-            "ex_date": "1993-02-12",
-            "record_date": "1993-02-19",
-            "pay_date": "1993-03-12",
-            "type": "Cash Div.",
-            "currency": "USD"
-        },
-        {
-            "amount": "0.001",
-            "ex_date": "1992-11-30",
-            "record_date": "1992-12-04",
-            "pay_date": "1992-12-18",
-            "type": "Cash Div.",
-            "currency": "USD"
-        },
-        {
-            "amount": "0.001",
-            "ex_date": "1992-08-17",
-            "record_date": "1992-08-21",
-            "pay_date": "1992-09-11",
-            "type": "Cash Div.",
-            "currency": "USD"
-        },
-        {
-            "amount": "0.001",
-            "ex_date": "1992-06-01",
-            "record_date": "1992-06-05",
-            "pay_date": "1992-06-19",
-            "type": "Cash Div.",
-            "currency": "USD"
-        },
-        {
-            "amount": "0.001",
-            "ex_date": "1992-02-14",
-            "record_date": "1992-02-21",
-            "pay_date": "1992-03-13",
-            "type": "Cash Div.",
-            "currency": "USD"
-        },
-        {
-            "amount": "0.001",
-            "ex_date": "1991-11-18",
-            "record_date": "1991-11-22",
-            "pay_date": "1991-12-13",
-            "type": "Cash Div.",
-            "currency": "USD"
-        },
-        {
-            "amount": "0.001",
-            "ex_date": "1991-08-19",
-            "record_date": "1991-08-23",
-            "pay_date": "1991-09-13",
-            "type": "Cash Div.",
-            "currency": "USD"
-        },
-        {
-            "amount": "0.001",
-            "ex_date": "1991-05-20",
-            "record_date": "1991-05-24",
-            "pay_date": "1991-06-14",
-            "type": "Cash Div.",
-            "currency": "USD"
-        },
-        {
-            "amount": "0.001",
-            "ex_date": "1991-02-15",
-            "record_date": "1991-02-22",
-            "pay_date": "1991-03-15",
-            "type": "Cash Div.",
-            "currency": "USD"
-        },
-        {
-            "amount": "0.001",
-            "ex_date": "1990-11-16",
-            "record_date": "1990-11-23",
-            "pay_date": "1990-12-14",
-            "type": "Cash Div.",
-            "currency": "USD"
-        },
-        {
-            "amount": "0.001",
-            "ex_date": "1990-08-20",
-            "record_date": "1990-08-24",
-            "pay_date": "1990-09-14",
-            "type": "Cash Div.",
-            "currency": "USD"
-        },
-        {
-            "amount": "0.001",
-            "ex_date": "1990-05-21",
-            "record_date": "1990-05-25",
-            "pay_date": "1990-06-15",
-            "type": "Cash Div.",
-            "currency": "USD"
-        },
-        {
-            "amount": "0.001",
-            "ex_date": "1990-02-16",
-            "record_date": "1990-02-23",
-            "pay_date": "1990-03-15",
-            "type": "Cash Div.",
-            "currency": "USD"
-        },
-        {
-            "amount": "0.001",
-            "ex_date": "1989-11-17",
-            "record_date": "1989-11-24",
-            "pay_date": "1989-12-15",
-            "type": "Cash Div.",
-            "currency": "USD"
-        },
-        {
-            "amount": "0.001",
-            "ex_date": "1989-08-21",
-            "record_date": "1989-08-25",
-            "pay_date": "1989-09-15",
-            "type": "Cash Div.",
-            "currency": "USD"
-        },
-        {
-            "amount": "0.001",
-            "ex_date": "1989-05-22",
-            "record_date": "1989-05-26",
-            "pay_date": "1989-06-15",
-            "type": "Cash Div.",
-            "currency": "USD"
-        },
-        {
-            "amount": "0.001",
-            "ex_date": "1989-02-17",
-            "record_date": "1989-02-25",
-            "pay_date": "1989-03-15",
-            "type": "Cash Div.",
-            "currency": "USD"
-        },
-        {
-            "amount": "0.001",
-            "ex_date": "1988-11-21",
-            "record_date": "1988-11-28",
-            "pay_date": "1988-12-15",
-            "type": "Cash Div.",
-            "currency": "USD"
-        },
-        {
-            "amount": "0.001",
-            "ex_date": "1988-08-15",
-            "record_date": "1988-08-19",
-            "pay_date": "1988-09-15",
-            "type": "Cash Div.",
-            "currency": "USD"
-        },
-        {
-            "amount": "0.001",
-            "ex_date": "1988-05-16",
-            "record_date": "1988-05-20",
-            "pay_date": "1988-06-15",
-            "type": "Cash Div.",
-            "currency": "USD"
-        },
-        {
-            "amount": "0.001",
-            "ex_date": "1988-02-12",
-            "record_date": "1988-02-19",
-            "pay_date": "1988-03-15",
-            "type": "Cash Div.",
-            "currency": "USD"
-        },
-        {
-            "amount": "0.001",
-            "ex_date": "1987-11-17",
-            "record_date": "1987-11-23",
-            "pay_date": "1987-12-15",
-            "type": "Cash Div.",
-            "currency": "USD"
-        },
-        {
-            "amount": "0.001",
-            "ex_date": "1987-08-10",
-            "record_date": "1987-08-14",
-            "pay_date": "1987-09-15",
-            "type": "Cash Div.",
-            "currency": "USD"
-        },
-        {
-            "amount": "0.001",
-            "ex_date": "1987-05-11",
-            "record_date": "1987-05-15",
-            "pay_date": "1987-06-15",
-            "type": "Cash Div.",
-            "currency": "USD"
-        }
-    ]
-}
+[
+    {
+        "amount": "1.660",
+        "ex_date": "2023-05-09",
+        "record_date": "2023-05-10",
+        "pay_date": "2023-06-10",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "1.650",
+        "ex_date": "2023-02-09",
+        "record_date": "2023-02-10",
+        "pay_date": "2023-03-10",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "1.650",
+        "ex_date": "2022-11-09",
+        "record_date": "2022-11-10",
+        "pay_date": "2022-12-10",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "1.650",
+        "ex_date": "2022-08-09",
+        "record_date": "2022-08-10",
+        "pay_date": "2022-09-10",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "1.650",
+        "ex_date": "2022-05-09",
+        "record_date": "2022-05-10",
+        "pay_date": "2022-06-10",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "1.640",
+        "ex_date": "2022-02-10",
+        "record_date": "2022-02-11",
+        "pay_date": "2022-03-10",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "1.640",
+        "ex_date": "2021-11-09",
+        "record_date": "2021-11-10",
+        "pay_date": "2021-12-10",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "1.640",
+        "ex_date": "2021-08-09",
+        "record_date": "2021-08-10",
+        "pay_date": "2021-09-10",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "1.640",
+        "ex_date": "2021-05-07",
+        "record_date": "2021-05-10",
+        "pay_date": "2021-06-10",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "1.630",
+        "ex_date": "2021-02-09",
+        "record_date": "2021-02-10",
+        "pay_date": "2021-03-10",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "1.630",
+        "ex_date": "2020-11-09",
+        "record_date": "2020-11-10",
+        "pay_date": "2020-12-10",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "1.630",
+        "ex_date": "2020-08-07",
+        "record_date": "2020-08-10",
+        "pay_date": "2020-09-10",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "1.630",
+        "ex_date": "2020-05-07",
+        "record_date": "2020-05-08",
+        "pay_date": "2020-06-10",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "1.620",
+        "ex_date": "2020-02-07",
+        "record_date": "2020-02-10",
+        "pay_date": "2020-03-10",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "1.620",
+        "ex_date": "2019-11-07",
+        "record_date": "2019-11-08",
+        "pay_date": "2019-12-10",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "1.620",
+        "ex_date": "2019-08-08",
+        "record_date": "2019-08-09",
+        "pay_date": "2019-09-10",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "1.620",
+        "ex_date": "2019-05-09",
+        "record_date": "2019-05-10",
+        "pay_date": "2019-06-10",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "1.570",
+        "ex_date": "2019-02-07",
+        "record_date": "2019-02-08",
+        "pay_date": "2019-03-09",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "1.570",
+        "ex_date": "2018-11-08",
+        "record_date": "2018-11-09",
+        "pay_date": "2018-12-10",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "1.570",
+        "ex_date": "2018-08-09",
+        "record_date": "2018-08-10",
+        "pay_date": "2018-09-10",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "1.570",
+        "ex_date": "2018-05-09",
+        "record_date": "2018-05-10",
+        "pay_date": "2018-06-09",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "1.500",
+        "ex_date": "2018-02-08",
+        "record_date": "2018-02-09",
+        "pay_date": "2018-03-10",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "1.500",
+        "ex_date": "2017-11-09",
+        "record_date": "2017-11-10",
+        "pay_date": "2017-12-09",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "1.500",
+        "ex_date": "2017-08-08",
+        "record_date": "2017-08-10",
+        "pay_date": "2017-09-09",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "1.500",
+        "ex_date": "2017-05-08",
+        "record_date": "2017-05-10",
+        "pay_date": "2017-06-10",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "1.400",
+        "ex_date": "2017-02-08",
+        "record_date": "2017-02-10",
+        "pay_date": "2017-03-10",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "1.400",
+        "ex_date": "2016-11-08",
+        "record_date": "2016-11-10",
+        "pay_date": "2016-12-10",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "1.400",
+        "ex_date": "2016-08-08",
+        "record_date": "2016-08-10",
+        "pay_date": "2016-09-10",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "1.400",
+        "ex_date": "2016-05-06",
+        "record_date": "2016-05-10",
+        "pay_date": "2016-06-10",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "1.300",
+        "ex_date": "2016-02-08",
+        "record_date": "2016-02-10",
+        "pay_date": "2016-03-10",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "1.300",
+        "ex_date": "2015-11-06",
+        "record_date": "2015-11-10",
+        "pay_date": "2015-12-10",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "1.300",
+        "ex_date": "2015-08-06",
+        "record_date": "2015-08-10",
+        "pay_date": "2015-09-10",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "1.300",
+        "ex_date": "2015-05-06",
+        "record_date": "2015-05-08",
+        "pay_date": "2015-06-10",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "1.100",
+        "ex_date": "2015-02-06",
+        "record_date": "2015-02-10",
+        "pay_date": "2015-03-10",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "1.100",
+        "ex_date": "2014-11-06",
+        "record_date": "2014-11-10",
+        "pay_date": "2014-12-10",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "1.100",
+        "ex_date": "2014-08-06",
+        "record_date": "2014-08-08",
+        "pay_date": "2014-09-10",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "1.100",
+        "ex_date": "2014-05-07",
+        "record_date": "2014-05-09",
+        "pay_date": "2014-06-10",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "0.950",
+        "ex_date": "2014-02-06",
+        "record_date": "2014-02-10",
+        "pay_date": "2014-03-10",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "0.950",
+        "ex_date": "2013-11-06",
+        "record_date": "2013-11-08",
+        "pay_date": "2013-12-10",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "0.950",
+        "ex_date": "2013-08-07",
+        "record_date": "2013-08-09",
+        "pay_date": "2013-09-10",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "0.950",
+        "ex_date": "2013-05-08",
+        "record_date": "2013-05-10",
+        "pay_date": "2013-06-10",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "0.850",
+        "ex_date": "2013-02-06",
+        "record_date": "2013-02-08",
+        "pay_date": "2013-03-09",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "0.850",
+        "ex_date": "2012-11-07",
+        "record_date": "2012-11-09",
+        "pay_date": "2012-12-10",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "0.850",
+        "ex_date": "2012-08-08",
+        "record_date": "2012-08-10",
+        "pay_date": "2012-09-10",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "0.850",
+        "ex_date": "2012-05-08",
+        "record_date": "2012-05-10",
+        "pay_date": "2012-06-09",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "0.750",
+        "ex_date": "2012-02-08",
+        "record_date": "2012-02-10",
+        "pay_date": "2012-03-10",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "0.750",
+        "ex_date": "2011-11-08",
+        "record_date": "2011-11-10",
+        "pay_date": "2011-12-10",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "0.750",
+        "ex_date": "2011-08-08",
+        "record_date": "2011-08-10",
+        "pay_date": "2011-09-10",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "0.750",
+        "ex_date": "2011-05-06",
+        "record_date": "2011-05-10",
+        "pay_date": "2011-06-10",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "0.650",
+        "ex_date": "2011-02-08",
+        "record_date": "2011-02-10",
+        "pay_date": "2011-03-10",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "0.650",
+        "ex_date": "2010-11-08",
+        "record_date": "2010-11-10",
+        "pay_date": "2010-12-10",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "0.650",
+        "ex_date": "2010-08-06",
+        "record_date": "2010-08-10",
+        "pay_date": "2010-09-10",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "0.650",
+        "ex_date": "2010-05-06",
+        "record_date": "2010-05-10",
+        "pay_date": "2010-06-10",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "0.550",
+        "ex_date": "2010-02-08",
+        "record_date": "2010-02-10",
+        "pay_date": "2010-03-10",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "0.550",
+        "ex_date": "2009-11-06",
+        "record_date": "2009-11-10",
+        "pay_date": "2009-12-10",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "0.550",
+        "ex_date": "2009-08-06",
+        "record_date": "2009-08-10",
+        "pay_date": "2009-09-10",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "0.550",
+        "ex_date": "2009-05-06",
+        "record_date": "2009-05-08",
+        "pay_date": "2009-06-10",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "0.500",
+        "ex_date": "2009-02-06",
+        "record_date": "2009-02-10",
+        "pay_date": "2009-03-10",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "0.500",
+        "ex_date": "2008-11-06",
+        "record_date": "2008-11-10",
+        "pay_date": "2008-12-10",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "0.500",
+        "ex_date": "2008-08-06",
+        "record_date": "2008-08-08",
+        "pay_date": "2008-09-10",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "0.500",
+        "ex_date": "2008-05-07",
+        "record_date": "2008-05-09",
+        "pay_date": "2008-06-10",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "0.400",
+        "ex_date": "2008-02-06",
+        "record_date": "2008-02-08",
+        "pay_date": "2008-03-10",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "0.400",
+        "ex_date": "2007-11-07",
+        "record_date": "2007-11-09",
+        "pay_date": "2007-12-10",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "0.400",
+        "ex_date": "2007-08-08",
+        "record_date": "2007-08-10",
+        "pay_date": "2007-09-10",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "0.400",
+        "ex_date": "2007-05-08",
+        "record_date": "2007-05-10",
+        "pay_date": "2007-06-09",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "0.300",
+        "ex_date": "2007-02-07",
+        "record_date": "2007-02-09",
+        "pay_date": "2007-03-10",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "0.300",
+        "ex_date": "2006-11-08",
+        "record_date": "2006-11-10",
+        "pay_date": "2006-12-09",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "0.300",
+        "ex_date": "2006-08-08",
+        "record_date": "2006-08-10",
+        "pay_date": "2006-09-09",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "0.300",
+        "ex_date": "2006-05-08",
+        "record_date": "2006-05-10",
+        "pay_date": "2006-06-10",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "0.200",
+        "ex_date": "2006-02-08",
+        "record_date": "2006-02-10",
+        "pay_date": "2006-03-10",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "0.200",
+        "ex_date": "2005-11-08",
+        "record_date": "2005-11-10",
+        "pay_date": "2005-12-10",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "0.200",
+        "ex_date": "2005-08-08",
+        "record_date": "2005-08-10",
+        "pay_date": "2005-09-10",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "0.200",
+        "ex_date": "2005-05-06",
+        "record_date": "2005-05-10",
+        "pay_date": "2005-06-10",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "0.180",
+        "ex_date": "2005-02-08",
+        "record_date": "2005-02-10",
+        "pay_date": "2005-03-10",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "0.180",
+        "ex_date": "2004-11-08",
+        "record_date": "2004-11-10",
+        "pay_date": "2004-12-10",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "0.180",
+        "ex_date": "2004-08-06",
+        "record_date": "2004-08-10",
+        "pay_date": "2004-09-10",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "0.180",
+        "ex_date": "2004-05-06",
+        "record_date": "2004-05-10",
+        "pay_date": "2004-06-10",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "0.160",
+        "ex_date": "2004-02-06",
+        "record_date": "2004-02-10",
+        "pay_date": "2004-03-10",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "0.160",
+        "ex_date": "2003-11-06",
+        "record_date": "2003-11-10",
+        "pay_date": "2003-12-10",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "0.160",
+        "ex_date": "2003-08-06",
+        "record_date": "2003-08-08",
+        "pay_date": "2003-09-10",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "0.160",
+        "ex_date": "2003-05-07",
+        "record_date": "2003-05-09",
+        "pay_date": "2003-06-10",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "0.150",
+        "ex_date": "2003-02-06",
+        "record_date": "2003-02-10",
+        "pay_date": "2003-03-10",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "0.150",
+        "ex_date": "2002-11-06",
+        "record_date": "2002-11-08",
+        "pay_date": "2002-12-10",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "0.150",
+        "ex_date": "2002-08-07",
+        "record_date": "2002-08-09",
+        "pay_date": "2002-09-10",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "0.150",
+        "ex_date": "2002-05-08",
+        "record_date": "2002-05-10",
+        "pay_date": "2002-06-10",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "0.140",
+        "ex_date": "2002-02-06",
+        "record_date": "2002-02-08",
+        "pay_date": "2002-03-09",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "0.140",
+        "ex_date": "2001-11-07",
+        "record_date": "2001-11-09",
+        "pay_date": "2001-12-10",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "0.140",
+        "ex_date": "2001-08-08",
+        "record_date": "2001-08-10",
+        "pay_date": "2001-09-10",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "0.140",
+        "ex_date": "2001-05-08",
+        "record_date": "2001-05-10",
+        "pay_date": "2001-06-09",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "0.130",
+        "ex_date": "2001-02-07",
+        "record_date": "2001-02-09",
+        "pay_date": "2001-03-10",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "0.130",
+        "ex_date": "2000-11-08",
+        "record_date": "2000-11-10",
+        "pay_date": "2000-12-09",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "0.130",
+        "ex_date": "2000-08-08",
+        "record_date": "2000-08-10",
+        "pay_date": "2000-09-09",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "0.130",
+        "ex_date": "2000-05-08",
+        "record_date": "2000-05-10",
+        "pay_date": "2000-06-10",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "0.120",
+        "ex_date": "2000-02-08",
+        "record_date": "2000-02-10",
+        "pay_date": "2000-03-10",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "0.120",
+        "ex_date": "1999-11-08",
+        "record_date": "1999-11-10",
+        "pay_date": "1999-12-10",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "0.120",
+        "ex_date": "1999-08-06",
+        "record_date": "1999-08-10",
+        "pay_date": "1999-09-10",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "0.120",
+        "ex_date": "1999-05-06",
+        "record_date": "1999-05-04",
+        "pay_date": "0000-00-00",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "0.110",
+        "ex_date": "1999-02-08",
+        "record_date": "1999-02-10",
+        "pay_date": "1999-03-10",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "0.110",
+        "ex_date": "1998-11-06",
+        "record_date": "1998-11-10",
+        "pay_date": "1998-12-10",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "0.110",
+        "ex_date": "1998-08-06",
+        "record_date": "1998-08-10",
+        "pay_date": "1998-09-10",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "0.110",
+        "ex_date": "1998-05-06",
+        "record_date": "1998-05-08",
+        "pay_date": "1998-06-10",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "0.100",
+        "ex_date": "1998-02-06",
+        "record_date": "1998-02-10",
+        "pay_date": "1998-03-10",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "0.100",
+        "ex_date": "1997-11-06",
+        "record_date": "1997-11-10",
+        "pay_date": "1997-12-10",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "0.100",
+        "ex_date": "1997-08-07",
+        "record_date": "1997-08-11",
+        "pay_date": "1997-09-10",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "0.100",
+        "ex_date": "1997-05-07",
+        "record_date": "1997-05-09",
+        "pay_date": "1997-06-10",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "0.088",
+        "ex_date": "1997-02-06",
+        "record_date": "1997-02-10",
+        "pay_date": "1997-03-10",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "0.088",
+        "ex_date": "1996-11-06",
+        "record_date": "1996-11-08",
+        "pay_date": "1996-12-10",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "0.088",
+        "ex_date": "1996-08-07",
+        "record_date": "1996-08-09",
+        "pay_date": "1996-09-10",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "0.088",
+        "ex_date": "1996-05-08",
+        "record_date": "1996-05-10",
+        "pay_date": "1996-06-10",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "0.063",
+        "ex_date": "1996-02-07",
+        "record_date": "1996-02-09",
+        "pay_date": "1996-03-09",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "0.063",
+        "ex_date": "1995-11-08",
+        "record_date": "1995-11-10",
+        "pay_date": "1995-12-09",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "0.063",
+        "ex_date": "1995-08-08",
+        "record_date": "1995-08-10",
+        "pay_date": "1995-09-09",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "0.063",
+        "ex_date": "1995-05-04",
+        "record_date": "1995-05-10",
+        "pay_date": "1995-06-10",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "0.063",
+        "ex_date": "1995-02-06",
+        "record_date": "1995-02-10",
+        "pay_date": "1995-03-10",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "0.063",
+        "ex_date": "1994-11-04",
+        "record_date": "1994-11-10",
+        "pay_date": "1994-12-10",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "0.063",
+        "ex_date": "1994-08-04",
+        "record_date": "1994-08-10",
+        "pay_date": "1994-09-10",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "0.063",
+        "ex_date": "1994-05-05",
+        "record_date": "1994-05-11",
+        "pay_date": "1994-06-10",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "0.063",
+        "ex_date": "1994-02-04",
+        "record_date": "1994-02-10",
+        "pay_date": "1994-03-10",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "0.063",
+        "ex_date": "1993-11-04",
+        "record_date": "1993-11-10",
+        "pay_date": "1993-12-10",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "0.063",
+        "ex_date": "1993-08-05",
+        "record_date": "1993-08-11",
+        "pay_date": "1993-09-10",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "0.135",
+        "ex_date": "1993-05-06",
+        "record_date": "1993-05-12",
+        "pay_date": "1993-06-10",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "0.135",
+        "ex_date": "1993-02-04",
+        "record_date": "1993-02-10",
+        "pay_date": "1993-03-10",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "0.303",
+        "ex_date": "1992-11-05",
+        "record_date": "1992-11-12",
+        "pay_date": "1992-12-10",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "0.303",
+        "ex_date": "1992-08-06",
+        "record_date": "1992-08-12",
+        "pay_date": "1992-09-10",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "0.303",
+        "ex_date": "1992-05-07",
+        "record_date": "1992-05-13",
+        "pay_date": "1992-06-10",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "0.303",
+        "ex_date": "1992-02-06",
+        "record_date": "1992-02-12",
+        "pay_date": "1992-03-10",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "0.303",
+        "ex_date": "1991-11-04",
+        "record_date": "1991-11-08",
+        "pay_date": "1991-12-10",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "0.303",
+        "ex_date": "1991-08-06",
+        "record_date": "1991-08-12",
+        "pay_date": "1991-09-10",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "0.303",
+        "ex_date": "1991-05-06",
+        "record_date": "1991-05-10",
+        "pay_date": "1991-06-10",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "0.303",
+        "ex_date": "1991-02-04",
+        "record_date": "1991-02-08",
+        "pay_date": "1991-03-09",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "0.303",
+        "ex_date": "1990-11-05",
+        "record_date": "1990-11-09",
+        "pay_date": "1990-12-10",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "0.303",
+        "ex_date": "1990-08-06",
+        "record_date": "1990-08-10",
+        "pay_date": "1990-09-10",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "0.303",
+        "ex_date": "1990-05-04",
+        "record_date": "1990-05-10",
+        "pay_date": "1990-06-09",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "0.303",
+        "ex_date": "1990-02-05",
+        "record_date": "1990-02-09",
+        "pay_date": "1990-03-10",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "0.303",
+        "ex_date": "1989-11-02",
+        "record_date": "1989-11-08",
+        "pay_date": "1989-12-09",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "0.303",
+        "ex_date": "1989-08-03",
+        "record_date": "1989-08-09",
+        "pay_date": "1989-09-09",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "0.303",
+        "ex_date": "1989-05-04",
+        "record_date": "1989-05-10",
+        "pay_date": "1989-06-10",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "0.275",
+        "ex_date": "1989-02-02",
+        "record_date": "1989-02-08",
+        "pay_date": "1989-03-10",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "0.275",
+        "ex_date": "1988-11-04",
+        "record_date": "1988-11-10",
+        "pay_date": "1988-12-10",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "0.275",
+        "ex_date": "1988-08-04",
+        "record_date": "1988-08-10",
+        "pay_date": "1988-09-10",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "0.275",
+        "ex_date": "1988-05-05",
+        "record_date": "1988-05-11",
+        "pay_date": "1988-06-10",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "0.275",
+        "ex_date": "1988-02-04",
+        "record_date": "1988-02-10",
+        "pay_date": "1988-03-10",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "0.275",
+        "ex_date": "1987-11-05",
+        "record_date": "1987-11-12",
+        "pay_date": "1987-12-10",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "0.275",
+        "ex_date": "1987-08-06",
+        "record_date": "1987-08-12",
+        "pay_date": "1987-09-10",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "0.275",
+        "ex_date": "1987-05-07",
+        "record_date": "1987-05-13",
+        "pay_date": "1987-06-10",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "0.275",
+        "ex_date": "1987-02-05",
+        "record_date": "1987-02-11",
+        "pay_date": "1987-03-10",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "0.275",
+        "ex_date": "1986-11-05",
+        "record_date": "1986-11-12",
+        "pay_date": "1986-12-10",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "0.275",
+        "ex_date": "1986-08-07",
+        "record_date": "1986-08-13",
+        "pay_date": "1986-09-10",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "0.275",
+        "ex_date": "1986-05-08",
+        "record_date": "1986-05-14",
+        "pay_date": "1986-06-10",
+        "type": "Cash Div.",
+        "currency": "USD"
+    },
+    {
+        "amount": "0.275",
+        "ex_date": "1986-02-07",
+        "record_date": "1986-02-13",
+        "pay_date": "1986-03-10",
+        "type": "Cash Div.",
+        "currency": "USD"
+    }
+]

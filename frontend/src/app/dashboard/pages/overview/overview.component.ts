@@ -15,12 +15,29 @@ export class OverviewComponent {
         "ticker": new FormControl("IBM", [Validators.required])
     })
     messageHub$: Observable<any>;
-    overview$: Observable<any>;
-    cashflow$: Observable<any>;
-    earnings$: Observable<any>;
+    overview: any;
+    cashflow: any;
+    earnings: any;
 
     constructor(private socket: WebsocketService) {
-        this.messageHub$ = this.socket.messages;
+        this.socket.messages.subscribe({
+            next: data => {
+                if (data) {
+                    const res = JSON.parse(data.data);
+                    switch(res.type) {
+                        case "alph_overview":
+                            this.overview = res;
+                            break;
+                        case "alph_cashflow":
+                            this.cashflow = res;
+                            break;
+                        case "alph_earnings":
+                            this.earnings = res;
+                            break;
+                    }
+                }
+            }
+        });
     }
 
     onSubmit(): void {
