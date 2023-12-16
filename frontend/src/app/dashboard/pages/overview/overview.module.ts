@@ -3,12 +3,8 @@ import { CommonModule } from '@angular/common';
 import { OverviewComponent } from './overview.component';
 import { RouterModule, Routes } from '@angular/router';
 import { UiModule } from '../../ui/ui.module';
-import { NgIconsModule } from '@ng-icons/core';
-import { 
-    iconoirArrowTr,
-    iconoirSaveFloppyDisk,
-    iconoirPlus,
-} from '@ng-icons/iconoir';
+import { ChartModule } from 'angular-highcharts';
+
 import { ReactiveFormsModule } from '@angular/forms';
 
 const routes: Routes = [
@@ -23,12 +19,8 @@ const routes: Routes = [
         CommonModule,
         UiModule,
         ReactiveFormsModule,
-        NgIconsModule.withIcons({ 
-            iconoirArrowTr,
-            iconoirSaveFloppyDisk,
-            iconoirPlus,
-        }),
-        RouterModule.forChild(routes)
+        RouterModule.forChild(routes),
+        ChartModule
     ]
 })
 export class OverviewModule { }

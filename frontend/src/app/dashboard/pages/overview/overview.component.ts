@@ -3,6 +3,8 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { WebsocketService } from '../../services/websocket.service';
 import { ITickerAction } from '../../typedefs/global';
+import { Chart } from 'angular-highcharts';
+
 
 @Component({
     selector: 'app-overview',
@@ -14,13 +16,63 @@ export class OverviewComponent {
     tickerForm: FormGroup = new FormGroup({
         "ticker": new FormControl("IBM", [Validators.required])
     })
-    messageHub$: Observable<any>;
-    overview$: Observable<any>;
-    cashflow$: Observable<any>;
-    earnings$: Observable<any>;
+    summary: any;
+    financials: any;
+    dividend: any;
+    price: any;
+    keyratios: any;
+    chart: Chart;
 
     constructor(private socket: WebsocketService) {
-        this.messageHub$ = this.socket.messages;
+        this.socket.messages.subscribe({
+            next: payload => {
+                switch (payload?.type) {
+                    case "summary":
+                        this.summary = payload.data;
+                        break;
+                    case "financials":
+                        this.financials = payload.data;
+                        break;
+                    case "dividend":
+                        this.dividend = payload.data;
+                        break;
+                    case "price":
+                        this.price = payload.data;
+                        this.setPriceChart(payload.data);
+                        break;
+                    case "keyratios":
+                        this.keyratios = payload.data;
+                        break;
+                }
+            }
+        });
+    }
+
+    setPriceChart(data: Array<[string, number]>) {
+        this.chart = new Chart({
+            chart: {
+                type: 'line'
+            },
+            title: {
+                text: 'Price'
+            },
+            xAxis: {
+                categories: data.map(d => d[0])
+            },
+            yAxis: {
+                title: {
+                    text: "$"
+                }
+            },
+            credits: {
+                enabled: false
+            },
+            series: [{
+                type: "line",
+                name: 'Line 1',
+                data: data.map(i => i[1])
+            }]
+        });
     }
 
     onSubmit(): void {

@@ -1,4 +1,4 @@
-package datasource
+package data
 
 import (
 	"encoding/json"
@@ -8,6 +8,7 @@ import (
 	"os"
 )
 
+// Deprecated: Alphavantage datasource will no longer used since it's to expensive to use
 type Alphavantage struct {
 	DEBUG   bool
 	API_KEY string
@@ -50,8 +51,8 @@ func (a *Alphavantage) unpack(resp *http.Response, resultStruct interface{}) err
 
 // Request response example: https://www.alphavantage.co/query?function=OVERVIEW&symbol=IBM&apikey=demo
 // Request documentation: https://www.alphavantage.co/documentation/#company-overview
-func (a *Alphavantage) Overview(ticker string) (*AlphavantageOverview, error) {
-	var results AlphavantageOverview
+func (a *Alphavantage) Overview(ticker string) (*interface{}, error) {
+	var results interface{}
 	if a.DEBUG {
 		fileBytes, _ := os.ReadFile("/demo_data/alphavantage_overview.json")
 		err := json.Unmarshal(fileBytes, &results)
@@ -73,8 +74,8 @@ func (a *Alphavantage) Overview(ticker string) (*AlphavantageOverview, error) {
 
 // Request documentation: https://www.alphavantage.co/documentation/#earnings
 // Request example: https://www.alphavantage.co/query?function=EARNINGS&symbol=IBM&apikey=demo
-func (a *Alphavantage) Earnings(ticker string) (*AlphavantageEarnings, error) {
-	var results AlphavantageEarnings
+func (a *Alphavantage) Earnings(ticker string) (*interface{}, error) {
+	var results interface{}
 	if a.DEBUG {
 		fileBytes, _ := os.ReadFile("/demo_data/alphavantage_earnings.json")
 		err := json.Unmarshal(fileBytes, &results)
@@ -95,8 +96,8 @@ func (a *Alphavantage) Earnings(ticker string) (*AlphavantageEarnings, error) {
 
 // Request documentation: https://www.alphavantage.co/documentation/#cash-flow
 // Request example: https://www.alphavantage.co/query?function=CASH_FLOW&symbol=IBM&apikey=demo
-func (a *Alphavantage) CashFlow(ticker string) (*AlphavantageCashFlow, error) {
-	var results AlphavantageCashFlow
+func (a *Alphavantage) CashFlow(ticker string) (*interface{}, error) {
+	var results interface{}
 	if a.DEBUG {
 		fileBytes, _ := os.ReadFile("/demo_data/alphavantage_cash_flow.json")
 		err := json.Unmarshal(fileBytes, &results)
@@ -115,18 +116,3 @@ func (a *Alphavantage) CashFlow(ticker string) (*AlphavantageCashFlow, error) {
 	}
 	return &results, nil
 }
-
-// type AlphavantageSeries struct {
-// }
-//
-// func (a *Alphavantage) Series(ticker string) (*AlphavantageSeries, error) {
-// 	resp, err := a.req("TIME_SERIES_MONTHLY", ticker)
-// 	if err != nil {
-// 		return nil, err
-// 	}
-// 	var results AlphavantageSeries
-// 	if err = a.unpack(resp, &results); err != nil {
-// 		return nil, err
-// 	}
-// 	return &results, nil
-// }

@@ -1,0 +1,7 @@
+.dashboard-sidebar {
+    width: 180px;
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100%;
+}
