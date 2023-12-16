@@ -6,34 +6,45 @@
 </form>
 
 <div class="row">
-  <div *ngIf="summary" class="col-md-6">
-    <div class="card mb-4 overflow-y-scroll" style="height: 300px;">
-      <div class="card-body">
-        <h5 class="card-title">Summary</h5>
-        <pre>{{ summary | json }}</pre>
+
+  @if (summary) {
+    <div class="col-md-6">
+      <div class="card mb-4 overflow-y-scroll" style="height: 300px;">
+        <div class="card-body">
+          <h5 class="card-title">Summary</h5>
+          <pre>{{ summary | json }}</pre>
+        </div>
       </div>
     </div>
-  </div>
+  }
   
-  <financials-chart *ngIf="is_financials_chart_loaded" />
+  @if (is_financials_chart_loaded) {
+    <financials-chart />
+  }
 
-  <div *ngIf="dividend" class="col-md-6">
-    <div class="card mb-4 overflow-y-scroll" style="height: 300px;">
-      <div class="card-body">
-        <h5 class="card-title">Dividends</h5>
-        <pre>{{ dividend | json }}</pre>
+  @if (dividend) {
+    <div class="col-md-6">
+      <div class="card mb-4 overflow-y-scroll" style="height: 300px;">
+        <div class="card-body">
+          <h5 class="card-title">Dividends</h5>
+          <pre>{{ dividend | json }}</pre>
+        </div>
       </div>
     </div>
-  </div>
+  }
 
-  <price-chart *ngIf="is_price_chart_loaded" />
-
-  <div *ngIf="keyratios" class="col-md-6">
-    <div class="card mb-4 overflow-y-scroll" style="height: 300px;">
-      <div class="card-body">
-        <h5 class="card-title">Keyratios</h5>
-        <pre>{{ keyratios | json }}</pre>
+  @if (is_price_chart_loaded) {
+    <price-chart />
+  }
+  
+  @if (keyratios) {
+    <div class="col-md-6">
+      <div class="card mb-4 overflow-y-scroll" style="height: 300px;">
+        <div class="card-body">
+          <h5 class="card-title">Keyratios</h5>
+          <pre>{{ keyratios | json }}</pre>
+        </div>
       </div>
     </div>
-  </div>
+  }
 </div>

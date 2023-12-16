@@ -7,11 +7,13 @@ import { selectPriceChartData } from "src/app/dashboard/store/report/selectors";
 @Component({
     selector: "price-chart",
     host: { "class": "col-md-6" },
-    template: `<div *ngIf="priceChart" class="card mb-4 overflow-y-scroll">
-        <div class="card-body">
-            <div [chart]="priceChart"></div>
+    template: `@if(priceChart) {
+        <div class="card mb-4 overflow-y-scroll">
+            <div class="card-body">
+                <div [chart]="priceChart"></div>
+            </div>
         </div>
-    </div>`
+    }`
 })
 export class PriceChartComponent {
     priceChart: Chart;

@@ -8,8 +8,11 @@
       </ul>
       <div class="d-flex gap-2 align-items-center">
         <button class="btn btn-sm" (click)="toggleTheme()">
-            <i *ngIf="(theme$ | async)" class="fa fa-sun-o" aria-hidden="true"></i>
-            <i *ngIf="!(theme$ | async)" class="fa fa-moon-o" aria-hidden="true"></i>
+            @if (theme$ | async) {
+              <i class="fa fa-sun-o" aria-hidden="true"></i>
+            } @else {
+              <i class="fa fa-moon-o" aria-hidden="true"></i>
+            }
         </button>
         <form class="d-flex" role="search">
           <input class="form-control me-2" type="search" placeholder="Search" />
