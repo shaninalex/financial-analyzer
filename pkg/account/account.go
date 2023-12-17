@@ -19,7 +19,7 @@ func InitAccount(UserId string, mq *amqp.Connection, ch *amqp.Channel) (*Account
 
 // Check if user can make report
 func (a *Account) AbleToReport() (bool, *string) {
-
-	msg := "Monthly reports limit reached"
-	return false, &msg
+	// msg := "Monthly reports limit reached"
+	// return false, &msg
+	return true, nil
 }
