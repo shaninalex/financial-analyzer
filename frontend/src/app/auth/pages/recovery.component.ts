@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
-import { AuthService } from 'src/app/services/auth.service';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-recovery',

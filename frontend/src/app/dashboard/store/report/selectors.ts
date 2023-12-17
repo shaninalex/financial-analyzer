@@ -2,9 +2,14 @@ import { createSelector } from '@ngrx/store';
 import { IReportState } from './reducer';
 
 
-export const selectUI = (state: any) => state.dashboard.report;
+const report = (state: any) => state.dashboard.report;
 
 export const selectPriceChartData = createSelector(
-    selectUI,
+    report,
     (state: IReportState) => state.priceChartData
+);
+
+export const selectFinancialsChartData = createSelector(
+    report,
+    (state: IReportState) => state.financialsChartData
 );

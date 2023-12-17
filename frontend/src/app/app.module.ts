@@ -7,6 +7,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { HttpClientModule } from '@angular/common/http';
+import { identityReducer } from './store/reducer';
 
 @NgModule({
   declarations: [
@@ -17,9 +18,11 @@ import { HttpClientModule } from '@angular/common/http';
     BrowserAnimationsModule,
     AppRoutingModule,
     HttpClientModule,
-    StoreModule.forRoot({}),
+    StoreModule.forRoot({
+      identity: identityReducer
+    }, {}),
     EffectsModule.forRoot([]),
-    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() })
+    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode(), connectInZone: true })
   ],
   bootstrap: [AppComponent],
 })

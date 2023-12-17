@@ -4,7 +4,7 @@ import { WebsocketService } from '../../services/websocket.service';
 import { ITickerAction } from '../../typedefs/global';
 import { Store } from '@ngrx/store';
 import { IReportState } from '../../store/report/reducer';
-import { setPriceChartData } from '../../store/report/actions';
+import { setFinancialsChartData, setPriceChartData } from '../../store/report/actions';
 
 
 @Component({
@@ -18,11 +18,11 @@ export class OverviewComponent {
         "ticker": new FormControl("IBM", [Validators.required])
     })
     summary: any;
-    financials: any;
     dividend: any;
     keyratios: any;
 
     is_price_chart_loaded: boolean;
+    is_financials_chart_loaded: boolean;
 
     constructor(private socket: WebsocketService, private store: Store<IReportState>) {
         this.socket.messages.subscribe({
@@ -32,7 +32,8 @@ export class OverviewComponent {
                         this.summary = payload.data;
                         break;
                     case "financials":
-                        this.financials = payload.data;
+                        this.store.dispatch(setFinancialsChartData({data: payload.data.reverse()}));
+                        this.is_financials_chart_loaded = true;
                         break;
                     case "dividend":
                         this.dividend = payload.data;
@@ -58,6 +59,7 @@ export class OverviewComponent {
             };
             this.socket.send(search_payload);
             this.is_price_chart_loaded = false;
+            this.is_financials_chart_loaded = false;
         }
     }
 }
