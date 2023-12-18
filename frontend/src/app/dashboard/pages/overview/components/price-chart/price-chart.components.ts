@@ -1,52 +1,26 @@
 import { Component } from "@angular/core";
 import { Store } from "@ngrx/store";
-import { Chart } from "angular-highcharts";
 import { IReportState } from "src/app/dashboard/store/report/reducer";
 import { selectPriceChartData } from "src/app/dashboard/store/report/selectors";
 
 @Component({
     selector: "price-chart",
     host: { "class": "col-md-6" },
-    template: `@if(priceChart) {
+    template: `@if(chartdata.values.length) {
         <div class="card mb-4 overflow-y-scroll">
             <div class="card-body">
-                <div [chart]="priceChart"></div>
+                <app-line-chart [data]="chartdata" />
             </div>
         </div>
     }`
 })
 export class PriceChartComponent {
-    priceChart: Chart;
+    chartdata: {label: string, values: Array<[string, number]>} = {label: "Price", values: []};
 
     constructor(private store: Store<IReportState>) {
         this.store.select(selectPriceChartData).subscribe({
             next: data => {
-                if (data.length) {
-                    this.priceChart = new Chart({
-                        chart: {
-                            type: 'line'
-                        },
-                        title: {
-                            text: 'Price'
-                        },
-                        xAxis: {
-                            categories: data.map(d => d[0])
-                        },
-                        yAxis: {
-                            title: {
-                                text: "$"
-                            }
-                        },
-                        credits: {
-                            enabled: false
-                        },
-                        series: [{
-                            type: "line",
-                            name: 'Line 1',
-                            data: data.map(i => i[1])
-                        }]
-                    });
-                }
+                if (data.length) this.chartdata = {...this.chartdata, values: data};
             }
         });
     }
