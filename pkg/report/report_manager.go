@@ -1,6 +1,9 @@
 package report
 
-import "github.com/rabbitmq/amqp091-go"
+import (
+	"log"
+	"github.com/rabbitmq/amqp091-go"
+)
 
 type ReportManager struct {
 	connection *amqp091.Connection
@@ -16,5 +19,17 @@ func InitReportManager(connection *amqp091.Connection, channel *amqp091.Channel)
 }
 
 func (rm *ReportManager) ConsumeMessages() {
+	messages, err := rm.channel.Consume("q.report", "", true, false, false, false, nil)
+	if err != nil {
+		log.Println("Failed to register consumer:")
+		log.Println(err)
+	}
+
+	go func() {
+		for m := range messages {
+			log.Println(m.Body)
+			log.Println(m.Type)
+		}
+	}()
 }
 
