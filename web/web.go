@@ -4,10 +4,11 @@ import (
 	"fmt"
 	"net/http"
 
+	amqp "github.com/rabbitmq/amqp091-go"
 	"github.com/shaninalex/financial-analyzer/pkg/router"
 )
 
-func Websocket(port int) {
+func Websocket(port int, connection *amqp.Connection, channel *amqp.Channel) {
 
 	http.HandleFunc("/ws", func(w http.ResponseWriter, r *http.Request) {
 		userID := r.Header.Get("X-User")
@@ -15,7 +16,7 @@ func Websocket(port int) {
 			http.Error(w, "user id is empty", http.StatusUnauthorized)
 			return
 		}
-		router.ServeWebsocket(userID, w, r)
+		router.ServeWebsocket(userID, connection, channel, w, r)
 	})
 
 	addr := fmt.Sprintf(":%d", port)

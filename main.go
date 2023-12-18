@@ -5,7 +5,9 @@ import (
 	"os"
 	"strconv"
 
+	"github.com/shaninalex/financial-analyzer/internal/rabbitmq"
 	"github.com/shaninalex/financial-analyzer/pkg/datasource"
+	"github.com/shaninalex/financial-analyzer/pkg/report"
 	"github.com/shaninalex/financial-analyzer/web"
 )
 
@@ -24,12 +26,24 @@ func main() {
 		panic(err)
 	}
 
+	connection, channel, err := rabbitmq.ConnectToRabbitMQ(RABBITMQ_URL)
+	if err != nil {
+		panic(err)
+	}
+
 	// initialize websocket connection
-	go web.Websocket(port)
+	go web.Websocket(port, connection, channel)
 
 	// initialize datasource
 	log.Println("initialize datasource")
-	connection, channel, err := datasource.Init(GURU_API_KEY, ALPH_API_KEY, RABBITMQ_URL)
+	err = datasource.Init(connection, channel, GURU_API_KEY, ALPH_API_KEY)
+	if err != nil {
+		panic(err)
+	}
+
+	// initialize report manager
+	log.Println("initialize report manager")
+	err = report.InitReportModule(connection, channel)
 	if err != nil {
 		panic(err)
 	}
@@ -39,5 +53,4 @@ func main() {
 		connection.Close()
 		channel.Close()
 	}()
-
 }
