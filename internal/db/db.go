@@ -40,5 +40,4 @@ func (d *Database) CreateRequest(userId, ticker string) {
 	if err != nil {
 		log.Println(err)
 	}
-
 }
