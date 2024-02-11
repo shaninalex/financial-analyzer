@@ -1,15 +1,10 @@
-FROM python:3.11.2
+FROM rabbitmq:3-management-alpine
 
-ENV PYTHONUNBUFFERED=1
+# Copy the setup script into the container
+COPY setup_rabbitmq.sh /usr/local/bin/setup_rabbitmq.sh
 
-COPY ./requirements.txt /app/requirements.txt
+# Make the setup script executable
+RUN chmod +x /usr/local/bin/setup_rabbitmq.sh
 
-WORKDIR /app
-
-RUN pip install -r requirements.txt
-
-COPY . /app
-
-ENTRYPOINT [ "python", "-u" ]
-
-CMD ["main.py"]
+# Specify the command to run when the container starts
+CMD ["bash", "-c", "rabbitmq-server & /usr/local/bin/setup_rabbitmq.sh"]
