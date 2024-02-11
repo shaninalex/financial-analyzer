@@ -47,16 +47,18 @@ func main() {
 	// initialize websocket connection
 	go web.Websocket(port, connection, channel)
 
+	go func() {
+		// initialize report manager
+		log.Println("initialize report manager")
+		err = report.InitReportModule(connection, channel)
+		if err != nil {
+			panic(err)
+		}
+	}()
+
 	// initialize datasource
 	log.Println("initialize datasource")
 	err = datasource.Init(connection, channel, GURU_API_KEY, ALPH_API_KEY)
-	if err != nil {
-		panic(err)
-	}
-
-	// initialize report manager
-	log.Println("initialize report manager")
-	err = report.InitReportModule(connection, channel)
 	if err != nil {
 		panic(err)
 	}
