@@ -31,4 +31,7 @@ is the experience of solving unusual tasks.
 
 ## Docs
 
+I'm periodically fill documentation with ideas, workflows and technical 
+explanations. Think of it like about devlog.
+
 [Docs](docs/index.md)
