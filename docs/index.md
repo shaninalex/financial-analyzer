@@ -1,7 +1,15 @@
-# Get company information
+# General
+
+To get a general idea of the application I'm creating, I wrote this document. 
+This document serves as a user story and developer explanation about the 
+processes that occur on the client side from the user's perspective and within 
+the app under the hood. It's my main technical task that I adhere to. Many of 
+these items are already completed, while some are not. I return to this project 
+every couple of months, and this document simply helps me keep my thoughts and 
+ideas in one documented place.
 
 ### 1 
-user send message into websocket:
+User send message into websocket:
 
 ```json
 {"ticker":"IBM","action":"search"}
