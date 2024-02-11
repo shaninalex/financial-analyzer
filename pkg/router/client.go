@@ -117,6 +117,11 @@ func (c *Client) ConsumeFrontend() {
 			if websocket.IsUnexpectedCloseError(err, websocket.CloseGoingAway, websocket.CloseAbnormalClosure) {
 				log.Printf("error: %v", err)
 			}
+			i, err := c.MQChannel.QueueDelete(c.MQQueue.Name, false, false, true)
+			log.Printf("ws connection closed with status: %d\n", i)
+			if err != nil {
+				log.Printf("Unable to delete queue: %v\n", err)
+			}
 			break
 		}
 
