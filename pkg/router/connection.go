@@ -6,7 +6,7 @@ import (
 	"os"
 
 	"github.com/gorilla/websocket"
-	"github.com/shaninalex/financial-analyzer/internal/rabbitmq"
+	amqp "github.com/rabbitmq/amqp091-go"
 )
 
 var (
@@ -24,27 +24,15 @@ var upgrader = websocket.Upgrader{
 	},
 }
 
-func ServeWebsocket(user_id string, w http.ResponseWriter, r *http.Request) {
-	conn, err := upgrader.Upgrade(w, r, nil)
+func ServeWebsocket(user_id string, connection *amqp.Connection, channel *amqp.Channel, w http.ResponseWriter, r *http.Request) {
+	wsconnection, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
 		log.Println(err)
 		return
 	}
-	defer conn.Close()
+	defer wsconnection.Close()
 
-	mq, err := rabbitmq.ConnectToRabbitMQ(RABBITMQ_URL)
-	if err != nil {
-		log.Println(err)
-		return
-	}
-
-	ch, err := mq.Channel()
-	if err != nil {
-		log.Println(err)
-		return
-	}
-
-	client, err := InitClient(user_id, mq, ch, conn)
+	client, err := InitClient(user_id, connection, channel, wsconnection)
 	if err != nil {
 		log.Println(err)
 		return
@@ -52,10 +40,4 @@ func ServeWebsocket(user_id string, w http.ResponseWriter, r *http.Request) {
 
 	client.ConsumeMQ()
 	client.ConsumeFrontend()
-
-	defer func() {
-		log.Println("close channel and connection")
-		ch.Close()
-		mq.Close()
-	}()
 }
