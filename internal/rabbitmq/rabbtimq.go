@@ -2,23 +2,46 @@ package rabbitmq
 
 import (
 	"log"
+	"math"
+	"time"
 
 	amqp "github.com/rabbitmq/amqp091-go"
 )
 
 func ConnectToRabbitMQ(connectionString string) (*amqp.Connection, *amqp.Channel, error) {
-	conn, err := amqp.Dial(connectionString)
+	var counts int64
+	var backOff = 1 * time.Second
+	var connection *amqp.Connection
+
+	for {
+		c, err := amqp.Dial(connectionString)
+		if err != nil {
+			log.Println("RabbitMQ not yet ready...")
+			counts++
+		} else {
+			log.Println("Connected to RabbitMQ")
+			connection = c
+			break
+		}
+
+		if counts > 5 {
+			log.Println(err)
+			return nil, nil, err
+		}
+
+		backOff = time.Duration(math.Pow(float64(counts), 2)) * time.Second
+		log.Println("waiting for rabbitmq...")
+		time.Sleep(backOff)
+		continue
+	}
+
+	ch, err := connection.Channel()
 	if err != nil {
+		connection.Close()
 		return nil, nil, err
 	}
 
-	ch, err := conn.Channel()
-	if err != nil {
-		conn.Close()
-		return nil, nil, err
-	}
-
-	return conn, ch, nil
+	return connection, ch, nil
 }
 
 func ReconnectToRabbitMQ(connection *amqp.Connection, channel *amqp.Channel, connectionString string) (*amqp.Connection, *amqp.Channel, error) {

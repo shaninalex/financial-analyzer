@@ -18,8 +18,7 @@ services:
     volumes:
       - ./mock_data/:/demo_data/
     depends_on:
-      rabbitmq_post_initialize:
-        condition: service_completed_successfully
+      - rabbitmq
 
   # #######################
   # INFRASTRUCTURE
@@ -72,7 +71,9 @@ services:
       - ./config/oathkeeper:/etc/config/oathkeeper
 
   rabbitmq:
-    image: rabbitmq:3-management-alpine
+    build:
+      context: ./config/rabbitmq
+      dockerfile: Dockerfile
     container_name: finapp_rabbitmq
     ports:
       - 5672:5672
@@ -87,16 +88,6 @@ services:
 
   # #######################
   # INITIALIZETIONS SCRIPTS
-  rabbitmq_post_initialize:
-    build: ./config/rabbitmq
-    container_name: finapp_rabbitmq_post_initialize
-    environment:
-      - RABBITMQ_HOST=rabbitmq
-      - RABBITMQ_PORT=5672
-    depends_on:
-      rabbitmq:
-        condition: service_healthy
-
   kratos-migrate:
     image: oryd/kratos:v1.0.0
     container_name: finapp_kratos_db_migrate
