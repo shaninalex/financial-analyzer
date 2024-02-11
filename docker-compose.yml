@@ -7,10 +7,10 @@ volumes:
 
 services:
 
-  router:
+  main:
     build: ./
-    container_name: finapp_router
-    # restart: on-failure
+    container_name: finapp_main
+    restart: always
     ports:
       - 8003:8003
     env_file:
@@ -20,17 +20,6 @@ services:
     depends_on:
       rabbitmq_post_initialize:
         condition: service_completed_successfully
-
-  kratos_proxy:
-    image: shanart/m-kratos-forms-proxy:latest
-    restart: on-failure
-    ports:
-      - ${KRATOS_PROXY_PORT}:${KRATOS_PROXY_PORT}
-    environment:
-      - PORT=${KRATOS_PROXY_PORT}
-      - KRATOS_URL=${KRATOS_URL}
-    depends_on:
-      - kratos
 
   # #######################
   # INFRASTRUCTURE
