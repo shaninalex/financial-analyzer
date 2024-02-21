@@ -22,6 +22,7 @@ var (
 	// for kratos proxy
 	PORT       = os.Getenv("PORT")
 	KRATOS_URL = os.Getenv("KRATOS_URL")
+	REDIS_URL  = os.Getenv("REDIS_URL")
 )
 
 func main() {
