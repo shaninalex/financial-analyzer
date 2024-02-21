@@ -9,6 +9,7 @@ import (
 
 	amqp "github.com/rabbitmq/amqp091-go"
 
+	"github.com/shaninalex/financial-analyzer/internal/redis"
 	"github.com/shaninalex/financial-analyzer/internal/typedefs"
 )
 
@@ -25,10 +26,10 @@ type App struct {
 	Methods      []providerMethod
 }
 
-func InitializeApplication(gfAppKey, alphAppKey string, connection *amqp.Connection, channel *amqp.Channel) (*App, error) {
+func InitializeApplication(gfAppKey, alphAppKey string, connection *amqp.Connection, channel *amqp.Channel, redisClient *redis.RedisClient) (*App, error) {
 	app := &App{
 		Context:      context.TODO(),
-		Datasource:   InitializeDatasource(gfAppKey, alphAppKey, true),
+		Datasource:   InitializeDatasource(gfAppKey, alphAppKey, true, redisClient),
 		MQConnection: connection,
 		MQChannel:    channel,
 	}
