@@ -26,10 +26,10 @@ type App struct {
 	Methods      []providerMethod
 }
 
-func InitializeApplication(gfAppKey, alphAppKey string, connection *amqp.Connection, channel *amqp.Channel, redisClient *redis.RedisClient) (*App, error) {
+func InitializeApplication(gfAppKey string, connection *amqp.Connection, channel *amqp.Channel, redisClient *redis.RedisClient) (*App, error) {
 	app := &App{
 		Context:      context.TODO(),
-		Datasource:   InitializeDatasource(gfAppKey, alphAppKey, true, redisClient),
+		Datasource:   InitializeDatasource(gfAppKey, true, redisClient),
 		MQConnection: connection,
 		MQChannel:    channel,
 	}

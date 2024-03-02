@@ -10,13 +10,11 @@ import (
 )
 
 type Datasource struct {
-	Gurufocus    *data.GuruFocus
-	Alphavantage *data.Alphavantage
+	Gurufocus *data.GuruFocus
 }
 
-func InitializeDatasource(gfApiKey, alphApiKey string, debug bool, redisClient *redis.RedisClient) *Datasource {
+func InitializeDatasource(gfApiKey string, debug bool, redisClient *redis.RedisClient) *Datasource {
 	return &Datasource{
-		Gurufocus:    data.InitGurufocus(gfApiKey, debug, redisClient),
-		Alphavantage: data.InitAlphavantage(alphApiKey, debug),
+		Gurufocus: data.InitGurufocus(gfApiKey, debug, redisClient),
 	}
 }
