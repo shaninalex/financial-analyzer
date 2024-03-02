@@ -125,38 +125,48 @@ func (c *Client) ConsumeFrontend() {
 			break
 		}
 
-		var action typedefs.ITickerAction
+		var action typedefs.Action
 		if err := json.Unmarshal(message, &action); err != nil {
 			log.Printf("error: %v", err)
 			break
 		}
 
 		switch action.Action {
-		case typedefs.TickerActionTypeSearch:
+		case typedefs.ActionTypeReport:
 			able, msg := c.Account.AbleToReport()
 			if !able {
 				c.RequestDenied(*msg)
 				break
 			}
-			err := c.MQChannel.PublishWithContext(c.Context,
-				"ex.datasource", // exchange
-				"new_report",    // routing key
-				false,           // mandatory
-				false,           // immediate
-				amqp.Publishing{
-					ContentType: "application/json",
-					Body:        message,
-					Headers: amqp.Table{
-						"user_id":   c.ID,
-						"client_id": c.ClientId,
-					},
-				},
-			)
+			err = c.actionReportHandler(message)
 			if err != nil {
 				log.Println(err)
 			}
+		case typedefs.ActionTypeGeneratePdf:
+		case typedefs.ActionTypeSendEmail:
 		}
 	}
+}
+
+func (c *Client) actionReportHandler(message []byte) error {
+	err := c.MQChannel.PublishWithContext(c.Context,
+		"ex.datasource", // exchange
+		"new_report",    // routing key
+		false,           // mandatory
+		false,           // immediate
+		amqp.Publishing{
+			ContentType: "application/json",
+			Body:        message,
+			Headers: amqp.Table{
+				"user_id":   c.ID,
+				"client_id": c.ClientId,
+			},
+		},
+	)
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
 func (c *Client) RequestDenied(msg string) {
