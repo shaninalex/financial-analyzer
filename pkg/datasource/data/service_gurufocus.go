@@ -8,20 +8,23 @@ import (
 	"os"
 	"time"
 
+	"github.com/shaninalex/financial-analyzer/internal/redis"
 	"github.com/shaninalex/financial-analyzer/internal/typedefs"
 )
 
 type GuruFocus struct {
-	API_URL string
-	API_KEY string
-	DEBUG   bool
+	API_URL     string
+	API_KEY     string
+	DEBUG       bool
+	redisClient *redis.RedisClient
 }
 
-func InitGurufocus(apikey string, debug bool) *GuruFocus {
+func InitGurufocus(apikey string, debug bool, redisClient *redis.RedisClient) *GuruFocus {
 	return &GuruFocus{
-		API_KEY: apikey,
-		API_URL: "https://api.gurufocus.com/public/user/",
-		DEBUG:   debug,
+		API_KEY:     apikey,
+		API_URL:     "https://api.gurufocus.com/public/user/",
+		DEBUG:       debug,
+		redisClient: redisClient,
 	}
 }
 
@@ -71,6 +74,10 @@ func (g *GuruFocus) DoGurufocusRequest(api_function typedefs.GurufocusRequestTyp
 	if err != nil {
 		return nil, err
 	}
+
+	go func(key, value string) {
+		g.redisClient.Set(key, value)
+	}(fmt.Sprintf("%s-%s", symbol, api_function), string(body))
 
 	if err = json.Unmarshal(body, &result); err != nil {
 		return nil, err

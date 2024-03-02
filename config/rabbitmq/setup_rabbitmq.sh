@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# NOTE:
+# rabbitmq:3-management-alpine image has python on board out of the box.
+# So more complicated setup can be done with python.
+
 # Function to wait for RabbitMQ to start
 wait_for_rabbitmq() {
     until rabbitmqctl node_health_check &> /dev/null; do

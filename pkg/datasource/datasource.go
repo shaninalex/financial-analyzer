@@ -4,16 +4,17 @@ GuruFocus, Alphavantage etc.
 */
 package datasource
 
-import "github.com/shaninalex/financial-analyzer/pkg/datasource/data"
+import (
+	"github.com/shaninalex/financial-analyzer/internal/redis"
+	"github.com/shaninalex/financial-analyzer/pkg/datasource/data"
+)
 
 type Datasource struct {
-	Gurufocus    *data.GuruFocus
-	Alphavantage *data.Alphavantage
+	Gurufocus *data.GuruFocus
 }
 
-func InitializeDatasource(gfApiKey, alphApiKey string, debug bool) *Datasource {
+func InitializeDatasource(gfApiKey string, debug bool, redisClient *redis.RedisClient) *Datasource {
 	return &Datasource{
-		Gurufocus:    data.InitGurufocus(gfApiKey, debug),
-		Alphavantage: data.InitAlphavantage(alphApiKey, debug),
+		Gurufocus: data.InitGurufocus(gfApiKey, debug, redisClient),
 	}
 }
