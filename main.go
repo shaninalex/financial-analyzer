@@ -6,6 +6,7 @@ import (
 	"strconv"
 
 	"github.com/shaninalex/financial-analyzer/internal/rabbitmq"
+	"github.com/shaninalex/financial-analyzer/internal/redis"
 	"github.com/shaninalex/financial-analyzer/pkg/datasource"
 	kratosproxy "github.com/shaninalex/financial-analyzer/pkg/kratos"
 	"github.com/shaninalex/financial-analyzer/pkg/report"
@@ -15,7 +16,6 @@ import (
 var (
 	DEBUG        = os.Getenv("DEBUG") // "0" or "1"
 	GURU_API_KEY = os.Getenv("GURU_API_KEY")
-	ALPH_API_KEY = os.Getenv("ALPH_API_KEY")
 	RABBITMQ_URL = os.Getenv("RABBITMQ_URL")
 	APP_PORT     = os.Getenv("APP_PORT")
 
@@ -45,6 +45,11 @@ func main() {
 		panic(err)
 	}
 
+	redisClient, err := redis.InitRedis(REDIS_URL)
+	if err != nil {
+		panic(err)
+	}
+
 	// initialize websocket connection
 	go web.Websocket(port, connection, channel)
 
@@ -59,7 +64,7 @@ func main() {
 
 	// initialize datasource
 	log.Println("initialize datasource")
-	err = datasource.Init(connection, channel, GURU_API_KEY, ALPH_API_KEY)
+	err = datasource.Init(connection, channel, GURU_API_KEY, redisClient)
 	if err != nil {
 		panic(err)
 	}

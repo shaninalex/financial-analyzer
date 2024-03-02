@@ -1,3 +1,23 @@
+## v1.7.0 (2024-03-02)
+
+### Feat
+
+- save datasource responses into redis store
+- add redis pkg
+
+### Fix
+
+- remove alphavantage data provider
+- **config**: use shell script and rabbitmqadmin command line to setup rabbitmq
+- **mq**: unbind unused queues #66
+- update golang version
+- **db**: define simple reports table
+
+### Refactor
+
+- **db**: move into 'internal' folder
+- **database**: user single db instead of couptle #64
+
 ## v1.6.0 (2024-02-11)
 
 ## v1.1.1 (2023-12-16)
