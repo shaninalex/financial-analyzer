@@ -148,14 +148,14 @@ func (c *Client) ConsumeFrontend() {
 			break
 		}
 
-		var action typedefs.ITickerAction
+		var action typedefs.Action
 		if err := json.Unmarshal(message, &action); err != nil {
 			log.Printf("error: %v", err)
 			break
 		}
 
 		switch action.Action {
-		case typedefs.TickerActionTypeSearch:
+		case typedefs.ActionTypeReport:
 			able, msg := c.Account.AbleToReport()
 			if !able {
 				c.RequestDenied(*msg)
@@ -170,8 +170,9 @@ func (c *Client) ConsumeFrontend() {
 					ContentType: "application/json",
 					Body:        message,
 					Headers: amqp.Table{
-						"user_id":   c.ID,
-						"client_id": c.ClientId,
+						"user_id":    c.ID,
+						"client_id":  c.ClientId,
+						"request_id": uuid.NewString(),
 					},
 				},
 			)

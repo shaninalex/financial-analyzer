@@ -6,11 +6,12 @@ import (
 
 type Report struct {
 	gorm.Model
-	UserId string `gorm:"index" json:"user_id"`
-	Ticker string `json:"ticker"`
-	Link   string `json:"link"` // link for a generated file
-	Status bool   `json:"status"`
-	Issues []Issue
+	UserId    string `gorm:"index" json:"user_id"`
+	RequestId string `json:"request_id"`
+	Ticker    string `json:"ticker"`
+	Link      string `json:"link"` // link for a generated file
+	Status    bool   `json:"status"`
+	Issues    []Issue
 }
 
 // TODO: handle multiple receivers
