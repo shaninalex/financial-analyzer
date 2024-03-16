@@ -35,26 +35,68 @@ func InitPSQL(dsn, scheme string) (*PSQLDatabase, error) {
 	}, nil
 }
 
-func (db *PSQLDatabase) ReportCreate(report *typedefs.Report) (*typedefs.Report, error) {
-	return nil, nil
+func (db *PSQLDatabase) ReportGet(reportId uint) (*typedefs.Report, error) {
+	report := &typedefs.Report{}
+	db.DB.Preload("Issues").First(report, reportId)
+	if db.DB.Error != nil {
+		return nil, db.DB.Error
+	}
+	return report, nil
 }
 
-func (db *PSQLDatabase) ReportUpdate(report *typedefs.Report) (*typedefs.Report, error) {
-	return nil, nil
+func (db *PSQLDatabase) ReportCreate(report *typedefs.Report) error {
+	db.DB.Create(report)
+	if db.DB.Error != nil {
+		return db.DB.Error
+	}
+	return nil
 }
 
-func (db *PSQLDatabase) IssueCreate(issue *typedefs.Issue) (*typedefs.Issue, error) {
-	return nil, nil
+func (db *PSQLDatabase) ReportUpdate(reportId uint, report map[string]interface{}) error {
+	db.DB.Model(typedefs.Report{}).Where("id = ?", reportId).Updates(report)
+	if db.DB.Error != nil {
+		return db.DB.Error
+	}
+	return nil
 }
 
-func (db *PSQLDatabase) IssueUpdate(issue *typedefs.Issue) (*typedefs.Issue, error) {
-	return nil, nil
+func (db *PSQLDatabase) IssueGet(issueId uint) (*typedefs.Issue, error) {
+	issue := &typedefs.Issue{}
+	db.DB.First(issue, issueId)
+	if db.DB.Error != nil {
+		return nil, db.DB.Error
+	}
+	return issue, nil
 }
 
-func (db *PSQLDatabase) IssueDelete(issue *typedefs.Issue) (*typedefs.Issue, error) {
-	return nil, nil
+func (db *PSQLDatabase) IssueCreate(issue *typedefs.Issue) error {
+	db.DB.Create(issue)
+	if db.DB.Error != nil {
+		return db.DB.Error
+	}
+	return nil
+}
+
+func (db *PSQLDatabase) IssueUpdate(issueId uint, issue map[string]interface{}) error {
+	db.DB.Model(typedefs.Issue{}).Where("id = ?", issueId).Updates(issue)
+	if db.DB.Error != nil {
+		return db.DB.Error
+	}
+	return nil
+}
+
+func (db *PSQLDatabase) IssueDelete(issueId uint) error {
+	db.DB.Delete(typedefs.Issue{}, issueId)
+	if db.DB.Error != nil {
+		return db.DB.Error
+	}
+	return nil
 }
 
 func (db *PSQLDatabase) Raw(query string) error {
+	db.DB.Exec(query)
+	if db.DB.Error != nil {
+		return db.DB.Error
+	}
 	return nil
 }

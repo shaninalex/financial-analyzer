@@ -21,7 +21,6 @@ type Report struct {
 // Docs: https://gorm.io/docs/models.html#gorm-Model
 type Issue struct {
 	gorm.Model
-	ID          uint   `gorm:"primaryKey" json:"id"`
 	Title       string `gorm:"not null" json:"title"`
 	Description string `json:"description"`
 	ReportID    uint

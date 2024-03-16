@@ -9,15 +9,17 @@ import (
 )
 
 type IDatabaseRepository interface {
-	ReportCreate(report *typedefs.Report) (*typedefs.Report, error)
-	ReportUpdate(report *typedefs.Report) (*typedefs.Report, error)
-	IssueCreate(issue *typedefs.Issue) (*typedefs.Issue, error)
-	IssueUpdate(issue *typedefs.Issue) (*typedefs.Issue, error)
-	IssueDelete(issue *typedefs.Issue) (*typedefs.Issue, error)
+	ReportGet(uint) (*typedefs.Report, error)
+	ReportCreate(*typedefs.Report) error
+	ReportUpdate(uint, map[string]interface{}) error
+	IssueGet(uint) (*typedefs.Issue, error)
+	IssueCreate(*typedefs.Issue) error
+	IssueUpdate(uint, map[string]interface{}) error
+	IssueDelete(uint) error
 
 	// for test porpuses
 	// do not use in Production
-	Raw(query string) error
+	Raw(string) error
 }
 
 func InitDatabase(dsn, scheme, dbType string) (IDatabaseRepository, error) {
