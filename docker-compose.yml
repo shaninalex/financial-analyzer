@@ -4,12 +4,12 @@ name: finapp
 volumes:
   postgres_data:
   rabbitmq_data:
+  redis_data:
 
 services:
 
-  main:
+  api:
     build: ./
-    container_name: finapp_main
     restart: always
     ports:
       - 8003:8003
@@ -24,7 +24,6 @@ services:
   # INFRASTRUCTURE
   postgres:
     image: postgres:15
-    container_name: finapp_database
     environment:
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
@@ -42,7 +41,6 @@ services:
 
   kratos:
     image: oryd/kratos:v1.0.0
-    container_name: finapp_kratos
     environment:
       - DSN=postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DATABASE_NAME}?sslmode=disable&max_conns=20&max_idle_conns=4&search_path=kratos
       - SELFSERVICE_METHODS_OIDC_CONFIG_PROVIDERS_0_CLIENT_ID=${SELFSERVICE_METHODS_OIDC_CONFIG_PROVIDERS_0_CLIENT_ID}
@@ -57,7 +55,6 @@ services:
 
   oathkeeper:
     image: oryd/oathkeeper:v0.40
-    container_name: finapp_api_gateway
     depends_on:
       - kratos
     ports:
@@ -74,7 +71,6 @@ services:
     build:
       context: ./config/rabbitmq
       dockerfile: Dockerfile
-    container_name: finapp_rabbitmq
     ports:
       - 5672:5672
       - 15672:15672
@@ -86,11 +82,17 @@ services:
       timeout: 5s
       retries: 3
 
+  redis:
+    image: redis:latest
+    ports:
+      - 6379:6379
+    volumes:
+      - redis_data:/data
+
   # #######################
   # INITIALIZETIONS SCRIPTS
   kratos-migrate:
     image: oryd/kratos:v1.0.0
-    container_name: finapp_kratos_db_migrate
     environment:
       - DSN=postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DATABASE_NAME}?sslmode=disable&max_conns=20&max_idle_conns=4&search_path=kratos
     volumes:

@@ -1,11 +1,11 @@
-package web
+package websocket
 
 import (
 	"fmt"
 	"net/http"
 
 	amqp "github.com/rabbitmq/amqp091-go"
-	"github.com/shaninalex/financial-analyzer/pkg/router"
+	"github.com/shaninalex/financial-analyzer/internal/router"
 )
 
 func Websocket(port int, connection *amqp.Connection, channel *amqp.Channel) {

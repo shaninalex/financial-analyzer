@@ -5,12 +5,12 @@ import (
 	"os"
 	"strconv"
 
+	"github.com/shaninalex/financial-analyzer/internal/datasource"
+	kratosproxy "github.com/shaninalex/financial-analyzer/internal/kratos"
 	"github.com/shaninalex/financial-analyzer/internal/rabbitmq"
 	"github.com/shaninalex/financial-analyzer/internal/redis"
-	"github.com/shaninalex/financial-analyzer/pkg/datasource"
-	kratosproxy "github.com/shaninalex/financial-analyzer/pkg/kratos"
-	"github.com/shaninalex/financial-analyzer/pkg/report"
-	"github.com/shaninalex/financial-analyzer/web"
+	"github.com/shaninalex/financial-analyzer/internal/report"
+	"github.com/shaninalex/financial-analyzer/internal/websocket"
 )
 
 var (
@@ -51,7 +51,7 @@ func main() {
 	}
 
 	// initialize websocket connection
-	go web.Websocket(port, connection, channel)
+	go websocket.Websocket(port, connection, channel)
 
 	go func() {
 		// initialize report manager

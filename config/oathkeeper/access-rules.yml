@@ -1,7 +1,7 @@
 - id: "auth"
   upstream:
     preserve_host: true
-    url: "http://main:8005"
+    url: "http://api:8005"
     strip_path: /api/v2/auth
   match:
     url: "http://localhost:8080/api/v2/auth/<**>"
@@ -17,7 +17,7 @@
 - id: "ws:application"
   upstream:
     preserve_host: true
-    url: "http://main:8003"
+    url: "http://api:8003"
   match:
     url: "http://localhost:8080/ws"
     methods:

@@ -22,4 +22,5 @@ rebuild:
 		--env-file=.env\
 		up -d --no-deps --build $(service)
 
-restart: down start
+tests:
+	go test ./... -v

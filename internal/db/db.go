@@ -1,43 +1,46 @@
 package db
 
 import (
-	"database/sql"
-	"log"
+	"errors"
+	"fmt"
 
-	"github.com/google/uuid"
 	_ "github.com/lib/pq"
+	"github.com/shaninalex/financial-analyzer/internal/typedefs"
 )
 
 type IDatabaseRepository interface {
-	CreateRequest(userId, ticker string)
+	ReportGet(uint) (*typedefs.Report, error)
+	ReportCreate(*typedefs.Report) error
+	ReportUpdate(uint, map[string]interface{}) error
+	IssueGet(uint) (*typedefs.Issue, error)
+	IssueCreate(*typedefs.Issue) error
+	IssueUpdate(uint, map[string]interface{}) error
+	IssueDelete(uint) error
+
+	// for test porpuses
+	// do not use in Production
+	Raw(string) error
 }
 
-type Database struct {
-	DB *sql.DB
-}
+func InitDatabase(dsn, scheme, dbType string) (IDatabaseRepository, error) {
+	if dbType == "psql" {
+		db, err := InitPSQL(dsn, scheme)
+		if err != nil {
+			return nil, err
+		}
 
-func InitDatabase(dsn string) (IDatabaseRepository, error) {
-	conn, err := sql.Open("postgres", dsn)
-	if err != nil {
-		return nil, err
+		tx := db.DB.Begin()
+		tx.Exec(fmt.Sprintf("SET SEARCH_PATH TO %s", scheme))
+		tx.Commit()
+
+		db.DB.AutoMigrate(
+			&typedefs.Report{},
+			&typedefs.Issue{},
+		)
+
+		return db, nil
 	}
 
-	return &Database{
-		DB: conn,
-	}, nil
-}
+	return nil, errors.New("db provider not implemented")
 
-func (d *Database) CreateRequest(userId, ticker string) {
-	newRequestID := uuid.NewString()
-	log.Println(newRequestID)
-	sql := `
-		INSERT INTO 
-			requests (id, user_id, tocker)
-		VALUES
-			($1, $2, $3);
-	`
-	_, err := d.DB.Exec(sql, newRequestID, userId, ticker)
-	if err != nil {
-		log.Println(err)
-	}
 }

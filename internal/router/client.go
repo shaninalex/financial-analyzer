@@ -1,3 +1,26 @@
+// Package router provides functionality for routing messages to different
+// RabbitMQ queues.
+//
+// The router module is responsible for receiving messages and directing them
+// to the appropriate RabbitMQ queue based on predefined routing rules.
+// It acts as an intermediary between message producers and consumers,
+// ensuring efficient message delivery.
+
+// Usage:
+// ```go
+// client, err := InitClient(user_id, connection, channel, wsconnection)
+//
+//	if err != nil {
+//		log.Println(err)
+//		return
+//	}
+//	````
+//
+// Arguments:
+// user_id - user Id, appended to request through Oathkeeper
+// connection - *amqp.Connection
+// channel - *amqp.Channel
+// wsconnection - pointer to websocket connection object
 package router
 
 import (
@@ -9,8 +32,8 @@ import (
 	"github.com/google/uuid"
 	"github.com/gorilla/websocket"
 	amqp "github.com/rabbitmq/amqp091-go"
+	"github.com/shaninalex/financial-analyzer/internal/account"
 	"github.com/shaninalex/financial-analyzer/internal/typedefs"
-	"github.com/shaninalex/financial-analyzer/pkg/account"
 )
 
 type Client struct {
