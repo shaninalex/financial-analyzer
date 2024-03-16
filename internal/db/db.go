@@ -1,41 +1,44 @@
 package db
 
 import (
-	"context"
+	"errors"
 	"fmt"
 
 	_ "github.com/lib/pq"
 	"github.com/shaninalex/financial-analyzer/internal/typedefs"
-	"gorm.io/driver/postgres"
-	"gorm.io/gorm"
 )
 
 type IDatabaseRepository interface {
-	// CreateRequest(userId, ticker string)
+	ReportCreate(report *typedefs.Report) (*typedefs.Report, error)
+	ReportUpdate(report *typedefs.Report) (*typedefs.Report, error)
+	IssueCreate(issue *typedefs.Issue) (*typedefs.Issue, error)
+	IssueUpdate(issue *typedefs.Issue) (*typedefs.Issue, error)
+	IssueDelete(issue *typedefs.Issue) (*typedefs.Issue, error)
+
+	// for test porpuses
+	// do not use in Production
+	Raw(query string) error
 }
 
-type Database struct {
-	ctx context.Context
-	db  *gorm.DB
-}
+func InitDatabase(dsn, scheme, dbType string) (IDatabaseRepository, error) {
+	if dbType == "psql" {
+		db, err := InitPSQL(dsn, scheme)
+		if err != nil {
+			return nil, err
+		}
 
-func InitDatabase(dsn, scheme string) (IDatabaseRepository, error) {
-	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
-	if err != nil {
-		return nil, err
+		tx := db.DB.Begin()
+		tx.Exec(fmt.Sprintf("SET SEARCH_PATH TO %s", scheme))
+		tx.Commit()
+
+		db.DB.AutoMigrate(
+			&typedefs.Report{},
+			&typedefs.Issue{},
+		)
+
+		return db, nil
 	}
 
-	tx := db.Begin()
-	tx.Exec(fmt.Sprintf("SET SEARCH_PATH TO %s", scheme))
-	tx.Commit()
+	return nil, errors.New("db provider not implemented")
 
-	db.AutoMigrate(
-		&typedefs.Report{},
-		&typedefs.Issue{},
-	)
-
-	return &Database{
-		ctx: context.TODO(),
-		db:  db,
-	}, nil
 }

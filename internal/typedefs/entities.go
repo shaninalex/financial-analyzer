@@ -1,29 +1,28 @@
 package typedefs
 
 import (
-	"time"
+	"gorm.io/gorm"
 )
 
 type Report struct {
-	ID        uint      `gorm:"primaryKey" json:"id"`
-	UserId    string    `gorm:"index" json:"user_id"`
-	Ticker    string    `json:"ticker"`
-	Link      string    `json:"link"` // link for a generated file
-	CreatedAt time.Time `gorm:"default:CURRENT_TIMESTAMP" json:"created_at"`
-	Status    bool      `json:"status"`
-	Issues    []Issue   `json:"issues"`
+	gorm.Model
+	UserId string `gorm:"index" json:"user_id"`
+	Ticker string `json:"ticker"`
+	Link   string `json:"link"` // link for a generated file
+	Status bool   `json:"status"`
+	Issues []Issue
 }
 
 // TODO: handle multiple receivers
 // EmailSend      string    `gorm:"type:varchar(255)" json:"email_send"`
 // EmailRecipient string    `gorm:"type:varchar(255)" json:"email_recipient"`
 
+// Closing issue mean that we "delete" Issue in db (add daleted_at in row)
+// Docs: https://gorm.io/docs/models.html#gorm-Model
 type Issue struct {
-	ID          uint      `gorm:"primaryKey" json:"id"`
-	Title       string    `gorm:"not null" json:"title"`
-	Description string    `json:"description"`
-	Closed      bool      `gorm:"default:false" json:"closed"`
-	CreatedAt   time.Time `gorm:"default:CURRENT_TIMESTAMP" json:"created_at"`
-	ClosedAt    time.Time `json:"closed_at"`
+	gorm.Model
+	ID          uint   `gorm:"primaryKey" json:"id"`
+	Title       string `gorm:"not null" json:"title"`
+	Description string `json:"description"`
 	ReportID    uint
 }
