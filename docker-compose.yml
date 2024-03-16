@@ -9,7 +9,9 @@ volumes:
 services:
 
   api:
-    build: ./
+    build:
+      context: .
+      dockerfile: Dockerfile.web
     restart: always
     ports:
       - 8003:8003

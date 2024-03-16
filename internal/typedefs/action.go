@@ -24,8 +24,8 @@ var (
 )
 
 type Action struct {
-	Ticker         string     `json:"ticker"`
-	Action         ActionType `json:"action"`
-	RequestId      string     `json:"request_id"`
-	EmailRecepient string     `json:"email_recepient"`
+	Ticker          string     `json:"ticker"`
+	Action          ActionType `json:"action"`
+	RequestId       string     `json:"request_id"`
+	EmailRecepients []string   `json:"email_recepients"`
 }

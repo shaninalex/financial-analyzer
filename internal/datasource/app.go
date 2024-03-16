@@ -61,7 +61,7 @@ func (app *App) ConsumeRabbitMessages() {
 
 	for d := range msgs {
 		if d.RoutingKey == "new_report" {
-			var action typedefs.ITickerAction
+			var action typedefs.Action
 			err := json.Unmarshal(d.Body, &action)
 			if err != nil {
 				log.Printf("Unable to unmarshal action: %s. Error: %v", d.Body, err)
@@ -86,8 +86,8 @@ func (app *App) PublishResults(message any, user_id string, client_id string, me
 		},
 	})
 
+	// client device
 	routing_key := fmt.Sprintf("client.%s__dev.%s", user_id, client_id)
-	fmt.Printf("Routing key: %s", routing_key)
 
 	err := app.MQChannel.PublishWithContext(app.Context,
 		fmt.Sprintf("ex.client.%s", user_id), // exchange
@@ -102,11 +102,12 @@ func (app *App) PublishResults(message any, user_id string, client_id string, me
 	if err != nil {
 		log.Println(err)
 	} else {
+		// TODO: handle and store error message in journal
 		log.Printf("message \"%s\" for \"%s\" is published", message_type, ticker)
 	}
 }
 
-func (app *App) GatheringInformation(action typedefs.ITickerAction, user_id string, client_id string) {
+func (app *App) GatheringInformation(action typedefs.Action, user_id string, client_id string) {
 	var wg sync.WaitGroup
 	for _, p := range app.Methods {
 		wg.Add(1)
@@ -121,5 +122,7 @@ func (app *App) GatheringInformation(action typedefs.ITickerAction, user_id stri
 		}(action.Ticker, p.dataType, user_id, client_id, p.f)
 	}
 	wg.Wait()
+
+	// TODO: If there no errors for this report - mark report as "Success=true"
 	log.Println("End gathering information for report")
 }
