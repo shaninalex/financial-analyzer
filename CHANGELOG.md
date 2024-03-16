@@ -1,3 +1,12 @@
+## v1.7.1 (2024-03-16)
+
+### Fix
+
+- **db**: Write main db methods and tests
+- **db**: make database interface with postgres implementation
+- **db**: use gorm instead of raw queries
+- change application folder structure
+
 ## v1.7.0 (2024-03-02)
 
 ### Feat
