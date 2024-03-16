@@ -9,11 +9,3 @@ var (
 	GurufocusRequestPrice      GurufocusRequestType = "price"
 	GurufocusRequestKeyratios  GurufocusRequestType = "keyratios"
 )
-
-type AlphavantageRequestType string
-
-var (
-	AlphavantageRequestOverview AlphavantageRequestType = "overview"
-	AlphavantageRequestEarnings AlphavantageRequestType = "earnings"
-	AlphavantageRequestCashFlow AlphavantageRequestType = "cashflow"
-)

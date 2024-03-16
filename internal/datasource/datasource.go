@@ -1,12 +1,12 @@
 /*
 This package used for getting information from financials APIs such as
-GuruFocus, Alphavantage etc.
+GuruFocus, etc.
 */
 package datasource
 
 import (
+	"github.com/shaninalex/financial-analyzer/internal/datasource/data"
 	"github.com/shaninalex/financial-analyzer/internal/redis"
-	"github.com/shaninalex/financial-analyzer/pkg/datasource/data"
 )
 
 type Datasource struct {

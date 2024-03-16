@@ -40,9 +40,6 @@ func InitializeApplication(gfAppKey string, connection *amqp.Connection, channel
 		{f: app.Datasource.Gurufocus.Financials, dataType: string(typedefs.GurufocusRequestDividend)},
 		{f: app.Datasource.Gurufocus.Price, dataType: string(typedefs.GurufocusRequestPrice)},
 		{f: app.Datasource.Gurufocus.Keyratios, dataType: string(typedefs.GurufocusRequestKeyratios)},
-		// {f: app.Datasource.Alphavantage.CashFlow, dataType: string(typedefs.AlphavantageRequestCashFlow)},
-		// {f: app.Datasource.Alphavantage.Earnings, dataType: string(typedefs.AlphavantageRequestEarnings)},
-		// {f: app.Datasource.Alphavantage.Overview, dataType: string(typedefs.AlphavantageRequestOverview)},
 	}
 
 	return app, nil

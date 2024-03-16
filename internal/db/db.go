@@ -32,7 +32,7 @@ func (d *Database) CreateRequest(userId, ticker string) {
 	log.Println(newRequestID)
 	sql := `
 		INSERT INTO 
-			requests (id, user_id, tocker)
+			requests (id, user_id, ticker)
 		VALUES
 			($1, $2, $3);
 	`
