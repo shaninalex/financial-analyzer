@@ -1,4 +1,4 @@
-package report
+package main
 
 import (
 	"log"
@@ -28,11 +28,8 @@ func (rm *ReportManager) ConsumeMessages() {
 	}
 
 	log.Println("ReportManager: start consume messages...")
-	go func() {
-		for m := range messages {
-			log.Println("ReportManager: get message:")
-			log.Println(m.Body)
-			log.Println(m.Type)
-		}
-	}()
+	for m := range messages {
+		log.Println("Body:", string(m.Body))
+		log.Println("Type:", m.Type)
+	}
 }
