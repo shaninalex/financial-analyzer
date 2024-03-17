@@ -18,11 +18,12 @@ type IDatabaseRepository interface {
 	IssueDelete(uint) error
 
 	// for test porpuses
-	// do not use in Production
+	// Do not use in Production!
 	Raw(string) error
 }
 
 func InitDatabase(dsn, scheme, dbType string) (IDatabaseRepository, error) {
+	// can by multiple db implementation like Mysql or even MongoDB
 	if dbType == "psql" {
 		db, err := InitPSQL(dsn, scheme)
 		if err != nil {

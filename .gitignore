@@ -2,3 +2,4 @@
 docker-compose.prod.yml
 volumes/*
 export.envs.sh
+tmp/

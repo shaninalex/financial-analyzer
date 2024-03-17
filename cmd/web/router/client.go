@@ -32,7 +32,6 @@ import (
 	"github.com/google/uuid"
 	"github.com/gorilla/websocket"
 	amqp "github.com/rabbitmq/amqp091-go"
-	"github.com/shaninalex/financial-analyzer/internal/account"
 	"github.com/shaninalex/financial-analyzer/internal/typedefs"
 )
 
@@ -44,11 +43,11 @@ type Client struct {
 	MQQueue      *amqp.Queue
 	WSConnection *websocket.Conn
 	Context      context.Context
-	Account      account.IAccount
+	Account      typedefs.IAccount
 }
 
 func InitClient(user_id string, mq *amqp.Connection, ch *amqp.Channel, ws *websocket.Conn) (*Client, error) {
-	acc, err := account.InitAccount(user_id, mq, ch)
+	acc, err := typedefs.InitAccount(user_id, mq, ch)
 	if err != nil {
 		return nil, err
 	}
