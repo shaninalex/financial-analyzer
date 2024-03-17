@@ -1,3 +1,15 @@
+## v1.7.2 (2024-03-17)
+
+### Fix
+
+- run updated architecture
+- change ports env variables names
+- update readme
+- change application structure
+- **redis**: get value from redis if exists and store in redis in debug mode
+- **report**: change action types
+- **router**: Changing action types #75
+
 ## v1.7.1 (2024-03-16)
 
 ### Fix
