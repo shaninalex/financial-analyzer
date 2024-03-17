@@ -2,10 +2,10 @@
 This package used for getting information from financials APIs such as
 GuruFocus, etc.
 */
-package main
+package app
 
 import (
-	"github.com/shaninalex/financial-analyzer/cmd/datasource/data"
+	"github.com/shaninalex/financial-analyzer/cmd/datasource/app/data"
 	"github.com/shaninalex/financial-analyzer/internal/redis"
 )
 

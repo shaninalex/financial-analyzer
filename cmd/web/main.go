@@ -7,12 +7,9 @@ import (
 
 	"github.com/shaninalex/financial-analyzer/cmd/web/websocket"
 	"github.com/shaninalex/financial-analyzer/internal/rabbitmq"
-	"github.com/shaninalex/financial-analyzer/internal/report"
 )
 
 var (
-	DEBUG          = os.Getenv("DEBUG") // "0" or "1"
-	GURU_API_KEY   = os.Getenv("GURU_API_KEY")
 	RABBITMQ_URL   = os.Getenv("RABBITMQ_URL")
 	WEBSOCKET_PORT = os.Getenv("WEBSOCKET_PORT")
 )
@@ -30,16 +27,7 @@ func main() {
 	}
 
 	// initialize websocket connection
-	go websocket.Websocket(port, connection, channel)
-
-	go func() {
-		// initialize report manager
-		log.Println("initialize report manager")
-		err = report.InitReportModule(connection, channel)
-		if err != nil {
-			panic(err)
-		}
-	}()
+	websocket.Websocket(port, connection, channel)
 
 	defer func() {
 		log.Println("Close rabbitmq connections")

@@ -1,4 +1,4 @@
-package main
+package app
 
 import (
 	"context"
@@ -26,7 +26,7 @@ type App struct {
 	Methods      []providerMethod
 }
 
-func InitializeApplication(gfAppKey string, connection *amqp.Connection, channel *amqp.Channel, redisClient *redis.RedisClient) (*App, error) {
+func Init(gfAppKey string, connection *amqp.Connection, channel *amqp.Channel, redisClient *redis.RedisClient) (*App, error) {
 	app := &App{
 		Context:      context.TODO(),
 		Datasource:   InitializeDatasource(gfAppKey, true, redisClient),
