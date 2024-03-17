@@ -11,15 +11,15 @@ import (
 )
 
 var (
-	DEBUG        = os.Getenv("DEBUG") // "0" or "1"
-	GURU_API_KEY = os.Getenv("GURU_API_KEY")
-	RABBITMQ_URL = os.Getenv("RABBITMQ_URL")
-	APP_PORT     = os.Getenv("APP_PORT")
+	DEBUG          = os.Getenv("DEBUG") // "0" or "1"
+	GURU_API_KEY   = os.Getenv("GURU_API_KEY")
+	RABBITMQ_URL   = os.Getenv("RABBITMQ_URL")
+	WEBSOCKET_PORT = os.Getenv("WEBSOCKET_PORT")
 )
 
 func main() {
 
-	port, err := strconv.Atoi(APP_PORT)
+	port, err := strconv.Atoi(WEBSOCKET_PORT)
 	if err != nil {
 		panic(err)
 	}

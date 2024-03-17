@@ -14,13 +14,13 @@ import (
 
 var (
 	// for kratos proxy
-	PORT       = os.Getenv("PORT")
+	USER_PORT       = os.Getenv("USER_PORT")
 	KRATOS_URL = os.Getenv("KRATOS_URL")
 )
 
 func main() {
 
-	kratosProxyPort, err := strconv.Atoi(PORT)
+	kratosProxyPort, err := strconv.Atoi(USER_PORT)
 	if err != nil {
 		panic(err)
 	}

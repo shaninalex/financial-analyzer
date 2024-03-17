@@ -7,7 +7,7 @@ company just by [ticker](https://www.investopedia.com/terms/s/stocksymbol.asp).
 
 ## IMPORTANT
 
->This project has no commercial value. Created for educational and fun purposes. 
+>This project has no commercial value. Created for educational and curiousity purposes. 
 >The main goal of this project is to work on this project and gain experience 
 >in solving unusual tasks and implementing ideas.
 
