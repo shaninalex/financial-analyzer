@@ -5,7 +5,7 @@ import (
 	"net/http"
 
 	amqp "github.com/rabbitmq/amqp091-go"
-	"github.com/shaninalex/financial-analyzer/internal/router"
+	"github.com/shaninalex/financial-analyzer/cmd/web/router"
 )
 
 func Websocket(port int, connection *amqp.Connection, channel *amqp.Channel) {

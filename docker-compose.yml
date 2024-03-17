@@ -8,17 +8,37 @@ volumes:
 
 services:
 
+  datasource:
+    build:
+      context: .
+      dockerfile: ./cmd/datasource/Dockerfile
+    restart: always
+    env_file:
+      - .env
+    volumes:
+      - ./mock_data/:/demo_data/
+    depends_on:
+      - rabbitmq
+
+  user:
+    build:
+      context: .
+      dockerfile: ./cmd/user/Dockerfile
+    restart: always
+    env_file:
+      - .env
+    depends_on:
+      - rabbitmq
+
   api:
     build:
       context: .
-      dockerfile: Dockerfile.web
+      dockerfile: ./cmd/web/Dockerfile
     restart: always
     ports:
       - 8003:8003
     env_file:
       - .env
-    volumes:
-      - ./mock_data/:/demo_data/
     depends_on:
       - rabbitmq
 

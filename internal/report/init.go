@@ -1,3 +1,4 @@
+// Note: Probably also goes into separate service.
 package report
 
 import (
