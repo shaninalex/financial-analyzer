@@ -1,20 +1,34 @@
-package kratosproxy
+package main
 
 import (
 	"fmt"
 	"io"
 	"log"
 	"net/http"
+	"os"
+	"strconv"
 
-	// TODO: gin can be replaced with standart lib, due to this module simplicity
 	"github.com/gin-gonic/gin"
 	ory "github.com/ory/kratos-client-go"
 )
 
-func InitKratosProxy(port int, kratosUrl string) {
+var (
+	// for kratos proxy
+	USER_PORT  = os.Getenv("USER_PORT")
+	KRATOS_URL = os.Getenv("KRATOS_URL")
+)
 
+func main() {
+
+	kratosProxyPort, err := strconv.Atoi(USER_PORT)
+	if err != nil {
+		panic(err)
+	}
+
+	// TODO: create separate App structure with gin and database
+	//		 instead of put all in one file
 	configuration := ory.NewConfiguration()
-	configuration.Servers = []ory.ServerConfiguration{{URL: kratosUrl}}
+	configuration.Servers = []ory.ServerConfiguration{{URL: KRATOS_URL}}
 	client := ory.NewAPIClient(configuration)
 	router := gin.Default()
 
@@ -147,7 +161,7 @@ func InitKratosProxy(port int, kratosUrl string) {
 		ProxyResponse(c, resp)
 	})
 
-	if err := router.Run(fmt.Sprintf(":%d", port)); err != nil {
+	if err := router.Run(fmt.Sprintf(":%d", kratosProxyPort)); err != nil {
 		log.Println(err)
 	}
 }

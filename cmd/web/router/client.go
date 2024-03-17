@@ -32,7 +32,6 @@ import (
 	"github.com/google/uuid"
 	"github.com/gorilla/websocket"
 	amqp "github.com/rabbitmq/amqp091-go"
-	"github.com/shaninalex/financial-analyzer/internal/account"
 	"github.com/shaninalex/financial-analyzer/internal/typedefs"
 )
 
@@ -44,11 +43,11 @@ type Client struct {
 	MQQueue      *amqp.Queue
 	WSConnection *websocket.Conn
 	Context      context.Context
-	Account      account.IAccount
+	Account      typedefs.IAccount
 }
 
 func InitClient(user_id string, mq *amqp.Connection, ch *amqp.Channel, ws *websocket.Conn) (*Client, error) {
-	acc, err := account.InitAccount(user_id, mq, ch)
+	acc, err := typedefs.InitAccount(user_id, mq, ch)
 	if err != nil {
 		return nil, err
 	}
@@ -148,14 +147,14 @@ func (c *Client) ConsumeFrontend() {
 			break
 		}
 
-		var action typedefs.ITickerAction
+		var action typedefs.Action
 		if err := json.Unmarshal(message, &action); err != nil {
 			log.Printf("error: %v", err)
 			break
 		}
 
 		switch action.Action {
-		case typedefs.TickerActionTypeSearch:
+		case typedefs.ActionTypeReport:
 			able, msg := c.Account.AbleToReport()
 			if !able {
 				c.RequestDenied(*msg)
@@ -170,8 +169,9 @@ func (c *Client) ConsumeFrontend() {
 					ContentType: "application/json",
 					Body:        message,
 					Headers: amqp.Table{
-						"user_id":   c.ID,
-						"client_id": c.ClientId,
+						"user_id":    c.ID,
+						"client_id":  c.ClientId,
+						"request_id": uuid.NewString(),
 					},
 				},
 			)

@@ -2,6 +2,7 @@ package redis
 
 import (
 	"context"
+	"log"
 	"time"
 
 	"github.com/redis/go-redis/v9"
@@ -20,10 +21,21 @@ func InitRedis(addr string) (*RedisClient, error) {
 		DB:       0,  // use default DB
 	})
 
-	return &RedisClient{
+	client := &RedisClient{
 		client: rdb,
 		ctx:    context.Background(),
-	}, nil
+	}
+	status, err := client.client.Ping(client.ctx).Result()
+	if err != nil {
+		return nil, err
+	}
+
+	if status != "PONG" {
+		log.Printf("Wrong ping message. Want \"PONG\". Got: \"%s\"", status)
+		return nil, err
+	}
+
+	return client, nil
 }
 
 func (r *RedisClient) Set(key, value string) error {

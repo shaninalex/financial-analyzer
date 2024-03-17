@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"log"
 	"net/http"
 	"os"
 	"time"
@@ -30,6 +31,17 @@ func InitGurufocus(apikey string, debug bool, redisClient *redis.RedisClient) *G
 
 func (g *GuruFocus) DoGurufocusRequest(api_function typedefs.GurufocusRequestType, symbol string, args ...string) (*interface{}, error) {
 	var result interface{}
+	key := fmt.Sprintf("%s-%s", symbol, api_function)
+	redisData, err := g.redisClient.Get(key)
+	if err == nil {
+		err := json.Unmarshal([]byte(redisData), &result)
+		if err == nil {
+			return &result, nil
+		} else {
+			log.Printf("Redis data is corrupted. Err: %v", err)
+		}
+	}
+
 	if g.DEBUG {
 		fileBytes, _ := os.ReadFile(
 			fmt.Sprintf("/demo_data/gurufocus_%s.json", api_function),
@@ -38,6 +50,11 @@ func (g *GuruFocus) DoGurufocusRequest(api_function typedefs.GurufocusRequestTyp
 		if err != nil {
 			return nil, err
 		}
+
+		go func(key, value string) {
+			g.redisClient.Set(key, value)
+		}(key, string(fileBytes))
+
 		return &result, nil
 	}
 
@@ -77,7 +94,7 @@ func (g *GuruFocus) DoGurufocusRequest(api_function typedefs.GurufocusRequestTyp
 
 	go func(key, value string) {
 		g.redisClient.Set(key, value)
-	}(fmt.Sprintf("%s-%s", symbol, api_function), string(body))
+	}(key, string(body))
 
 	if err = json.Unmarshal(body, &result); err != nil {
 		return nil, err
