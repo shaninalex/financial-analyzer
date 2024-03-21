@@ -53,6 +53,9 @@ func (rm *ReportManager) ConsumeMessages() {
 			// TODO:
 			// This event needs to update report according to the documentation
 			// https://github.com/shaninalex/financial-analyzer/issues/53
+		case "":
+		default:
+			log.Println("no routing key provided")
 		}
 	}
 }
