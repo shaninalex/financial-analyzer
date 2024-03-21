@@ -71,18 +71,20 @@ func (app *App) ConsumeRabbitMessages() {
 				action,
 				d.Headers["user_id"].(string),
 				d.Headers["client_id"].(string),
+				d.Headers["request_id"].(string),
 			)
 		}
 	}
 }
 
-func (app *App) PublishResults(message any, user_id string, client_id string, message_type string, ticker string) {
+func (app *App) PublishResults(message any, user_id, client_id, message_type, ticker, request_id string) {
 	comp_message, _ := json.Marshal(map[string]interface{}{
 		"action": "data_result",
 		"payload": map[string]interface{}{
-			"ticker": ticker,
-			"type":   message_type,
-			"data":   message,
+			"ticker":     ticker,
+			"request_id": request_id,
+			"type":       message_type,
+			"data":       message,
 		},
 	})
 
@@ -102,12 +104,31 @@ func (app *App) PublishResults(message any, user_id string, client_id string, me
 	if err != nil {
 		log.Println(err)
 	} else {
-		// TODO: handle and store error message in journal
 		log.Printf("message \"%s\" for \"%s\" is published", message_type, ticker)
 	}
+
+	// TODO: create standart of this type of messages
+	update_message, _ := json.Marshal(map[string]interface{}{
+		"type": message_type,
+	})
+	err = app.MQChannel.PublishWithContext(app.Context,
+		"ex.report",     // exchange
+		"update_report", // routing key
+		false,           // mandatory
+		false,           // immediate
+		amqp.Publishing{
+			ContentType: "application/json",
+			Body:        update_message,
+			Headers: amqp.Table{
+				"user_id":    user_id,
+				"client_id":  client_id,
+				"request_id": request_id,
+			},
+		},
+	)
 }
 
-func (app *App) GatheringInformation(action typedefs.Action, user_id string, client_id string) {
+func (app *App) GatheringInformation(action typedefs.Action, user_id, client_id, request_id string) {
 	var wg sync.WaitGroup
 	for _, p := range app.Methods {
 		wg.Add(1)
@@ -117,7 +138,7 @@ func (app *App) GatheringInformation(action typedefs.Action, user_id string, cli
 			if err != nil {
 				log.Printf("Unable to get %s for \"%s\". Error: %v", datatype, ticker, err)
 			} else {
-				app.PublishResults(data, user, client, datatype, ticker)
+				app.PublishResults(data, user, client, datatype, ticker, request_id)
 			}
 		}(action.Ticker, p.dataType, user_id, client_id, p.f)
 	}
