@@ -1,4 +1,6 @@
-package main
+// Temporary Unused.
+// in flavor of ./internal/typedefs/entities#Report
+package manager
 
 import (
 	"log"
