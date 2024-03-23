@@ -54,8 +54,10 @@ export class OverviewComponent {
   onSubmit(): void {
     if (this.tickerForm.valid) {
       const search_payload: ISocketAction = {
-        ticker: this.tickerForm.value.ticker.toUpperCase(),
         action: ActionTypeReport,
+        payload: {
+          ticker: this.tickerForm.value.ticker.toUpperCase(),
+        }
       };
       this.socket.send(search_payload);
       this.is_price_chart_loaded = false;

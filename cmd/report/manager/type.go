@@ -1,4 +1,7 @@
-package report
+// Deprecated.
+// in flavor of ./internal/typedefs/entities#Report
+// Due to architecture change this type will be deleted soon.
+package manager
 
 import (
 	"log"

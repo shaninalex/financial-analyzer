@@ -8,6 +8,17 @@ volumes:
 
 services:
 
+  report:
+    build:
+      context: .
+      dockerfile: ./cmd/report/Dockerfile
+    restart: always
+    env_file:
+      - .env
+    depends_on:
+      - postgres
+      - rabbitmq
+
   datasource:
     build:
       context: .
@@ -18,6 +29,7 @@ services:
     volumes:
       - ./mock_data/:/demo_data/
     depends_on:
+      - postgres
       - rabbitmq
 
   user:
@@ -30,6 +42,7 @@ services:
     env_file:
       - .env
     depends_on:
+      - postgres
       - rabbitmq
 
   api:
@@ -42,6 +55,7 @@ services:
     env_file:
       - .env
     depends_on:
+      - postgres
       - rabbitmq
 
   # #######################

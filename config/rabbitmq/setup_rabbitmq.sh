@@ -20,7 +20,7 @@ wait_for_rabbitmq
 rabbitmqadmin declare exchange name=ex.datasource type=fanout durable=true
 rabbitmqadmin declare exchange name=ex.email type=direct durable=true
 rabbitmqadmin declare exchange name=ex.notifications type=direct durable=true
-rabbitmqadmin declare exchange name=ex.report type=direct durable=true
+rabbitmqadmin declare exchange name=ex.report type=fanout durable=true
 rabbitmqadmin declare exchange name=ex.global.notifications type=fanout durable=true
 
 # Declare queues
@@ -30,6 +30,7 @@ rabbitmqadmin declare queue name=q.report durable=true
 
 # Bind queues
 rabbitmqadmin declare binding source=ex.datasource destination=q.datasource routing_key=""
+rabbitmqadmin declare binding source=ex.report destination=q.report routing_key=""
 
 # This is bad, but it's not for production any way.
 while true; do

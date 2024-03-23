@@ -6,9 +6,7 @@ export type ActionType = typeof ActionTypeReport | typeof ActionTypeGeneratePdf 
 
 export interface ISocketAction {
   action: ActionType
-  ticker?: string
-  request_id?: string
-  email_recepients?: string[]
+  payload: any
 }
 
 export interface IResponseData {
