@@ -12,6 +12,8 @@ type IDatabaseRepository interface {
 	ReportGet(uint) (*typedefs.Report, error)
 	ReportCreate(*typedefs.Report) error
 	ReportUpdate(uint, map[string]interface{}) error
+	ReportDataCreate(data *typedefs.ReportData) error
+	CheckReportStatus(uint, string)
 	IssueGet(uint) (*typedefs.Issue, error)
 	IssueCreate(*typedefs.Issue) error
 	IssueUpdate(uint, map[string]interface{}) error
@@ -36,6 +38,7 @@ func InitDatabase(dsn, scheme, dbType string) (IDatabaseRepository, error) {
 
 		db.DB.AutoMigrate(
 			&typedefs.Report{},
+			&typedefs.ReportData{},
 			&typedefs.Issue{},
 		)
 

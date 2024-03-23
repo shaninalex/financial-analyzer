@@ -71,18 +71,20 @@ func (app *App) ConsumeRabbitMessages() {
 				action,
 				d.Headers["user_id"].(string),
 				d.Headers["client_id"].(string),
+				d.Headers["report_id"].(int64),
 			)
 		}
 	}
 }
 
-func (app *App) PublishResults(message any, user_id string, client_id string, message_type string, ticker string) {
+func (app *App) PublishResults(message any, user_id, client_id, message_type, ticker string, report_id int64) {
 	comp_message, _ := json.Marshal(map[string]interface{}{
 		"action": "data_result",
 		"payload": map[string]interface{}{
-			"ticker": ticker,
-			"type":   message_type,
-			"data":   message,
+			"ticker":    ticker,
+			"report_id": report_id,
+			"type":      message_type,
+			"data":      message,
 		},
 	})
 
@@ -102,13 +104,43 @@ func (app *App) PublishResults(message any, user_id string, client_id string, me
 	if err != nil {
 		log.Println(err)
 	} else {
-		// TODO: handle and store error message in journal
 		log.Printf("message \"%s\" for \"%s\" is published", message_type, ticker)
 	}
+
+	update_message, _ := json.Marshal(&typedefs.Action{
+		Action: typedefs.ActionTypeUpdateReport,
+		Payload: map[string]interface{}{
+			"type":      message_type,
+			"report_id": report_id,
+			"data":      message,
+		},
+	})
+
+	err = app.MQChannel.PublishWithContext(app.Context,
+		"ex.report",     // exchange
+		"update_report", // routing key
+		false,           // mandatory
+		false,           // immediate
+		amqp.Publishing{
+			ContentType: "application/json",
+			Body:        update_message,
+			Headers: amqp.Table{
+				"user_id":   user_id,
+				"client_id": client_id,
+			},
+		},
+	)
 }
 
-func (app *App) GatheringInformation(action typedefs.Action, user_id string, client_id string) {
+func (app *App) GatheringInformation(action typedefs.Action, user_id, client_id string, report_id int64) {
 	var wg sync.WaitGroup
+
+	ticker, ok := action.Payload["ticker"].(string)
+	if !ok {
+		log.Printf("unable to create report. Payload is corrapted: %v", action.Payload)
+		return
+	}
+
 	for _, p := range app.Methods {
 		wg.Add(1)
 		go func(ticker, datatype, user, client string, method func(t string) (*interface{}, error)) {
@@ -117,9 +149,9 @@ func (app *App) GatheringInformation(action typedefs.Action, user_id string, cli
 			if err != nil {
 				log.Printf("Unable to get %s for \"%s\". Error: %v", datatype, ticker, err)
 			} else {
-				app.PublishResults(data, user, client, datatype, ticker)
+				app.PublishResults(data, user, client, datatype, ticker, report_id)
 			}
-		}(action.Ticker, p.dataType, user_id, client_id, p.f)
+		}(ticker, p.dataType, user_id, client_id, p.f)
 	}
 	wg.Wait()
 

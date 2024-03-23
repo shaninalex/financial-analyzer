@@ -3,6 +3,7 @@ package db
 import (
 	"context"
 	"fmt"
+	"log"
 
 	"github.com/shaninalex/financial-analyzer/internal/typedefs"
 	"gorm.io/driver/postgres"
@@ -58,6 +59,44 @@ func (db *PSQLDatabase) ReportUpdate(reportId uint, report map[string]interface{
 		return db.DB.Error
 	}
 	return nil
+}
+
+func (db *PSQLDatabase) ReportDataCreate(data *typedefs.ReportData) error {
+	db.DB.Create(data)
+	if db.DB.Error != nil {
+		return db.DB.Error
+	}
+	return nil
+}
+
+func (db *PSQLDatabase) CheckReportStatus(reportId uint, dataType string) {
+	var dTypes []string
+	if err := db.DB.Model(&typedefs.ReportData{}).Where("report_id = ?", reportId).Pluck("type", &dTypes).Error; err != nil {
+		log.Println("Error querying database:", err)
+		return
+	}
+
+	required := map[string]bool{
+		"summary":    true,
+		"financials": true,
+		"dividend":   true,
+		"price":      true,
+		"keyratios":  true,
+	}
+
+	for _, dType := range dTypes {
+		delete(required, dType)
+	}
+
+	if len(required) > 0 {
+		return
+	}
+
+	if err := db.ReportUpdate(reportId, map[string]interface{}{
+		"status": true,
+	}); err != nil {
+		log.Println("Error updating report status:", err)
+	}
 }
 
 func (db *PSQLDatabase) IssueGet(issueId uint) (*typedefs.Issue, error) {
