@@ -9,18 +9,10 @@ var (
 	ActionTypeUpdateReport ActionType = "update_report"
 )
 
-// Deprecated.
-type Action struct {
-	Ticker          string     `json:"ticker"`
-	Action          ActionType `json:"action"`
-	RequestId       string     `json:"request_id"`
-	EmailRecepients []string   `json:"email_recepients"`
-}
-
 // // Example actions:
 // ```go
 //
-//	var newReport NewAction = NewAction{
+//	var newReport Action = NewAction{
 //		Action: ActionTypeReport,
 //		Payload: map[string]interface{}{
 //			"ticker": "AAPL",
@@ -29,7 +21,7 @@ type Action struct {
 //		},
 //	}
 //
-//	var sendEmail NewAction = NewAction{
+//	var sendEmail Action = NewAction{
 //		Action: ActionTypeSendEmail,
 //		Payload: map[string]interface{}{
 //			"report_id":  "<ReportId>",
@@ -37,14 +29,14 @@ type Action struct {
 //		},
 //	}
 //
-//	var generatePdf NewAction = NewAction{
+//	var generatePdf Action = NewAction{
 //		Action: ActionTypeGeneratePdf,
 //		Payload: map[string]interface{}{
 //			"report_id": "<ReportId>",
 //		},
 //	}
 //
-//	var updateReport NewAction = NewAction{
+//	var updateReport Action = NewAction{
 //		Action: ActionTypeUpdateReport,
 //		Payload: map[string]interface{}{
 //			"report_id": "<ReportId>",
@@ -53,7 +45,7 @@ type Action struct {
 //	}
 //
 // ```
-type NewAction struct {
+type Action struct {
 	Action  ActionType             `json:"action"`
 	Payload map[string]interface{} `json:"payload"`
 }

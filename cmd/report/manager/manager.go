@@ -41,22 +41,23 @@ func (rm *ReportManager) ConsumeMessages() {
 	log.Println("ReportManager: start consume messages...")
 	for m := range messages {
 
+		var action typedefs.Action
+		if err := json.Unmarshal(m.Body, &action); err != nil {
+			log.Printf("Error parsing message: %v", err)
+			break
+		}
 		switch m.RoutingKey {
 		case "new_report":
-			log.Println("Client id:", m.Headers["client_id"].(string))
 			// save initial empty report in db with status=false for now
-			var action typedefs.Action
-			if err := json.Unmarshal(m.Body, &action); err != nil {
-				log.Printf("Error parsing message: %v", err)
-				break
-			}
 			rm.SaveInitialReport(action, m)
 			// Send message to datasource to initialize gathering information
 			rm.InitGatheringInformation(m)
+
 		case "update_report":
 			// TODO:
 			// This event needs to update report according to the documentation
 			// https://github.com/shaninalex/financial-analyzer/issues/53
+			log.Println(action)
 
 		case "":
 		default:
