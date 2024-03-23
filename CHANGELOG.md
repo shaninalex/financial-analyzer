@@ -1,3 +1,18 @@
+## v1.7.3 (2024-03-23)
+
+### Fix
+
+- **report**: update report status if all required data has been gathered
+- **types**: Make action type more flexible
+- **types**: design more straight and simpler type for actions (messages) between services
+- **report**: trigger gathering information and return update message
+- **report**: change service structure, change mq exchange type
+- **report**: make separate service
+
+### Refactor
+
+- **report**: default state in switch/case
+
 ## v1.7.2 (2024-03-17)
 
 ### Fix
