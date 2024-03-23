@@ -71,13 +71,13 @@ func (app *App) ConsumeRabbitMessages() {
 				action,
 				d.Headers["user_id"].(string),
 				d.Headers["client_id"].(string),
-				d.Headers["request_id"].(string),
+				d.Headers["report_id"].(int64),
 			)
 		}
 	}
 }
 
-func (app *App) PublishResults(message any, user_id, client_id, message_type, ticker, report_id string) {
+func (app *App) PublishResults(message any, user_id, client_id, message_type, ticker string, report_id int64) {
 	comp_message, _ := json.Marshal(map[string]interface{}{
 		"action": "data_result",
 		"payload": map[string]interface{}{
@@ -112,6 +112,7 @@ func (app *App) PublishResults(message any, user_id, client_id, message_type, ti
 		Payload: map[string]interface{}{
 			"type":      message_type,
 			"report_id": report_id,
+			"data":      message,
 		},
 	})
 
@@ -131,7 +132,7 @@ func (app *App) PublishResults(message any, user_id, client_id, message_type, ti
 	)
 }
 
-func (app *App) GatheringInformation(action typedefs.Action, user_id, client_id, report_id string) {
+func (app *App) GatheringInformation(action typedefs.Action, user_id, client_id string, report_id int64) {
 	var wg sync.WaitGroup
 
 	ticker, ok := action.Payload["ticker"].(string)

@@ -34,8 +34,7 @@ func InitReportManager(
 func (rm *ReportManager) ConsumeMessages() {
 	messages, err := rm.channel.Consume("q.report", "", true, false, false, false, nil)
 	if err != nil {
-		log.Println("Failed to register consumer:")
-		log.Println(err)
+		log.Printf("Failed to register consumer: %v", err)
 	}
 
 	log.Println("ReportManager: start consume messages...")
@@ -46,18 +45,27 @@ func (rm *ReportManager) ConsumeMessages() {
 			log.Printf("Error parsing message: %v", err)
 			break
 		}
+
 		switch m.RoutingKey {
 		case "new_report":
 			// save initial empty report in db with status=false for now
-			rm.SaveInitialReport(action, m)
-			// Send message to datasource to initialize gathering information
-			rm.InitGatheringInformation(m)
+			report, err := rm.SaveInitialReport(action, m)
+			if err != nil {
+				log.Println(err)
+				continue
+			} else {
+				// Send message to datasource to initialize gathering information
+				err := rm.InitGatheringInformation(m, report)
+				if err != nil {
+					log.Printf("failed to send gathering information request: %v", err)
+				}
+			}
 
 		case "update_report":
-			// TODO:
-			// This event needs to update report according to the documentation
-			// https://github.com/shaninalex/financial-analyzer/issues/53
-			log.Println(action)
+			err := rm.CreateReportData(action)
+			if err != nil {
+				log.Printf("Unable to save report data: %v", err)
+			}
 
 		case "":
 		default:

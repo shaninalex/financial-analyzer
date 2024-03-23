@@ -1,7 +1,9 @@
 package manager
 
 import (
+	"encoding/json"
 	"fmt"
+	"log"
 
 	"github.com/shaninalex/financial-analyzer/internal/typedefs"
 
@@ -26,4 +28,27 @@ func (rm *ReportManager) SaveInitialReport(action typedefs.Action, m amqp091.Del
 	}
 
 	return report, nil
+}
+
+func (rm *ReportManager) CreateReportData(action typedefs.Action) error {
+	report_id := uint(action.Payload["report_id"].(float64))
+	data_type := action.Payload["type"].(string)
+	data, err := json.Marshal(action.Payload["data"].(interface{}))
+	if err != nil {
+		log.Println(err)
+	}
+	err = rm.db.ReportDataCreate(&typedefs.ReportData{
+		Type:     data_type,
+		Data:     string(data),
+		ReportID: report_id,
+	})
+
+	if err != nil {
+		log.Println(err)
+	}
+
+	// TODO: run in goroutine
+	rm.db.CheckReportStatus(report_id, data_type)
+
+	return nil
 }

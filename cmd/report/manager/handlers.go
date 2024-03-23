@@ -20,7 +20,7 @@ func (rm *ReportManager) InitGatheringInformation(
 			Headers: amqp091.Table{
 				"user_id":   message.Headers["user_id"].(string),
 				"client_id": message.Headers["client_id"].(string),
-				"report_id": report.ID,
+				"report_id": int64(report.ID),
 			},
 		},
 	)
